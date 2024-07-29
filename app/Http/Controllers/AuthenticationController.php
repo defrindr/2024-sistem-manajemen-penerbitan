@@ -1,0 +1,44 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+class AuthenticationController extends Controller
+{
+    public function logonView()
+    {
+        return view('auth.login');
+    }
+
+    public function logonAction(Request $request)
+    {
+        $request->validate([
+            'email' => 'required',
+            'password' => 'required',
+        ], [
+            'required' => ':attribute tidak boleh kosong',
+        ]);
+
+        if (Auth::attempt($request->only('email', 'password'))) {
+            return redirect()->route('dashboard');
+        }
+
+        return redirect()
+            ->back()
+            ->with('danger', 'Kredensial tidak dapat ditemukan.')
+            ->withInput();
+    }
+
+    public function logoutAction()
+    {
+        if (! auth()->user()) {
+            return redirect()->route('login');
+        }
+
+        auth()->logout();
+
+        return redirect()->route('login');
+    }
+}
