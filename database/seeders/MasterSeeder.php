@@ -73,22 +73,22 @@ class MasterSeeder extends Seeder
                 ]);
 
 
-                foreach ($reviewers as $review) {
-                    $ebookReview = EbookReview::create([
-                        'ebookId' => $ebook->id,
-                        'reviewerId' => $review->id,
-                        'acc' => [-1, 1][random_int(0, 1)]
-                    ]);
-                }
+                // foreach ($reviewers as $review) {
+                //     $ebookReview = EbookReview::create([
+                //         'ebookId' => $ebook->id,
+                //         'reviewerId' => $review->id,
+                //         'acc' => [-1, 1][random_int(0, 1)]
+                //     ]);
+                // }
 
-                $jumlahAcc = $ebook->reviews()->where('acc', 1)->count();
-                $jumlahReject = $ebook->reviews()->where('acc', -1)->count();
+                // $jumlahAcc = $ebook->reviews()->where('acc', 1)->count();
+                // $jumlahReject = $ebook->reviews()->where('acc', -1)->count();
 
-                if ($jumlahAcc > $jumlahReject) {
-                    $ebook->update(['status' => Ebook::STATUS_PUBLISH]);
-                } else {
-                    $ebook->update(['status' => Ebook::STATUS_NOT_ACCEPT]);
-                }
+                // if ($jumlahAcc > $jumlahReject) {
+                //     $ebook->update(['status' => Ebook::STATUS_PUBLISH]);
+                // } else {
+                //     $ebook->update(['status' => Ebook::STATUS_NOT_ACCEPT]);
+                // }
             }
         }
     }

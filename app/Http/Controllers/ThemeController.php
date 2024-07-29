@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ebook;
+use App\Models\EbookReview;
+use App\Models\Role;
 use App\Models\Theme;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
