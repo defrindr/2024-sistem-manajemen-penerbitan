@@ -89,8 +89,18 @@ class ThemeController extends Controller
         DB::beginTransaction();
         $success = $theme->update(['status' => Theme::STATUS_REVIEW]);
 
+        $reviewers = User::where('roleId', Role::findIdByName(Role::REVIEWER))->get();
+
         foreach ($theme->ebooks as $ebook) {
             $success = $success && $ebook->update(['status' => Ebook::STATUS_REVIEW]);
+            
+            foreach ($reviewers as $review) {
+                    $success = $success && EbookReview::create([
+                        'ebookId' => $ebook->id,
+                        'reviewerId' => $review->id,
+                        'acc' => 0
+                    ]);
+            }
         }
 
         if ($success) {
