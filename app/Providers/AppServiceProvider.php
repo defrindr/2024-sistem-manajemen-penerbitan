@@ -36,6 +36,15 @@ class AppServiceProvider extends ServiceProvider
             return $user && $user->roleId === Role::findIdByName(Role::ADMINISTRATOR);
         });
 
+        Blade::if('adminreviewer', function () {
+            $user = auth()->user();
+            if ($user && $user->roleId === Role::findIdByName(Role::SUPERADMIN)) {
+                return true;
+            } // bypass SA
+
+            return $user && ($user->roleId === Role::findIdByName(Role::ADMINISTRATOR) || $user->roleId === Role::findIdByName(Role::REVIEWER));
+        });
+
         Blade::if('author', function () {
             $user = auth()->user();
             if ($user && $user->roleId === Role::findIdByName(Role::SUPERADMIN)) {

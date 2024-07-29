@@ -38,7 +38,6 @@
 
         <main class="app-main">
             @include('layouts.admin.header')
-            @include('_components.alert')
             @include('layouts.admin.content')
         </main> <!--end::App Main--> <!--begin::Footer-->
         @include('layouts.admin.footer')

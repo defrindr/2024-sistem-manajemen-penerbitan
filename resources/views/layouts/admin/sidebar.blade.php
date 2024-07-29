@@ -15,7 +15,7 @@
         <nav class="mt-2"> <!--begin::Sidebar Menu-->
             <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
-                    <a href="/" class="nav-link active">
+                    <a href="/" class="nav-link">
                         <i class="nav-icon bi bi-speedometer"></i>
                         <p>
                             Dashboard
@@ -32,24 +32,44 @@
                         </a>
                     </li>
                 @endsa
+                @admin
+                    <li class="nav-item">
+                        <a href="{{ route('ebook.siap-publish') }}" class="nav-link">
+                            <i class="nav-icon bi bi-speedometer"></i>
+                            <p>
+                                Karya Siap Publish
+                            </p>
+                        </a>
+                    </li>
+                @endadmin
                 <li class="nav-item">
-                    <a href="/" class="nav-link">
+                    <a href="{{ route('theme.index') }}" class="nav-link">
                         <i class="nav-icon bi bi-speedometer"></i>
                         <p>
-                            Manajemen Tema
+                            Manajemen Topik
                         </p>
                     </a>
                 </li>
                 @author
                 <li class="nav-item">
-                    <a href="/" class="nav-link">
+                    <a href="{{ route('ebook.me') }}" class="nav-link">
                         <i class="nav-icon bi bi-speedometer"></i>
                         <p>
-                            Manajemen Royalti
+                            Karya Saya
                         </p>
                     </a>
                 </li>
                 @endauthor
+                @reviewer
+                    <li class="nav-item">
+                        <a href="{{ route('ebook.butuhreview') }}" class="nav-link">
+                            <i class="nav-icon bi bi-speedometer"></i>
+                            <p>
+                                Butuh Review
+                            </p>
+                        </a>
+                    </li>
+                @endreviewer
             </ul> <!--end::Sidebar Menu-->
         </nav>
     </div> <!--end::Sidebar Wrapper-->

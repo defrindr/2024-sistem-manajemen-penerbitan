@@ -12,6 +12,7 @@ class RegistrationController extends Controller
     public function view()
     {
         $roles = Role::where('name', '!=', Role::SUPERADMIN)->get();
+
         return view('auth.register', compact('roles'));
     }
 
@@ -21,14 +22,14 @@ class RegistrationController extends Controller
             'email' => 'required|unique:users,email',
             'name' => 'required|min:3',
             'password' => 'required|min:6',
-            'roleId' => 'required'
+            'roleId' => 'required',
         ];
 
         $request->validate($rules);
 
-
         if ($user = User::create($request->all())) {
             Auth::login($user, true);
+
             return redirect()->route('dashboard');
         }
 
