@@ -14,11 +14,13 @@ return new class extends Migration
         Schema::create('ebooks', function (Blueprint $table) {
             $table->id();
             $table->foreignId('themeId')->references('id')->on('theme_recommendations');
+            $table->foreignId('subthemeId')->references('id')->on('subtheme_recommendations');
             $table->foreignId('userId')->references('id')->on('users');
             $table->string('title');
             $table->string('draft');
+            $table->string('proofOfPayment');
             $table->float('royalty')->nullable();
-            $table->enum('status', ['submit', 'review', 'accept', 'publish', 'not_accept']);
+            $table->enum('status', ['pending', 'drafting', 'submit', 'review', 'accept', 'not_accept']);
             $table->timestamps();
             $table->softDeletes();
         });

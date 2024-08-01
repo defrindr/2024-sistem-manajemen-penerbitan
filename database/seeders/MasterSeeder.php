@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Ebook;
 use App\Models\EbookReview;
+use App\Models\Kategori;
 use App\Models\Role;
 use App\Models\Theme;
 use App\Models\User;
@@ -17,10 +18,16 @@ class MasterSeeder extends Seeder
      */
     public function run(): void
     {
+        $categories = ['Romansa', 'Olahraga', 'Teknologi'];
+
+
+        foreach ($categories as $category) Kategori::create(['name' => $category]);
+
+
         $topics = [
             [
                 'topic' => 'Cinta Sekolah',
-                'titles' => [
+                'sub' => [
                     'Judul ABC',
                     'Judul DEF',
                     'Judul GHI',
@@ -28,7 +35,7 @@ class MasterSeeder extends Seeder
             ],
             [
                 'topic' => 'Kehidupan yang susah',
-                'titles' => [
+                'sub' => [
                     'Judul ABC',
                     'Judul DEF',
                     'Judul GHI',
@@ -36,7 +43,7 @@ class MasterSeeder extends Seeder
             ],
             [
                 'topic' => 'Kehidupan malam',
-                'titles' => [
+                'sub' => [
                     'Judul ABC',
                     'Judul DEF',
                     'Judul GHI',
@@ -44,7 +51,7 @@ class MasterSeeder extends Seeder
             ],
             [
                 'topic' => 'Cerita perjuangan hidup',
-                'titles' => [
+                'sub' => [
                     'Judul ABC',
                     'Judul DEF',
                     'Judul GHI',
@@ -56,39 +63,14 @@ class MasterSeeder extends Seeder
 
         foreach ($topics as $topic) {
             $theme = Theme::create([
+                'categoryId' => Kategori::inRandomOrder()->first()->id,
                 'name' => $topic['topic'],
                 'dueDate' => date('Y-m-d'),
+                'price' => random_int(10000, 100000),
                 'description' => '-'
             ]);
 
-            foreach ($topic['titles'] as $title) {
-                $ebook = Ebook::create([
-                    'themeId' => $theme->id,
-                    'title' => $title,
-                    'draft' => '',
-                    'userId' => User::where('roleId', Role::findIdByName(Role::AUTHOR))
-                        ->inRandomOrder()
-                        ->first()
-                        ->id
-                ]);
-
-
-                // foreach ($reviewers as $review) {
-                //     $ebookReview = EbookReview::create([
-                //         'ebookId' => $ebook->id,
-                //         'reviewerId' => $review->id,
-                //         'acc' => [-1, 1][random_int(0, 1)]
-                //     ]);
-                // }
-
-                // $jumlahAcc = $ebook->reviews()->where('acc', 1)->count();
-                // $jumlahReject = $ebook->reviews()->where('acc', -1)->count();
-
-                // if ($jumlahAcc > $jumlahReject) {
-                //     $ebook->update(['status' => Ebook::STATUS_PUBLISH]);
-                // } else {
-                //     $ebook->update(['status' => Ebook::STATUS_NOT_ACCEPT]);
-                // }
+            foreach ($topic['sub'] as $title) {
             }
         }
     }

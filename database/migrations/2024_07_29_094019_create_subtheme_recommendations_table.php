@@ -11,16 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('theme_recommendations', function (Blueprint $table) {
+        Schema::create('subtheme_recommendations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('categoryId')->references('id')->on('categories');
-            $table->string('cover')->nullable();
+            $table->foreignId('themeId')->references('id')->on('theme_recommendations');
             $table->string('name');
-            $table->string('isbn')->nullable()->comment('di atur ketika mau publish');
-            $table->date('dueDate');
-            $table->integer('price');
-            $table->text('description');
-            $table->enum('status', ['draft', 'open', 'review', 'siap_publish', 'publish', 'close'])->default('draft');
+            // $table->text('description');
+            $table->foreignId('reviewer1Id')->references('id')->on('users');
+            $table->foreignId('reviewer2Id')->references('id')->on('users');
             $table->timestamps();
             $table->softDeletes();
         });

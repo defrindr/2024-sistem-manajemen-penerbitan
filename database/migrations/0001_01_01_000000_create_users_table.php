@@ -20,10 +20,14 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('npwp')->nullable();
+            $table->string('phone')->nullable();
+            $table->text('bio')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->foreignId('roleId')->references('id')->on('roles');
+            $table->foreignId('categoryId')->nullable()->references('id')->on('categories');
             $table->rememberToken();
             $table->timestamps();
         });

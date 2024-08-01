@@ -35,6 +35,9 @@ class AuthenticationSeeder extends Seeder
             User::factory()->create([
                 'name' => Role::AUTHOR . " " . $i,
                 'email' => "author$i@example.com",
+                'npwp' => "12736615263187236",
+                'phone' => "62851625354$i",
+                'bio' => "This is author $i",
                 'roleId' => Role::findIdByName(Role::AUTHOR),
             ]);
         }
@@ -43,6 +46,9 @@ class AuthenticationSeeder extends Seeder
             User::factory()->create([
                 'name' => Role::REVIEWER . " " . $i,
                 'email' => "reviewer$i@example.com",
+                'npwp' => "127{$i}615263187236",
+                'phone' => "628516{$i}5354$i",
+                'bio' => "This is author $i",
                 'roleId' => Role::findIdByName(Role::REVIEWER),
             ]);
         }

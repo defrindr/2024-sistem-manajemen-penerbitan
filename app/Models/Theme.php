@@ -26,6 +26,7 @@ class Theme extends Model
         'description',
         'dueDate',
         'status',
+        'price',
     ];
 
     public function ebooks(): HasMany
