@@ -1,13 +1,13 @@
 @extends('layouts.admin.main')
 
-@section('title', 'Edit Topik')
+@section('title', 'Tambah Sub Topik')
 
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="#">Home</a></li>
-    <li class="breadcrumb-item"><a href="{{ route('theme.index') }}">Topik</a></li>
-    <li class="breadcrumb-item"><a href="{{ route('theme.show', $theme) }}">{{ $theme->name }}</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('theme.show', $theme) }}">Topik</a></li>
+    <li class="breadcrumb-item"><a href="#">Sub Topik</a></li>
     <li class="breadcrumb-item active" aria-current="page">
-        Edit
+        Tambah
     </li>
 @endsection
 
@@ -17,20 +17,19 @@
             <div class="card card-default">
                 <div class="card-header">
                     {{-- Tombol kembali --}}
-                    <a href="{{ route('theme.index') }}" class="btn btn-default">Kembali</a>
+                    <a href="{{ route('theme.show', $theme) }}" class="btn btn-default">Kembali</a>
                 </div>
-                <form action="{{ route('theme.update', $theme) }}" method="POST" class="form"
+                <form action="{{ route('themes.subThemes.store', $theme) }}" method="POST" class="form"
                     onsubmit="return confirm('Apakah anda yakin ??')">
                     <div class="card-body">
                         {{-- Agar tidak 419 expired, ketika di simpan --}}
                         @csrf
-                        @method('PUT')
                         <div class="row">
                             <div class="col-md-12 mb-3">
                                 <div class="form-group">
-                                    <label for="name">Topik</label>
+                                    <label for="name">Sub Topik</label>
                                     <input type="text" class="form-control @error('name') is-invalid @enderror"
-                                        name="name" id="name" value="{{ old('name') ?? $theme->name }}">
+                                        name="name" id="name" value="{{ old('name') }}">
                                     @error('name')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -38,30 +37,32 @@
                             </div>
                             <div class="col-md-12 mb-3">
                                 <div class="form-group">
-                                    <label for="dueDate">Deadline Pengumpulan</label>
-                                    <input type="date" class="form-control @error('dueDate') is-invalid @enderror"
-                                        name="dueDate" id="dueDate" value="{{ old('dueDate') ?? $theme->dueDate }}">
-                                    @error('dueDate')
+                                    <label for="reviewer1Id">Reviewer 1</label>
+                                    <select name="reviewer1Id" id="reviewer1Id" class="form-control">
+                                        <option value="">-- Pilih Reviewer --</option>
+                                        @foreach ($reviewers as $item)
+                                            <option value="{{ $item->id }}"
+                                                @if ($item->id === old('reviewer1Id')) selected @endif>{{ $item->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('reviewer1Id')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
                             </div>
                             <div class="col-md-12 mb-3">
                                 <div class="form-group">
-                                    <label for="price">Biaya Pendaftaran</label>
-                                    <input type="number" class="form-control @error('price') is-invalid @enderror"
-                                        name="price" id="price" value="{{ old('price') ?? $theme->price }}">
-                                    @error('price')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col-md-12 mb-3">
-                                <div class="form-group">
-                                    <label for="description">Deskripsi Topik</label>
-                                    <textarea name="description" class="form-control @error('description') is-invalid @enderror" id="description"
-                                        cols="30" rows="10">{{ old('description') ?? $theme->description }}</textarea>
-                                    @error('description')
+                                    <label for="reviewer2Id">Reviewer 2</label>
+                                    <select name="reviewer2Id" id="reviewer2Id" class="form-control">
+                                        <option value="">-- Pilih Reviewer --</option>
+                                        @foreach ($reviewers as $item)
+                                            <option value="{{ $item->id }}"
+                                                @if ($item->id === old('reviewer2Id')) selected @endif>{{ $item->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('reviewer2Id')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>

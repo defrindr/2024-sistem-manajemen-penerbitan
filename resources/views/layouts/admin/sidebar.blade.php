@@ -23,53 +23,15 @@
                     </a>
                 </li>
                 @sa
-                    <li class="nav-item">
-                        <a href="/" class="nav-link">
-                            <i class="nav-icon bi bi-speedometer"></i>
-                            <p>
-                                Master User
-                            </p>
-                        </a>
-                    </li>
+                    @include('layouts.admin._sidebar.sa')
                 @endsa
+
                 @admin
-                    <li class="nav-item">
-                        <a href="{{ route('ebook.siap-publish') }}" class="nav-link">
-                            <i class="nav-icon bi bi-speedometer"></i>
-                            <p>
-                                Karya Siap Publish
-                            </p>
-                        </a>
-                    </li>
+                    @include('layouts.admin._sidebar.admin')
                 @endadmin
-                <li class="nav-item">
-                    <a href="{{ route('theme.index') }}" class="nav-link">
-                        <i class="nav-icon bi bi-speedometer"></i>
-                        <p>
-                            Manajemen Topik
-                        </p>
-                    </a>
-                </li>
                 @author
-                <li class="nav-item">
-                    <a href="{{ route('ebook.me') }}" class="nav-link">
-                        <i class="nav-icon bi bi-speedometer"></i>
-                        <p>
-                            Karya Saya
-                        </p>
-                    </a>
-                </li>
+                @include('layouts.admin._sidebar.author')
                 @endauthor
-                @reviewer
-                    <li class="nav-item">
-                        <a href="{{ route('ebook.butuhreview') }}" class="nav-link">
-                            <i class="nav-icon bi bi-speedometer"></i>
-                            <p>
-                                Butuh Review
-                            </p>
-                        </a>
-                    </li>
-                @endreviewer
             </ul> <!--end::Sidebar Menu-->
         </nav>
     </div> <!--end::Sidebar Wrapper-->

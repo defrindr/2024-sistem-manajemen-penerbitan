@@ -46,6 +46,16 @@
                             </div>
                             <div class="col-md-12 mb-3">
                                 <div class="form-group">
+                                    <label for="price">Biaya Pendaftaran</label>
+                                    <input type="number" class="form-control @error('price') is-invalid @enderror"
+                                        name="price" id="price" value="{{ old('price') }}">
+                                    @error('price')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <div class="form-group">
                                     <label for="description">Deskripsi Topik</label>
                                     <textarea name="description" class="form-control @error('description') is-invalid @enderror" id="description"
                                         cols="30" rows="10">{{ old('description') }}</textarea>

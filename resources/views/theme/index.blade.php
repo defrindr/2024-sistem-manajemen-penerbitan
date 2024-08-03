@@ -15,7 +15,7 @@
             <div class="card card-default">
                 <div class="card-header">
                     {{-- Tombol tambah --}}
-                    @admin
+                    @admin(true)
                         <a href="{{ route('theme.create') }}" class="btn btn-success">Tambah Topik</a>
                     @endadmin
                 </div>
@@ -26,7 +26,7 @@
                                 <td>#</td>
                                 <td>Topik Cerita</td>
                                 <td>Deskripsi</td>
-                                <td>Deadline Pengumpulan</td>
+                                <td>Biaya Pendaftaran</td>
                                 <td>Status</td>
                                 <td>Aksi</td>
                             </tr>
@@ -37,13 +37,13 @@
                                     <td>{{ $loop->index + 1 }}</td>
                                     <td>{{ $item->name }}</td>
                                     <td>{{ $item->description }}</td>
-                                    <td>{{ $item->dueDateFormatted }}</td>
+                                    <td>{{ $item->priceFormatted }}</td>
                                     <td>{{ $item->statusFormatted }}</td>
                                     <td>
-                                        @adminreviewer
+                                        @adminreviewer(true)
                                             <a href="{{ route('theme.show', $item) }}" class="btn btn-info">Lihat</a>
                                         @endadminreviewer
-                                        @admin
+                                        @admin(true)
                                             @if ($item->status == \App\Models\Theme::STATUS_REVIEW)
                                                 {{-- cek kembali di routes untuk memastikan --}}
                                                 <form action="{{ route('theme.close', $item) }}" method="post"
@@ -89,11 +89,12 @@
                                                 </form>
                                             @endif
                                         @endadmin
-                                        @author
+                                        @author(true)
                                         {{-- Tombol Tambah Ebook --}}
+
                                         @if (!$item->doesntHaveEbook() && $item->status == \App\Models\Theme::STATUS_OPEN)
                                             <a href="{{ route('ebook.create', $item) }}" class="btn btn-primary">
-                                                Tambah Draft
+                                                Daftar Ke Topik
                                             </a>
                                         @endif
                                         @endauthor
