@@ -59,6 +59,7 @@ class Ebook extends Model
     public function getDraftPathAttribute()
     {
         $path = self::FILE_PATH;
+
         return asset("storage/$path/{$this->draft}");
     }
 }

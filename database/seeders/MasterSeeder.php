@@ -2,13 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\Ebook;
-use App\Models\EbookReview;
 use App\Models\Kategori;
 use App\Models\Role;
+use App\Models\SubTheme;
 use App\Models\Theme;
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class MasterSeeder extends Seeder
@@ -18,60 +16,97 @@ class MasterSeeder extends Seeder
      */
     public function run(): void
     {
-        $categories = ['Romansa', 'Olahraga', 'Teknologi'];
-
-
-        foreach ($categories as $category) Kategori::create(['name' => $category]);
-
-
         $topics = [
-            [
-                'topic' => 'Cinta Sekolah',
-                'sub' => [
-                    'Judul ABC',
-                    'Judul DEF',
-                    'Judul GHI',
-                ]
-            ],
-            [
-                'topic' => 'Kehidupan yang susah',
-                'sub' => [
-                    'Judul ABC',
-                    'Judul DEF',
-                    'Judul GHI',
-                ]
-            ],
-            [
-                'topic' => 'Kehidupan malam',
-                'sub' => [
-                    'Judul ABC',
-                    'Judul DEF',
-                    'Judul GHI',
-                ]
-            ],
-            [
-                'topic' => 'Cerita perjuangan hidup',
-                'sub' => [
-                    'Judul ABC',
-                    'Judul DEF',
-                    'Judul GHI',
-                ]
-            ],
+            'Perjalanan waktu',
+            'Dunia paralel',
+            'Kecerdasan buatan',
+            'Apokaliptik',
+            'Superhero',
+            'Fantasi',
+            'Sci-fi',
+            'Horor',
+            'Misteri',
+            'Romantis',
+            'Sekolah',
+            'Keluarga',
+            'Pekerjaan',
+            'Perjalanan',
+            'Sejarah',
+            'Masa depan',
+            'Lingkungan',
+            'Politik',
+            'Agama',
+            'Sosiologi',
+            'Hewan yang bisa bicara',
+            'Objek yang hidup',
+            'Dunia tanpa warna',
+            'Manusia yang bisa terbang',
+            'Pulau yang terisolasi',
+            'Kota bawah tanah',
+            'Virtual reality yang terlalu nyata',
+            'Perjalanan ke pusat bumi',
+            'Pertemuan dengan alien',
+            'Dunia yang dikuasai oleh tumbuhan',
+            'Peri hutan yang melindungi kerajaan manusia',
+            'Penyihir muda yang mencari kekuatan sejati',
+            'Naga yang menjaga harta karun kuno',
+            'Koloni manusia di Mars yang memberontak',
+            'Robot yang jatuh cinta pada manusia',
+            'Pesawat ruang angkasa yang hilang di galaksi',
+            'Rumah tua yang menyimpan banyak rahasia gelap',
+            'Hantu yang bergentayangan di sekolah tua',
+            'Monster laut yang menyerang kapal nelayan',
+            'Detektif swasta yang memecahkan kasus pembunuhan berantai',
+            'Penulis novel misteri yang terlibat dalam kasus pembunuhan',
+            'Arkeolog yang menemukan artefak kuno yang berbahaya',
+            'Cinta pertama yang penuh lika-liku',
+            'Pernikahan yang diatur yang berakhir dengan cinta sejati',
+            'Cinta terlarang antara dua orang yang berbeda dunia',
+            'Atlet muda yang berjuang meraih impiannya',
+            'Band indie yang berusaha terkenal',
+            'Seniman yang mencari inspirasi',
+            'Chef muda yang menciptakan hidangan unik',
+            'Guru yang menginspirasi murid-muridnya',
         ];
 
-        $reviewers = User::where('roleId', Role::findIdByName(Role::REVIEWER))->get();
+        $subtopics = [
+            'SUBTOPIC ABC',
+            'SUBTOPIC DEF',
+            'SUBTOPIC GHI',
+        ];
 
         foreach ($topics as $topic) {
             $theme = Theme::create([
                 'categoryId' => Kategori::inRandomOrder()->first()->id,
-                'name' => $topic['topic'],
+                'name' => $topic,
                 'dueDate' => date('Y-m-d'),
                 'price' => random_int(10000, 100000),
-                'description' => '-'
+                'description' => '-',
             ]);
 
-            foreach ($topic['sub'] as $title) {
+            foreach ($subtopics as $title) {
+                SubTheme::create([
+                    'themeId' => $theme->id,
+                    'name' => $title,
+                    'reviewer1Id' => self::findUserWithCategory($theme->categoryId),
+                    'reviewer2Id' => self::findUserWithCategory($theme->categoryId),
+                ]);
             }
         }
+    }
+
+    /**
+     * Find user with role Reviewer & specific category Id
+     *
+     * @return null|\App\Models\User
+     */
+    public static function findUserWithCategory($categoryId)
+    {
+        $user = User::where(['roleId' => Role::findIdByName(Role::REVIEWER), 'categoryId' => $categoryId])->inRandomOrder()->select('id')->first();
+        if (! $user) {
+            return null;
+        }
+
+        return $user->id;
     }
 }

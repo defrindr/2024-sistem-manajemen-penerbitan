@@ -10,6 +10,7 @@ class Kategori extends Model
     use HasFactory;
 
     protected $table = 'categories';
+
     protected $fillable = ['name'];
 
     public function themes()
