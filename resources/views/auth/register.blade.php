@@ -25,9 +25,31 @@
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group has-validation">
-                            <input type="text" name="email" class="form-control  @error('email') is-invalid @enderror"
+                            <input type="email" name="email" class="form-control  @error('email') is-invalid @enderror"
                                 placeholder="Email" value="{{ old('email') }}">
                             @error('email')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group has-validation">
+                            <input type="text" name="phone" class="form-control  @error('phone') is-invalid @enderror"
+                                placeholder="phone" value="{{ old('phone') }}">
+                            @error('phone')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group has-validation">
+                            <input type="text" name="npwp" class="form-control  @error('npwp') is-invalid @enderror"
+                                placeholder="npwp" value="{{ old('npwp') }}">
+                            @error('npwp')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
