@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ebook;
-use App\Models\EbookReview;
 use App\Models\Role;
+use App\Models\SubTheme;
 use App\Models\Theme;
 use App\Trait\UploadTrait;
 use Illuminate\Http\Request;
@@ -27,6 +27,34 @@ class EbookController extends Controller
         return view('ebook.me', compact('pagination'));
     }
 
+    public function konfirmasiPembayaranList()
+    {
+        $query = Ebook::query()->where('status', 'pending');
+        $pagination = $query->paginate();
+        return view('ebook.konfirmasi-pembayaran-list', compact('pagination'));
+    }
+
+    public function konfirmasiPembayaranAction(Ebook $ebook)
+    {
+        $success = $ebook->update(['status' => Ebook::STATUS_SUBMIT]);
+
+        if ($success) {
+            return redirect()->route('ebook.konfirmasi-pembayaran-list')->with('success', 'Berhasil mengonfirmasi pembayaran.');
+        }
+
+        return redirect()->back()->with('danger', 'Gagal mengonfirmasi pembayaran')->withInputs();
+    }
+
+    public function konfirmasiPengajuanAction(Ebook $ebook)
+    {
+        $success = $ebook->update(['status' => Ebook::STATUS_REVIEW]);
+
+        if ($success) {
+            return redirect()->route('ebook.me')->with('success', 'Berhasil mengajukan karya.');
+        }
+
+        return redirect()->back()->with('danger', 'Gagal mengajukan karya')->withInputs();
+    }
 
     public function siapPublish()
     {
@@ -43,9 +71,9 @@ class EbookController extends Controller
         return view('ebook.atur-royalti', compact('ebook'));
     }
 
-    public function create(Theme $theme)
+    public function create(Theme $theme, SubTheme $subTheme)
     {
-        return view('ebook.create', compact('theme'));
+        return view('ebook.create', compact('theme', 'subTheme'));
     }
 
     public function aturRoyaltiStore(Request $request, Ebook $ebook)
@@ -63,22 +91,24 @@ class EbookController extends Controller
         return redirect()->back()->with('danger', 'Gagal ketika mengatur royalti')->withInputs();
     }
 
-    public function store(Request $request, Theme $theme)
+    public function store(Request $request, Theme $theme, SubTheme $subTheme)
     {
         $request->validate([
             'title' => 'required',
-            'draft' => 'required|file',
+            'proofOfPayment' => 'required|file',
         ], [
             'required' => ':attribute tidak boleh kosong',
-            'file' => ':attribute harus berupa file.',
+            'proofOfPayment.required' => 'Bukti Pembayaran tidak boleh kosong',
+            'proofOfPayment.file' => 'Bukti Pembayaran harus berupa file.',
         ]);
 
         $payload = $request->only('title');
         $payload['themeId'] = $theme->id;
+        $payload['subthemeId'] = $subTheme->id;
         $payload['userId'] = auth()->id();
-        $payload['status'] = Ebook::STATUS_SUBMIT;
+        $payload['status'] = Ebook::STATUS_PENDING;
 
-        $payload['draft'] = $this->uploadImage($request->file('draft'), Ebook::FILE_PATH);
+        $payload['proofOfPayment'] = $this->uploadImage($request->file('proofOfPayment'), Ebook::FILE_PATH);
 
         if (Ebook::create($payload)) {
             return redirect()->route('ebook.me')->with('success', 'Berhasil menambahkan ebook.');
@@ -116,10 +146,11 @@ class EbookController extends Controller
         return redirect()->back()->with('danger', 'Gagal ketika mengubah ebook')->withInputs();
     }
 
-
     public function publish(Ebook $ebook)
     {
-        if ($ebook->status !== Ebook::STATUS_ACCEPT) return abort(403, 'Status bukan Accept');
+        if ($ebook->status !== Ebook::STATUS_ACCEPT) {
+            return abort(403, 'Status bukan Accept');
+        }
         $success = $ebook->update(['status' => Ebook::STATUS_PUBLISH]);
         if ($success) {
             return redirect()->route('ebook.siap-publish')->with('success', 'Berhasil mengubah status ebook ke publish.');

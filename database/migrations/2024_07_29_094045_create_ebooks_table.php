@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('subthemeId')->references('id')->on('subtheme_recommendations');
             $table->foreignId('userId')->references('id')->on('users');
             $table->string('title');
-            $table->string('draft');
+            $table->string('draft')->nullable();
             $table->string('proofOfPayment');
             $table->float('royalty')->nullable();
             $table->enum('status', ['pending', 'drafting', 'submit', 'review', 'accept', 'not_accept']);

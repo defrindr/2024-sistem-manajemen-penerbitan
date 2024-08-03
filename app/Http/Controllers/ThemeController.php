@@ -12,11 +12,45 @@ use Illuminate\Support\Facades\DB;
 
 class ThemeController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $pagination = Theme::orderBy('id', 'desc')->get();
+        $query = Theme::orderBy('id', 'desc');
+
+        $currentUser = auth()->user();
+
+        if ($currentUser->roleId == Role::findIdByName(Role::AUTHOR)) {
+            $query->where('status', 'open');
+        }
+
+        if ($request->has('search')) {
+            $search = $request->get('search');
+            $query->where('name', 'like', "%{$search}%");
+        }
+
+        $pagination = $query->paginate();
 
         return view('theme.index', compact('pagination'));
+    }
+
+    public function publishForm(Theme $theme)
+    {
+        return view('theme.publish-form', compact('theme'));
+    }
+
+    public function publishAction(Theme $theme, Request $request)
+    {
+        $request->validate([
+            'isbn' => 'required'
+        ]);
+
+
+        $success = $theme->update(['isbn' => $request->isbn, 'status' => Theme::STATUS_PUBLISH]);
+
+        if ($success) {
+            return redirect()->route('theme.index')->with('success', 'Berhasil menambahkan topik baru.');
+        }
+
+        return redirect()->back()->with('danger', 'Gagal ketika menambahkan topik')->withInputs();
     }
 
     public function create()
@@ -27,16 +61,13 @@ class ThemeController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required',
-            'dueDate' => 'required',
+            'name'        => 'required',
+            'dueDate'     => 'required',
+            'price'       => 'required',
             'description' => 'required',
-        ], [
-            'name.required' => 'Nama tidak boleh kosong',
-            'dueDate.required' => 'Deadline tidak boleh kosong',
-            'description.required' => 'Deskripsi tidak boleh kosong',
         ]);
 
-        $payload = $request->only('name', 'dueDate', 'description');
+        $payload = $request->only('name', 'dueDate', 'description', 'price');
 
         if (Theme::create($payload)) {
             return redirect()->route('theme.index')->with('success', 'Berhasil menambahkan topik baru.');
@@ -55,14 +86,11 @@ class ThemeController extends Controller
         $request->validate([
             'name' => 'required',
             'dueDate' => 'required',
+            'price' => 'required',
             'description' => 'required',
-        ], [
-            'name.required' => 'Nama tidak boleh kosong',
-            'dueDate.required' => 'Deadline tidak boleh kosong',
-            'description.required' => 'Deskripsi tidak boleh kosong',
         ]);
 
-        $payload = $request->only('name', 'dueDate', 'description');
+        $payload = $request->only('name', 'dueDate', 'description', 'price');
 
         if ($theme->update($payload)) {
             return redirect()->route('theme.index')->with('success', 'Berhasil mengubah topik.');
@@ -87,38 +115,47 @@ class ThemeController extends Controller
 
     public function review(Theme $theme)
     {
-        if ($theme->status !== Theme::STATUS_OPEN) return abort(403, 'Status bukan open');
+        if ($theme->status !== Theme::STATUS_OPEN) {
+            return abort(403, 'Status bukan open');
+        }
 
         DB::beginTransaction();
         $success = $theme->update(['status' => Theme::STATUS_REVIEW]);
 
-        $reviewers = User::where('roleId', Role::findIdByName(Role::REVIEWER))->get();
-
         foreach ($theme->ebooks as $ebook) {
             $success = $success && $ebook->update(['status' => Ebook::STATUS_REVIEW]);
-            
-            foreach ($reviewers as $review) {
-                    $success = $success && EbookReview::create([
-                        'ebookId' => $ebook->id,
-                        'reviewerId' => $review->id,
-                        'acc' => 0
-                    ]);
+
+            $success = $success && EbookReview::create([
+                'ebookId' => $ebook->id,
+                'reviewerId' => $ebook->subTheme->reviewer1Id,
+                'acc' => 0,
+            ]);
+
+            if ($ebook->subTheme->reviewer2Id) {
+                $success = $success && EbookReview::create([
+                    'ebookId' => $ebook->id,
+                    'reviewerId' => $ebook->subTheme->reviewer2Id,
+                    'acc' => 0,
+                ]);
             }
         }
 
         if ($success) {
             DB::commit();
+
             return redirect()->route('theme.index')->with('success', 'Berhasil mengubah status topik ke review.');
         }
 
         DB::rollBack();
+
         return redirect()->back()->with('danger', 'Gagal ketika mengubah status topik ke review.');
     }
 
-
     public function open(Theme $theme)
     {
-        if ($theme->status !== Theme::STATUS_DRAFT) return abort(403, 'Status bukan draft');
+        if ($theme->status !== Theme::STATUS_DRAFT) {
+            return abort(403, 'Status bukan draft');
+        }
         $success = $theme->update(['status' => Theme::STATUS_OPEN]);
 
         if ($success) {
@@ -130,8 +167,10 @@ class ThemeController extends Controller
 
     public function close(Theme $theme)
     {
-        if ($theme->status !== Theme::STATUS_OPEN) return abort(403, 'Status bukan open');
-        $success = $theme->update(['status' => Theme::STATUS_REVIEW]);
+        if ($theme->status !== Theme::STATUS_REVIEW) {
+            return abort(403, 'Status bukan review');
+        }
+        $success = $theme->update(['status' => Theme::STATUS_CLOSE]);
         if ($success) {
             return redirect()->route('theme.index')->with('success', 'Berhasil mengubah status topik ke close.');
         }

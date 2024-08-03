@@ -15,27 +15,27 @@
         </p>
     </a>
 </li>
-<li class="nav-item">
+{{-- <li class="nav-item">
     <a href="{{ route('ebook.siap-publish') }}" class="nav-link">
         <i class="nav-icon bi bi-speedometer"></i>
         <p>
             Karya Siap Publish
         </p>
     </a>
-</li>
+</li> --}}
 <li class="nav-item">
-    <a href="{{ route('ebook.me') }}" class="nav-link">
+    <a href="{{ route('ebook.konfirmasi-pembayaran-list') }}" class="nav-link">
         <i class="nav-icon bi bi-speedometer"></i>
         <p>
-            Karya Saya
+            Konfirmasi Pembayaran
         </p>
     </a>
 </li>
-<li class="nav-item">
+{{-- <li class="nav-item">
     <a href="{{ route('ebook.butuhreview') }}" class="nav-link">
         <i class="nav-icon bi bi-speedometer"></i>
         <p>
             Butuh Review
         </p>
     </a>
-</li>
+</li> --}}

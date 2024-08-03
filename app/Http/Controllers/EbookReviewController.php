@@ -8,8 +8,6 @@ use Illuminate\Http\Request;
 
 class EbookReviewController extends Controller
 {
-
-
     public function butuhReview()
     {
         $currentUser = auth()->user();
@@ -41,10 +39,11 @@ class EbookReviewController extends Controller
     {
         return view('ebook.butuhreview.form', compact('ebook'));
     }
+
     public function statusReviewAction(Ebook $ebook, Request $request)
     {
         $request->validate([
-            'acc' => 'required|in:1,-1'
+            'acc' => 'required|in:1,-1',
         ]);
 
         $currentUser = auth()->user();
@@ -52,14 +51,13 @@ class EbookReviewController extends Controller
             ->where('ebookId', $ebook->id)
             ->first();
 
-
         if ($model->update(['acc' => $request->acc])) {
 
             $adaBelumReview = $ebook->reviews()->where('acc', 0)->exists();
 
             if ($adaBelumReview == false) {
-                $jumlahAcc =  $ebook->reviews()->where('acc', 1)->count();
-                $jumlaReject =  $ebook->reviews()->where('acc', -1)->count();
+                $jumlahAcc = $ebook->reviews()->where('acc', 1)->count();
+                $jumlaReject = $ebook->reviews()->where('acc', -1)->count();
 
                 $ebook->update(['status' => $jumlahAcc >= $jumlaReject ? Ebook::STATUS_ACCEPT : Ebook::STATUS_NOT_ACCEPT]);
             }

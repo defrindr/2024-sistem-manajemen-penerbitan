@@ -17,8 +17,6 @@ class AuthenticationController extends Controller
         $request->validate([
             'email' => 'required',
             'password' => 'required',
-        ], [
-            'required' => ':attribute tidak boleh kosong',
         ]);
 
         if (Auth::attempt($request->only('email', 'password'))) {
@@ -33,7 +31,7 @@ class AuthenticationController extends Controller
 
     public function logoutAction()
     {
-        if (! auth()->user()) {
+        if (!auth()->user()) {
             return redirect()->route('login');
         }
 

@@ -22,11 +22,14 @@ class Theme extends Model
 
     const STATUS_CLOSE = 'close';
 
+    const STATUS_PUBLISH = 'publish';
+
     protected $fillable = [
         'name',
         'description',
         'dueDate',
         'status',
+        'isbn',
         'price',
     ];
 

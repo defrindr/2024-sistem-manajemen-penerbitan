@@ -30,6 +30,10 @@
                                 <td>Deadline :</td>
                                 <td> {{ $theme->dueDateFormatted }}</td>
                             </tr>
+                            <tr>
+                                <td>ISBN :</td>
+                                <td> {{ $theme->isbn }}</td>
+                            </tr>
                             {{-- tampilkan setiap kolom --}}
                             <tr>
                                 <td>Status :</td>
@@ -53,9 +57,11 @@
                     <h3>Sub Tema</h3>
 
                     @admin(true)
-                        <a href="{{ route('themes.subThemes.create', compact('theme')) }}" class="btn btn-success">
-                            Tambah Sub Tema
-                        </a>
+                        @if ($theme->status == \App\Models\Theme::STATUS_DRAFT)
+                            <a href="{{ route('themes.subThemes.create', compact('theme')) }}" class="btn btn-success">
+                                Tambah Sub Tema
+                            </a>
+                        @endif
                     @endadmin
                 </div>
                 <div class="card-body">
@@ -81,21 +87,31 @@
                                         <td>{{ $subTheme->reviewer2->name }}</td>
                                         <td>{{ $subTheme->status }}</td>
                                         <td>
-                                            <a href="{{ route('themes.subThemes.edit', compact('subTheme', 'theme')) }}"
-                                                class="btn btn-warning">
-                                                Edit
-                                            </a>
-                                            <form
-                                                action="{{ route('themes.subThemes.destroy', compact('subTheme', 'theme')) }}"
-                                                method="POST" class="d-inline-block"
-                                                onsubmit="return confirm('Yakin ingin menjalankan fungsi ini ?')">
-                                                @csrf
-                                                @method('DELETE')
+                                            @admin(true)
+                                                @if ($theme->status == \App\Models\Theme::STATUS_DRAFT)
+                                                    <a href="{{ route('themes.subThemes.edit', compact('subTheme', 'theme')) }}"
+                                                        class="btn btn-warning">
+                                                        Edit
+                                                    </a>
+                                                    <form
+                                                        action="{{ route('themes.subThemes.destroy', compact('subTheme', 'theme')) }}"
+                                                        method="POST" class="d-inline-block"
+                                                        onsubmit="return confirm('Yakin ingin menjalankan fungsi ini ?')">
+                                                        @csrf
+                                                        @method('DELETE')
 
-                                                <button class="btn btn-danger">
-                                                    Hapus
-                                                </button>
-                                            </form>
+                                                        <button class="btn btn-danger">
+                                                            Hapus
+                                                        </button>
+                                                    </form>
+                                                @endif
+                                            @endadmin
+                                            @author
+                                            <a href="{{ route('ebook.create', compact('theme', 'subTheme')) }}"
+                                                class="btn btn-primary">
+                                                Daftar Ke Topik
+                                            </a>
+                                            @endauthor
                                         </td>
                                     </tr>
                                 @endforeach

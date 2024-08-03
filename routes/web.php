@@ -31,6 +31,12 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['prefix' => 'topik'], function () {
 
+        Route::get('/theme/{theme}/publish-form', [ThemeController::class, 'publishForm'])
+            ->name('theme.publish-form');
+        Route::post('/theme/{theme}/publish-action', [ThemeController::class, 'publishAction'])
+            ->name('theme.publish-action');
+
+
         Route::post('{theme}/close', [ThemeController::class, 'close'])
             ->name('theme.close');
 
@@ -41,7 +47,24 @@ Route::group(['middleware' => 'auth'], function () {
             ->name('theme.review');
     });
 
+
     Route::group(['prefix' => 'ebook'], function () use ($sa, $author, $reviewer, $admin) {
+        Route::get('/butuh-konfirmasi-pembayaran/list', [EbookController::class, 'konfirmasiPembayaranList'])
+            ->name('ebook.konfirmasi-pembayaran-list')->middleware('rbac:' . implode(',', [$sa, $admin]));
+
+        Route::post('/butuh-konfirmasi-pembayaran/{ebook}/confirm', [EbookController::class, 'konfirmasiPembayaranAction'])
+            ->name('ebook.konfirmasi-pembayaran-action')->middleware('rbac:' . implode(',', [$sa, $admin]));
+
+        Route::post('/konfirmasi-pengajuan/{ebook}/confirm', [EbookController::class, 'konfirmasiPengajuanAction'])
+            ->name('ebook.konfirmasi-ajukan-action')->middleware('rbac:' . implode(',', [$sa, $author]));
+
+        Route::get('/{theme}/{subTheme}/create', [EbookController::class, 'create'])
+            ->name('ebook.create')->middleware('rbac:' . implode(',', [$sa, $author]));
+
+        Route::post('/{theme}/{subTheme}/store', [EbookController::class, 'store'])
+            ->name('ebook.store')->middleware('rbac:' . implode(',', [$sa, $author]));
+
+
         Route::get('{ebook}/atur-royalti', [EbookController::class, 'aturRoyalti'])
             ->name('ebook.atur-royalti')->middleware('rbac:' . implode(',', [$sa, $author]));
 
@@ -70,7 +93,7 @@ Route::group(['middleware' => 'auth'], function () {
                 ->name('ebook.butuhreview.action')->middleware('rbac:' . implode(',', [$sa, $reviewer]));
         });
     });
-    Route::resource('ebook', EbookController::class);
+    Route::resource('ebook', EbookController::class)->except(['create', 'store']);
 });
 
 // Authentication Route

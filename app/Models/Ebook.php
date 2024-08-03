@@ -11,6 +11,8 @@ class Ebook extends Model
 {
     use HasFactory;
 
+    const STATUS_PENDING = 'pending';
+
     const STATUS_DRAFT = 'draft';
 
     const STATUS_SUBMIT = 'submit';
@@ -29,9 +31,11 @@ class Ebook extends Model
 
     protected $fillable = [
         'themeId',
+        'subthemeId',
         'userId',
         'title',
         'draft',
+        'proofOfPayment',
         'royalty',
         'status',
     ];
@@ -39,6 +43,11 @@ class Ebook extends Model
     public function theme(): BelongsTo
     {
         return $this->belongsTo(Theme::class, 'themeId');
+    }
+
+    public function subTheme(): BelongsTo
+    {
+        return $this->belongsTo(SubTheme::class, 'subthemeId');
     }
 
     public function author(): BelongsTo
@@ -61,5 +70,11 @@ class Ebook extends Model
         $path = self::FILE_PATH;
 
         return asset("storage/$path/{$this->draft}");
+    }
+
+    public function getProofOfPaymentPathAttribute()
+    {
+        $path = self::FILE_PATH;
+        return asset("storage/$path/{$this->proofOfPayment}");
     }
 }

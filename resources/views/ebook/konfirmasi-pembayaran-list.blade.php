@@ -1,11 +1,11 @@
 @extends('layouts.admin.main')
 
-@section('title', 'Karya Saya')
+@section('title', 'Konfirmasi Pembayaran')
 
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="#">Home</a></li>
     <li class="breadcrumb-item active" aria-current="page">
-        Karya Saya
+        Konfirmasi Pembayaran
     </li>
 @endsection
 
@@ -22,6 +22,7 @@
                             <th>Topik</th>
                             <th>Judul</th>
                             <th>Draft</th>
+                            <th>Pembayaran</th>
                             <th>Status</th>
                             <th>Royalti</th>
                             <th>Tanggal Pengajuan</th>
@@ -30,7 +31,7 @@
                         <tbody>
                             @if ($pagination->count() <= 0)
                                 <tr>
-                                    <td colspan="8" class="text-center">Belum terdapat karya yang diajukan</td>
+                                    <td colspan="9" class="text-center">Belum terdapat karya yang diajukan</td>
                                 </tr>
                             @else
                                 @foreach ($pagination->items() as $index => $ebook)
@@ -47,27 +48,21 @@
                                                 -
                                             @endif
                                         </td>
+                                        <td>
+                                            <a href="{{ $ebook->proofOfPaymentPath }}" target="_blank" rel="noopener noreferrer">
+                                                Buka
+                                            </a>
+                                        </td>
                                         <td>{{ $ebook->status }}</td>
                                         <td>{{ $ebook->royalty }}</td>
                                         <td>{{ $ebook->createdAtFormatted }}</td>
                                         <td>
-                                            @if ($ebook->status === \App\Models\Ebook::STATUS_SUBMIT)
-                                                <a href="{{ route('ebook.edit', $ebook) }}" class="btn btn-warning">
-                                                    Edit
-                                                </a>
-                                                @if ($ebook->draft)
-                                                    <form action="{{ route('ebook.konfirmasi-ajukan-action', $ebook) }}"
-                                                        method="post" onsubmit="return confirm('Yakin ?')">
-                                                        @csrf
-                                                        <button class="btn btn-primary">Ajukan</button>
-                                                    </form>
-                                                @endif
-                                            @endif
-                                            @if ($ebook->status === \App\Models\Ebook::STATUS_PUBLISH && $ebook->royalty == 0)
-                                                <a href="{{ route('ebook.atur-royalti', $ebook) }}" class="btn btn-warning">
-                                                    Atur Royalti
-                                                </a>
-                                            @endif
+                                            <form action="{{ route('ebook.konfirmasi-pembayaran-action', $ebook) }}" method="post"
+                                            
+                                            onsubmit="return confirm('Yakin ?')">
+                                                @csrf
+                                                <button class="btn btn-primary">Konfirmasi</button>
+                                            </form>
                                         </td>
                                     </tr>
                                 @endforeach

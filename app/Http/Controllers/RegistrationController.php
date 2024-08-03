@@ -23,11 +23,21 @@ class RegistrationController extends Controller
             'name' => 'required|min:3',
             'password' => 'required|min:6',
             'roleId' => 'required',
+            'phone' => 'required',
+            'npwp' => 'required',
         ];
 
         $request->validate($rules);
+        $payload = $request->only(
+            'email',
+            'name',
+            'password',
+            'roleId',
+            'phone',
+            'npwp',
+        );
 
-        if ($user = User::create($request->all())) {
+        if ($user = User::create($payload)) {
             Auth::login($user, true);
 
             return redirect()->route('dashboard');

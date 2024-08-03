@@ -30,8 +30,11 @@
                     @include('layouts.admin._sidebar.admin')
                 @endadmin
                 @author
-                @include('layouts.admin._sidebar.author')
+                    @include('layouts.admin._sidebar.author')
                 @endauthor
+                @reviewer
+                    @include('layouts.admin._sidebar.reviewer')
+                @endreviewer
             </ul> <!--end::Sidebar Menu-->
         </nav>
     </div> <!--end::Sidebar Wrapper-->

@@ -40,9 +40,7 @@
                                     <td>{{ $item->priceFormatted }}</td>
                                     <td>{{ $item->statusFormatted }}</td>
                                     <td>
-                                        @adminreviewer(true)
-                                            <a href="{{ route('theme.show', $item) }}" class="btn btn-info">Lihat</a>
-                                        @endadminreviewer
+                                        <a href="{{ route('theme.show', $item) }}" class="btn btn-info">Lihat</a>
                                         @admin(true)
                                             @if ($item->status == \App\Models\Theme::STATUS_REVIEW)
                                                 {{-- cek kembali di routes untuk memastikan --}}
@@ -62,6 +60,10 @@
                                                     {{-- Tombol Delete --}}
                                                     <button class="btn btn-primary bg-purple">Ke Tahap Review</button>
                                                 </form>
+                                            @elseif($item->status == \App\Models\Theme::STATUS_CLOSE)
+                                                <a href="{{ route('theme.publish-form', ['theme' => $item]) }}"
+                                                    class="btn btn-warning">Publish</a>
+                                            @elseif($item->status == \App\Models\Theme::STATUS_PUBLISH)
                                             @else
                                                 {{-- cek kembali di routes untuk memastikan --}}
                                                 <form action="{{ route('theme.open', $item) }}" method="post"
@@ -89,15 +91,6 @@
                                                 </form>
                                             @endif
                                         @endadmin
-                                        @author(true)
-                                        {{-- Tombol Tambah Ebook --}}
-
-                                        @if (!$item->doesntHaveEbook() && $item->status == \App\Models\Theme::STATUS_OPEN)
-                                            <a href="{{ route('ebook.create', $item) }}" class="btn btn-primary">
-                                                Daftar Ke Topik
-                                            </a>
-                                        @endif
-                                        @endauthor
                                     </td>
                                 </tr>
                             @endforeach
