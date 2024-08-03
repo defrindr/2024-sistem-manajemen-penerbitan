@@ -4,7 +4,9 @@ use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EbookController;
 use App\Http\Controllers\EbookReviewController;
+use App\Http\Controllers\kategoriController;
 use App\Http\Controllers\RegistrationController;
+use App\Http\Controllers\SubThemeController;
 use App\Http\Controllers\ThemeController;
 use App\Models\Role;
 use Illuminate\Support\Facades\Route;
@@ -17,22 +19,17 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::group(['prefix' => 'topik'], function () use ($sa, $admin, $reviewer) {
+    Route::resource('category', kategoriController::class)->except(['show'])->names('kategori');
 
-        Route::match(['GET', 'HEAD'], '/', [ThemeController::class, 'index'])
-            ->name('theme.index');
+    Route::resource('topik', ThemeController::class)
+        ->names('theme')
+        ->parameters(['topik' => 'theme']);
+    Route::resource('topik.sub-topik', SubThemeController::class)
+        ->names('themes.subThemes')
+        ->parameters(['sub-topik' => 'subTheme', 'topik' => 'theme'])
+        ->except(['index', 'show']);
 
-        Route::get('create', [ThemeController::class, 'create'])
-            ->name('theme.create')
-            ->middleware('rbac:' . implode(',', [$sa, $admin]));
-
-        Route::post('/', [ThemeController::class, 'store'])
-            ->name('theme.store')
-            ->middleware('rbac:' . implode(',', [$sa, $admin]));
-
-        Route::get('{theme}/edit', [ThemeController::class, 'edit'])
-            ->name('theme.edit')
-            ->middleware('rbac:' . implode(',', [$sa, $admin]));
+    Route::group(['prefix' => 'topik'], function () {
 
         Route::post('{theme}/close', [ThemeController::class, 'close'])
             ->name('theme.close');
@@ -42,38 +39,14 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::post('{theme}/review', [ThemeController::class, 'review'])
             ->name('theme.review');
-
-        Route::match(['PUT', 'PATCH'], '{theme}', [ThemeController::class, 'update'])
-            ->name('theme.update')
-            ->middleware('rbac:' . implode(',', [$sa, $admin]));
-
-        Route::delete('{theme}', [ThemeController::class, 'destroy'])
-            ->name('theme.destroy')
-            ->middleware('rbac:' . implode(',', [$sa, $admin]));
-
-        Route::match(['GET', 'HEAD'], '{theme}', [ThemeController::class, 'show'])
-            ->name('theme.show')
-            ->middleware('rbac:' . implode(',', [$sa, $admin, $reviewer]));
     });
 
     Route::group(['prefix' => 'ebook'], function () use ($sa, $author, $reviewer, $admin) {
-        Route::get('{theme}/create', [EbookController::class, 'create'])
-            ->name('ebook.create')->middleware('rbac:' . implode(',', [$sa, $author]));
-
-        Route::post('{theme}', [EbookController::class, 'store'])
-            ->name('ebook.store')->middleware('rbac:' . implode(',', [$sa, $author]));
-
-        Route::get('{ebook}/edit', [EbookController::class, 'edit'])
-            ->name('ebook.edit')->middleware('rbac:' . implode(',', [$sa, $author]));
-
         Route::get('{ebook}/atur-royalti', [EbookController::class, 'aturRoyalti'])
             ->name('ebook.atur-royalti')->middleware('rbac:' . implode(',', [$sa, $author]));
 
         Route::post('{ebook}/atur-royalti', [EbookController::class, 'aturRoyaltiStore'])
             ->name('ebook.atur-royalti.store')->middleware('rbac:' . implode(',', [$sa, $author]));
-
-        Route::match(['PUT', 'PATCH'], '{ebook}/update', [EbookController::class, 'update'])
-            ->name('ebook.update')->middleware('rbac:' . implode(',', [$sa, $author]));
 
         Route::get('me', [EbookController::class, 'me'])
             ->name('ebook.me')->middleware('rbac:' . implode(',', [$sa, $author]));
@@ -97,6 +70,7 @@ Route::group(['middleware' => 'auth'], function () {
                 ->name('ebook.butuhreview.action')->middleware('rbac:' . implode(',', [$sa, $reviewer]));
         });
     });
+    Route::resource('ebook', EbookController::class);
 });
 
 // Authentication Route
