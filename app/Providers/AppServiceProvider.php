@@ -27,36 +27,36 @@ class AppServiceProvider extends ServiceProvider
             return $user && $user->roleId === Role::findIdByName(Role::SUPERADMIN);
         });
 
-        Blade::if('admin', function () {
+        Blade::if('admin', function ($bypass = false) {
             $user = auth()->user();
-            if ($user && $user->roleId === Role::findIdByName(Role::SUPERADMIN)) {
+            if ($bypass && $user && $user->roleId === Role::findIdByName(Role::SUPERADMIN)) {
                 return true;
             } // bypass SA
 
             return $user && $user->roleId === Role::findIdByName(Role::ADMINISTRATOR);
         });
 
-        Blade::if('adminreviewer', function () {
+        Blade::if('adminreviewer', function ($bypass = false) {
             $user = auth()->user();
-            if ($user && $user->roleId === Role::findIdByName(Role::SUPERADMIN)) {
+            if ($bypass && $user && $user->roleId === Role::findIdByName(Role::SUPERADMIN)) {
                 return true;
             } // bypass SA
 
             return $user && ($user->roleId === Role::findIdByName(Role::ADMINISTRATOR) || $user->roleId === Role::findIdByName(Role::REVIEWER));
         });
 
-        Blade::if('author', function () {
+        Blade::if('author', function ($bypass = false) {
             $user = auth()->user();
-            if ($user && $user->roleId === Role::findIdByName(Role::SUPERADMIN)) {
+            if ($bypass && $user && $user->roleId === Role::findIdByName(Role::SUPERADMIN)) {
                 return true;
             } // bypass SA
 
             return $user && $user->roleId === Role::findIdByName(Role::AUTHOR);
         });
 
-        Blade::if('reviewer', function () {
+        Blade::if('reviewer', function ($bypass = false) {
             $user = auth()->user();
-            if ($user && $user->roleId === Role::findIdByName(Role::SUPERADMIN)) {
+            if ($bypass && $user && $user->roleId === Role::findIdByName(Role::SUPERADMIN)) {
                 return true;
             } // bypass SA
 
