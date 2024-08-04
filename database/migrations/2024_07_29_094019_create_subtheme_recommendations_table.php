@@ -15,9 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('themeId')->references('id')->on('theme_recommendations');
             $table->string('name');
-            // $table->text('description');
-            $table->foreignId('reviewer1Id')->references('id')->on('users');
-            $table->foreignId('reviewer2Id')->references('id')->on('users');
             $table->timestamps();
             $table->softDeletes();
         });

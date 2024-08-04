@@ -57,7 +57,8 @@ class ThemeController extends Controller
     public function create()
     {
         $categories = Kategori::all();
-        return view('theme.create', compact('categories'));
+        $reviewers = User::reviewerWithCategory(null)->get();
+        return view('theme.create', compact('categories', 'reviewers'));
     }
 
     public function store(Request $request)
@@ -67,10 +68,19 @@ class ThemeController extends Controller
             'dueDate'     => 'required',
             'price'       => 'required',
             'description' => 'required',
-            'categoryId' => 'required',
+            'categoryId'  => 'required',
+            'reviewer1Id' => 'required',
+            'reviewer2Id' => 'required',
         ]);
 
-        $payload = $request->only('name', 'dueDate', 'description', 'price', 'categoryId');
+        if ($request->reviewer1Id == $request->reviewer2Id) {
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('danger', 'Gagal menambahkan sub tema');
+        }
+
+        $payload = $request->only('name', 'dueDate', 'description', 'price', 'categoryId', 'reviewer1Id', 'reviewer2Id');
 
         if (Theme::create($payload)) {
             return redirect()->route('theme.index')->with('success', 'Berhasil menambahkan topik baru.');
@@ -82,20 +92,30 @@ class ThemeController extends Controller
     public function edit(Theme $theme)
     {
         $categories = Kategori::all();
-        return view('theme.edit', compact('theme', 'categories'));
+        $reviewers = User::reviewerWithCategory(null)->get();
+        return view('theme.edit', compact('theme', 'categories', 'reviewers'));
     }
 
     public function update(Request $request, Theme $theme)
     {
         $request->validate([
-            'name' => 'required',
-            'dueDate' => 'required',
-            'price' => 'required',
+            'name'        => 'required',
+            'dueDate'     => 'required',
+            'price'       => 'required',
             'description' => 'required',
-            'categoryId' => 'required',
+            'categoryId'  => 'required',
+            'reviewer1Id' => 'required',
+            'reviewer2Id' => 'required',
         ]);
 
-        $payload = $request->only('name', 'dueDate', 'description', 'price', 'categoryId');
+        if ($request->reviewer1Id == $request->reviewer2Id) {
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('danger', 'Gagal menambahkan sub tema');
+        }
+
+        $payload = $request->only('name', 'dueDate', 'description', 'price', 'categoryId', 'reviewer1Id', 'reviewer2Id');
 
         if ($theme->update($payload)) {
             return redirect()->route('theme.index')->with('success', 'Berhasil mengubah topik.');
@@ -132,14 +152,14 @@ class ThemeController extends Controller
 
             $success = $success && EbookReview::create([
                 'ebookId' => $ebook->id,
-                'reviewerId' => $ebook->subTheme->reviewer1Id,
+                'reviewerId' => $ebook->theme->reviewer1Id,
                 'acc' => 0,
             ]);
 
-            if ($ebook->subTheme->reviewer2Id) {
+            if ($ebook->theme->reviewer2Id) {
                 $success = $success && EbookReview::create([
                     'ebookId' => $ebook->id,
-                    'reviewerId' => $ebook->subTheme->reviewer2Id,
+                    'reviewerId' => $ebook->theme->reviewer2Id,
                     'acc' => 0,
                 ]);
             }

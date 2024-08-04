@@ -36,38 +36,6 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-12 mb-3">
-                                <div class="form-group">
-                                    <label for="reviewer1Id">Reviewer 1</label>
-                                    <select name="reviewer1Id" id="reviewer1Id" class="form-control">
-                                        <option value="">-- Pilih Reviewer --</option>
-                                        @foreach ($reviewers as $item)
-                                            <option value="{{ $item->id }}"
-                                                @if ($item->id === (old('reviewer1Id') ?? $subTheme->reviewer1Id)) selected @endif>{{ $item->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    @error('reviewer1Id')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col-md-12 mb-3">
-                                <div class="form-group">
-                                    <label for="reviewer2Id">Reviewer 2</label>
-                                    <select name="reviewer2Id" id="reviewer2Id" class="form-control">
-                                        <option value="">-- Pilih Reviewer --</option>
-                                        @foreach ($reviewers as $item)
-                                            <option value="{{ $item->id }}"
-                                                @if ($item->id === (old('reviewer2Id') ?? $subTheme->reviewer2Id)) selected @endif>{{ $item->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    @error('reviewer2Id')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
                         </div>
                     </div>
                     <div class="card-footer">

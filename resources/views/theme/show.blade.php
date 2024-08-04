@@ -41,6 +41,16 @@
                             </tr>
 
                             <tr>
+                                <td>Reviewer 1 :</td>
+                                <td>{{ $theme->reviewer1->name }}</td>
+                            </tr>
+
+                            <tr>
+                                <td>Reviewer 2 :</td>
+                                <td>{{ $theme->reviewer2->name }}</td>
+                            </tr>
+
+                            <tr>
                                 <td colspan="2">Deskripsi :</td>
                             </tr>
                             <tr>
@@ -69,8 +79,6 @@
                         <thead>
                             <th>#</th>
                             <th>Sub Tema</th>
-                            <th>Reviewer 1</th>
-                            <th>Reviewer 2</th>
                             <th>Aksi</th>
                         </thead>
                         <tbody>
@@ -83,8 +91,6 @@
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
                                         <td>{{ $subTheme->name }}</td>
-                                        <td>{{ $subTheme->reviewer1->name }}</td>
-                                        <td>{{ $subTheme->reviewer2->name }}</td>
                                         <td>{{ $subTheme->status }}</td>
                                         <td>
                                             @admin(true)

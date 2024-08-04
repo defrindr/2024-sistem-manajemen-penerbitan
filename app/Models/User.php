@@ -65,11 +65,18 @@ class User extends Authenticatable
         return false;
     }
 
-    public static function ScopeReviewerWithCategory($query, $categoryId)
+    public static function ScopeReviewerWithCategory($query, $categoryId = null)
     {
-        return $query->where([
+        $query->where([
             'roleId' => Role::findIdByName(Role::REVIEWER),
-            'categoryId' => $categoryId
         ]);
+
+        if ($categoryId) {
+            $query->where([
+                'categoryId' => $categoryId
+            ]);
+        }
+
+        return $query;
     }
 }

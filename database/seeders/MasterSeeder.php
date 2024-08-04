@@ -76,20 +76,21 @@ class MasterSeeder extends Seeder
         ];
 
         foreach ($topics as $topic) {
+            $categoryId = Kategori::inRandomOrder()->first()->id;
             $theme = Theme::create([
-                'categoryId' => Kategori::inRandomOrder()->first()->id,
+                'categoryId' => $categoryId,
                 'name' => $topic,
                 'dueDate' => date('Y-m-d'),
                 'price' => random_int(10000, 100000),
                 'description' => '-',
+                'reviewer1Id' => self::findUserWithCategory($categoryId),
+                'reviewer2Id' => self::findUserWithCategory($categoryId),
             ]);
 
             foreach ($subtopics as $title) {
                 SubTheme::create([
                     'themeId' => $theme->id,
                     'name' => $title,
-                    'reviewer1Id' => self::findUserWithCategory($theme->categoryId),
-                    'reviewer2Id' => self::findUserWithCategory($theme->categoryId),
                 ]);
             }
         }

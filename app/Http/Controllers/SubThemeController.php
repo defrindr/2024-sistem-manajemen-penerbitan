@@ -21,18 +21,18 @@ class SubThemeController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'reviewer1Id' => 'required',
-            'reviewer2Id' => 'nullable',
+            // 'reviewer1Id' => 'required',
+            // 'reviewer2Id' => 'nullable',
         ]);
 
-        if ($request->reviewer1Id == $request->reviewer2Id) {
-            return redirect()
-                ->back()
-                ->withInput()
-                ->with('danger', 'Gagal menambahkan sub tema');
-        }
+        // if ($request->reviewer1Id == $request->reviewer2Id) {
+        //     return redirect()
+        //         ->back()
+        //         ->withInput()
+        //         ->with('danger', 'Gagal menambahkan sub tema');
+        // }
 
-        $payload = $request->only('name', 'reviewer1Id', 'reviewer2Id');
+        $payload = $request->only('name');
         $payload['themeId'] = $theme->id;
 
         if (SubTheme::create($payload)) {
@@ -55,19 +55,19 @@ class SubThemeController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'reviewer1Id' => 'required',
-            'reviewer2Id' => 'nullable',
+            // 'reviewer1Id' => 'required',
+            // 'reviewer2Id' => 'nullable',
         ]);
 
-        if ($request->reviewer1Id == $request->reviewer2Id) {
-            return redirect()
-                ->back()
-                ->withInput()
-                ->with('danger', 'Gagal menambahkan sub tema');
-        }
+        // if ($request->reviewer1Id == $request->reviewer2Id) {
+        //     return redirect()
+        //         ->back()
+        //         ->withInput()
+        //         ->with('danger', 'Gagal menambahkan sub tema');
+        // }
 
 
-        $payload = $request->only('name', 'reviewer1Id', 'reviewer2Id');
+        $payload = $request->only('name');
         $payload['themeId'] = $theme->id;
 
         if (SubTheme::create($payload)) {

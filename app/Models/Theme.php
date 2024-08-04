@@ -31,7 +31,9 @@ class Theme extends Model
         'status',
         'isbn',
         'price',
-        'categoryId'
+        'categoryId',
+        'reviewer1Id',
+        'reviewer2Id'
     ];
 
     public function subThemes(): HasMany
@@ -42,6 +44,16 @@ class Theme extends Model
     public function ebooks(): HasMany
     {
         return $this->hasMany(Ebook::class, 'themeId');
+    }
+
+    public function reviewer1()
+    {
+        return $this->belongsTo(User::class, 'reviewer1Id');
+    }
+
+    public function reviewer2()
+    {
+        return $this->belongsTo(User::class, 'reviewer2Id');
     }
 
     public function hasEbook(): bool

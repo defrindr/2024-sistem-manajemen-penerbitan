@@ -15,23 +15,13 @@ class SubTheme extends Model
         'themeId',
         'name',
         // 'description',
-        'reviewer1Id',
-        'reviewer2Id',
+        // 'reviewer1Id',
+        // 'reviewer2Id',
     ];
 
     public function theme()
     {
         return $this->belongsTo(Theme::class);
-    }
-
-    public function reviewer1()
-    {
-        return $this->belongsTo(User::class, 'reviewer1Id');
-    }
-
-    public function reviewer2()
-    {
-        return $this->belongsTo(User::class, 'reviewer2Id');
     }
 
     public function ebook()

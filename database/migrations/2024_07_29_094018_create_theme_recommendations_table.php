@@ -20,6 +20,8 @@ return new class extends Migration
             $table->date('dueDate');
             $table->integer('price');
             $table->text('description');
+            $table->foreignId('reviewer1Id')->references('id')->on('users');
+            $table->foreignId('reviewer2Id')->references('id')->on('users');
             $table->enum('status', ['draft', 'open', 'review', 'siap_publish', 'publish', 'close'])->default('draft');
             $table->timestamps();
             $table->softDeletes();
