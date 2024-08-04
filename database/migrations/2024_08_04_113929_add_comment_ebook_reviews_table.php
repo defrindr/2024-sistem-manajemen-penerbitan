@@ -21,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::table('ebook_reviews', function (Blueprint $table) {
+            $table->dropColumn('comment');
+        });
     }
 };
