@@ -28,6 +28,22 @@
                         <div class="row">
                             <div class="col-md-12 mb-3">
                                 <div class="form-group">
+                                    <label for="categoryId">Kategori</label>
+                                    <select name="categoryId" id="categoryId" class="form-control">
+                                        <option value="">-- Pilih Kategori --</option>
+                                        @foreach ($categories as $item)
+                                            <option value="{{ $item->id }}"
+                                                @if ($item->id === (old('categoryId') ?? $theme->categoryId)) selected @endif>{{ $item->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('categoryId')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <div class="form-group">
                                     <label for="name">Topik</label>
                                     <input type="text" class="form-control @error('name') is-invalid @enderror"
                                         name="name" id="name" value="{{ old('name') ?? $theme->name }}">
