@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Ebook;
 use App\Models\EbookReview;
+use App\Models\Kategori;
 use App\Models\Role;
 use App\Models\Theme;
 use App\Models\User;
@@ -55,7 +56,8 @@ class ThemeController extends Controller
 
     public function create()
     {
-        return view('theme.create');
+        $categories = Kategori::all();
+        return view('theme.create', compact('categories'));
     }
 
     public function store(Request $request)
@@ -65,9 +67,10 @@ class ThemeController extends Controller
             'dueDate'     => 'required',
             'price'       => 'required',
             'description' => 'required',
+            'categoryId' => 'required',
         ]);
 
-        $payload = $request->only('name', 'dueDate', 'description', 'price');
+        $payload = $request->only('name', 'dueDate', 'description', 'price', 'categoryId');
 
         if (Theme::create($payload)) {
             return redirect()->route('theme.index')->with('success', 'Berhasil menambahkan topik baru.');
@@ -78,7 +81,8 @@ class ThemeController extends Controller
 
     public function edit(Theme $theme)
     {
-        return view('theme.edit', compact('theme'));
+        $categories = Kategori::all();
+        return view('theme.edit', compact('theme', 'categories'));
     }
 
     public function update(Request $request, Theme $theme)
@@ -88,9 +92,10 @@ class ThemeController extends Controller
             'dueDate' => 'required',
             'price' => 'required',
             'description' => 'required',
+            'categoryId' => 'required',
         ]);
 
-        $payload = $request->only('name', 'dueDate', 'description', 'price');
+        $payload = $request->only('name', 'dueDate', 'description', 'price', 'categoryId');
 
         if ($theme->update($payload)) {
             return redirect()->route('theme.index')->with('success', 'Berhasil mengubah topik.');

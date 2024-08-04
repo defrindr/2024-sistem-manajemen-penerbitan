@@ -31,6 +31,7 @@ class Theme extends Model
         'status',
         'isbn',
         'price',
+        'categoryId'
     ];
 
     public function subThemes(): HasMany
