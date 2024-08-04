@@ -8,6 +8,7 @@ use App\Models\SubTheme;
 use App\Models\Theme;
 use App\Trait\UploadTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class EbookController extends Controller
 {
@@ -138,10 +139,14 @@ class EbookController extends Controller
         } else {
             $payload['draft'] = $ebook->draft;
         }
+        $payload['status'] = Ebook::STATUS_REVIEW;
 
-        if ($ebook->update($payload)) {
+        DB::beginTransaction();
+        if ($ebook->update($payload) && $ebook->reviews()->where('acc', -1)->update(['acc' => 0])) {
+            DB::commit();
             return redirect()->route('ebook.me')->with('success', 'Berhasil mengubah ebook.');
         }
+        DB::rollBack();
 
         return redirect()->back()->with('danger', 'Gagal ketika mengubah ebook')->withInputs();
     }

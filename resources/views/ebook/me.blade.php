@@ -47,10 +47,28 @@
                                                 -
                                             @endif
                                         </td>
-                                        <td>{{ $ebook->status }}</td>
+                                        <td>
+                                            @if ($ebook->status == 'review' || $ebook->status === \App\Models\Ebook::STATUS_NOT_ACCEPT)
+                                                Reviewer 1: <br>
+                                                @if ($ebook->reviews[0])
+                                                    {!! $ebook->reviews[0]?->statusDetail !!}<br><br>
+                                                @endif
+                                                Reviewer 2:<br>
+                                                @if ($ebook->reviews[0])
+                                                    {!! $ebook->reviews[1]?->statusDetail !!}
+                                                @endif
+                                            @else
+                                                {{ $ebook->status }}
+                                            @endif
+                                        </td>
                                         <td>{{ $ebook->royalty }}</td>
                                         <td>{{ $ebook->createdAtFormatted }}</td>
                                         <td>
+                                            @if ($ebook->status === \App\Models\Ebook::STATUS_NOT_ACCEPT)
+                                                <a href="{{ route('ebook.edit', $ebook) }}" class="btn btn-warning">
+                                                    Edit
+                                                </a>
+                                            @endif
                                             @if ($ebook->status === \App\Models\Ebook::STATUS_SUBMIT)
                                                 <a href="{{ route('ebook.edit', $ebook) }}" class="btn btn-warning">
                                                     Edit
@@ -64,7 +82,8 @@
                                                 @endif
                                             @endif
                                             @if ($ebook->status === \App\Models\Ebook::STATUS_PUBLISH && $ebook->royalty == 0)
-                                                <a href="{{ route('ebook.atur-royalti', $ebook) }}" class="btn btn-warning">
+                                                <a href="{{ route('ebook.atur-royalti', $ebook) }}"
+                                                    class="btn btn-warning">
                                                     Atur Royalti
                                                 </a>
                                             @endif

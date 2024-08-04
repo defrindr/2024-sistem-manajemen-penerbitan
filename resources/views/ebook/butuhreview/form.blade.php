@@ -59,6 +59,16 @@
                                     @enderror
                                 </div>
                             </div>
+                            <div class="col-md-12 mb-3">
+                                <div class="form-group">
+                                    <label for="comment">Komentar</label>
+                                    <textarea name="comment" id="comment" cols="30" rows="10"
+                                        class="form-control @error('comment') is-invalid @enderror">{{ old('comment') ?? $ebook->comment }}</textarea>
+                                    @error('comment')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="card-footer">

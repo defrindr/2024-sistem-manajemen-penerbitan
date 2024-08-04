@@ -44,6 +44,7 @@ class EbookReviewController extends Controller
     {
         $request->validate([
             'acc' => 'required|in:1,-1',
+            'comment' => 'required'
         ]);
 
         $currentUser = auth()->user();
@@ -51,15 +52,13 @@ class EbookReviewController extends Controller
             ->where('ebookId', $ebook->id)
             ->first();
 
-        if ($model->update(['acc' => $request->acc])) {
-
+        if ($model->update($request->only('acc', 'comment'))) {
             $adaBelumReview = $ebook->reviews()->where('acc', 0)->exists();
 
             if ($adaBelumReview == false) {
-                $jumlahAcc = $ebook->reviews()->where('acc', 1)->count();
                 $jumlaReject = $ebook->reviews()->where('acc', -1)->count();
 
-                $ebook->update(['status' => $jumlahAcc >= $jumlaReject ? Ebook::STATUS_ACCEPT : Ebook::STATUS_NOT_ACCEPT]);
+                $ebook->update(['status' => $jumlaReject == 0 ? Ebook::STATUS_ACCEPT : Ebook::STATUS_NOT_ACCEPT]);
             }
 
             return redirect()->route('ebook.butuhreview')->with('success', 'Berhasil memberikan review ke ebook.');

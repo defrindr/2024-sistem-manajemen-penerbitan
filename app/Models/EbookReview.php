@@ -12,7 +12,7 @@ class EbookReview extends Model
 
     protected $table = 'ebook_reviews';
 
-    protected $fillable = ['reviewerId', 'ebookId', 'acc'];
+    protected $fillable = ['reviewerId', 'ebookId', 'acc', 'comment'];
 
     public function reviewer(): BelongsTo
     {
@@ -22,5 +22,27 @@ class EbookReview extends Model
     public function ebook(): BelongsTo
     {
         return $this->belongsTo(Ebook::class, 'ebookId');
+    }
+
+    public function getStatusDetailAttribute()
+    {
+        $statusLabel = "Pending";
+
+        switch ($this->acc) {
+            case -1:
+                $statusLabel = "Ditolak";
+                break;
+            case 1:
+                $statusLabel = "Diterima";
+                break;
+            default:
+                $statusLabel = "Pending";
+                break;
+        }
+
+        $statusLabel .= "<br/><i>" . $this->comment . "</i>";
+
+
+        return $statusLabel;
     }
 }
