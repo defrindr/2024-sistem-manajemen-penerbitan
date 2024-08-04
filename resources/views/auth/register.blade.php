@@ -7,6 +7,7 @@
                 {{ config('app.name') }}
             </a>
         </div> <!-- /.login-logo -->
+        @include('_components.alert')
         <div class="card">
             <div class="card-body login-card-body">
                 <p class="login-box-msg">Register to access application</p>
@@ -75,11 +76,28 @@
                                 class="form-control @error('password') is-invalid @enderror">
                                 <option value="">-- Pilih Hak Akses --</option>
                                 @foreach ($roles as $item)
-                                    <option value="{{ $item->id }}" @if (old('roleId') == $item->id) selected @endif>
+                                    <option value="{{ $item->id }}">
                                         {{ $item->name }}</option>
                                 @endforeach
                             </select>
                             @error('roleId')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="input-group mb-3" id="input_kategori">
+                        <div class="input-group has-validation">
+                            <select name="categoryId" id="categoryId"
+                                class="form-control @error('password') is-invalid @enderror">
+                                <option value="">-- Pilih Kategori --</option>
+                                @foreach ($categories as $item)
+                                    <option value="{{ $item->id }}">
+                                        {{ $item->name }}</option>
+                                @endforeach
+                            </select>
+                            @error('categoryId')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
@@ -102,4 +120,18 @@
             </div> <!-- /.login-card-body -->
         </div>
     </div> <!-- /.login-box -->
+@endsection
+
+@section('script')
+    <script>
+        document.querySelector('#input_kategori').setAttribute('style', 'display:none')
+        document.querySelector('#roleId').addEventListener('change', (event) => {
+            console.log(event.target.value)
+            if (event.target.value === "4") {
+                document.querySelector('#input_kategori').setAttribute('style', 'display:block')
+            } else {
+                document.querySelector('#input_kategori').setAttribute('style', 'display:none')
+            }
+        })
+    </script>
 @endsection

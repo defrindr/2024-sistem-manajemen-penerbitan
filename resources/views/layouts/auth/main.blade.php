@@ -60,6 +60,7 @@
             }
         });
     </script> <!--end::OverlayScrollbars Configure--> <!--end::Script-->
+    @yield('script')
 </body><!--end::Body-->
 
 </html>

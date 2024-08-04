@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kategori;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -12,8 +13,9 @@ class RegistrationController extends Controller
     public function view()
     {
         $roles = Role::where('name', '!=', Role::SUPERADMIN)->get();
+        $categories = Kategori::all();
 
-        return view('auth.register', compact('roles'));
+        return view('auth.register', compact('roles', 'categories'));
     }
 
     public function action(Request $request)
@@ -27,6 +29,11 @@ class RegistrationController extends Controller
             'npwp' => 'required',
         ];
 
+
+        if ($request->roleId == Role::findIdByName(Role::REVIEWER)) {
+            $rules['categoryId'] = 'required';
+        }
+
         $request->validate($rules);
         $payload = $request->only(
             'email',
@@ -35,6 +42,7 @@ class RegistrationController extends Controller
             'roleId',
             'phone',
             'npwp',
+            'categoryId',
         );
 
         if ($user = User::create($payload)) {
