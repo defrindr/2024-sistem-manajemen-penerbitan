@@ -141,14 +141,26 @@ class EbookController extends Controller
         }
         $payload['status'] = Ebook::STATUS_REVIEW;
 
-        DB::beginTransaction();
-        if ($ebook->update($payload) && $ebook->reviews()->where('acc', -1)->update(['acc' => 0])) {
-            DB::commit();
-            return redirect()->route('ebook.me')->with('success', 'Berhasil mengubah ebook.');
-        }
-        DB::rollBack();
+        try {
+            DB::beginTransaction();
+            $reviews = $ebook->reviews()->where('acc', -1)->get();
 
-        return redirect()->back()->with('danger', 'Gagal ketika mengubah ebook')->withInputs();
+            if (count($reviews) == 0) {
+                $success = true;
+            } else {
+                $success = $ebook->reviews()->where('acc', -1)->update(['acc' => 0]);
+            }
+
+            if ($ebook->update($payload) && $success) {
+                DB::commit();
+                return redirect()->route('ebook.me')->with('success', 'Berhasil mengubah ebook.');
+            }
+            DB::rollBack();
+
+            return redirect()->back()->with('danger', 'Gagal ketika mengubah ebook');
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('danger', 'Gagal');
+        }
     }
 
     public function publish(Ebook $ebook)

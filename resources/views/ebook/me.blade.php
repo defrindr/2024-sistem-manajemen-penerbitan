@@ -49,13 +49,14 @@
                                         </td>
                                         <td>
                                             @if ($ebook->status == 'review' || $ebook->status === \App\Models\Ebook::STATUS_NOT_ACCEPT)
-                                                Reviewer 1: <br>
-                                                @if ($ebook->reviews[0])
+                                                @if (count($ebook->reviews) >= 1)
+                                                    Reviewer 1: <br>
                                                     {!! $ebook->reviews[0]?->statusDetail !!}<br><br>
-                                                @endif
-                                                Reviewer 2:<br>
-                                                @if ($ebook->reviews[0])
+                                                @elseif (count($ebook->reviews) >= 2)
+                                                    Reviewer 2:<br>
                                                     {!! $ebook->reviews[1]?->statusDetail !!}
+                                                @else
+                                                    {{ $ebook->status }}
                                                 @endif
                                             @else
                                                 {{ $ebook->status }}
