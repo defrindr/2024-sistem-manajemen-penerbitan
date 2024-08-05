@@ -24,12 +24,16 @@ class Theme extends Model
 
     const STATUS_PUBLISH = 'publish';
 
+    const PATH = "theme";
+
     protected $fillable = [
         'name',
         'description',
         'dueDate',
         'status',
         'isbn',
+        'file',
+        'cover',
         'price',
         'categoryId',
         'reviewer1Id',
@@ -87,5 +91,23 @@ class Theme extends Model
         ];
 
         return isset($labels[$this->status]) ? $labels[$this->status] : '-';
+    }
+
+    public function pathToFile($attribute)
+    {
+        $path = "";
+
+        switch ($attribute) {
+            case "cover":
+                $path = $this->cover;
+                break;
+            case "file":
+                $path = $this->file;
+                break;
+            default:
+                break;
+        }
+
+        return asset("storage/" . self::PATH . "/" . $path);
     }
 }

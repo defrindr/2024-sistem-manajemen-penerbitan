@@ -18,7 +18,8 @@
                     <a href="{{ route('theme.index') }}" class="btn btn-default">Kembali</a>
 
                     @admin(true)
-                        @if ($theme->status == \App\Models\Theme::STATUS_CLOSE || $theme->status == \App\Models\Theme::STATUS_PUBLISH)
+                        {{-- @if ($theme->status == \App\Models\Theme::STATUS_CLOSE || $theme->status == \App\Models\Theme::STATUS_PUBLISH) --}}
+                        @if ($theme->status == \App\Models\Theme::STATUS_CLOSE)
                             <a href="{{ route('theme.download-zip', compact('theme')) }}" class="btn btn-success"
                                 target="_blank">
                                 Download Zip
@@ -58,6 +59,24 @@
                                 <td>Reviewer 2 :</td>
                                 <td>{{ $theme->reviewer2->name }}</td>
                             </tr>
+
+                            @if ($theme->status === \App\Models\Theme::STATUS_PUBLISH)
+                                <tr>
+                                    <td>Cover :</td>
+                                    <td>
+                                        <img src="{{ $theme->pathToFile('cover') }}" alt="Cover" srcset=""
+                                            class="img img-fluid" style="max-width: 250px">
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>File :</td>
+                                    <td>
+                                        <a href="{{ $theme->pathToFile('file') }}" target="_blank"
+                                            rel="noopener noreferrer">Unduh</a>
+                                    </td>
+                                </tr>
+                            @endif
 
                             <tr>
                                 <td colspan="2">Deskripsi :</td>
