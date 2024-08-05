@@ -79,6 +79,8 @@
                         <thead>
                             <th>#</th>
                             <th>Sub Tema</th>
+                            <th>Status</th>
+                            <th>Author</th>
                             <th>Aksi</th>
                         </thead>
                         <tbody>
@@ -91,7 +93,14 @@
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
                                         <td>{{ $subTheme->name }}</td>
-                                        <td>{{ $subTheme->status }}</td>
+                                        <td>
+                                            {{ $subTheme->hasAuthorRegistered() ? 'Sudah ada author' : 'Belum ada Author' }}
+                                        </td>
+                                        <td>
+                                            @if ($subTheme->hasAuthorRegistered())
+                                                {{ $subTheme->ebook()->first()?->author?->name }}
+                                            @endif
+                                        </td>
                                         <td>
                                             @admin(true)
                                                 @if ($theme->status == \App\Models\Theme::STATUS_DRAFT)
@@ -113,10 +122,12 @@
                                                 @endif
                                             @endadmin
                                             @author
-                                            <a href="{{ route('ebook.create', compact('theme', 'subTheme')) }}"
-                                                class="btn btn-primary">
-                                                Daftar Ke Topik
-                                            </a>
+                                            @if (!$subTheme->hasAuthorRegistered() && $subTheme->isThemeOpen())
+                                                <a href="{{ route('ebook.create', compact('theme', 'subTheme')) }}"
+                                                    class="btn btn-primary">
+                                                    Daftar Ke Topik
+                                                </a>
+                                            @endif
                                             @endauthor
                                         </td>
                                     </tr>
@@ -130,7 +141,7 @@
         <div class="col-md-12 mb-3">
             <div class="card card-default">
                 <div class="card-header">
-                    <h3>Daftar Karya Diajukan</h3>
+                    <h3>Pendaftaran</h3>
                 </div>
                 <div class="card-body">
                     <table class="table table-striped table-hover">
