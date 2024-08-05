@@ -34,6 +34,14 @@ class SubTheme extends Model
         return $this->theme->status === Theme::STATUS_OPEN;
     }
 
+    public function acceptEbook(): Ebook | null
+    {
+        return $this
+            ->ebook()
+            ->where('status', '=', 'accept')
+            ->first();
+    }
+
     public function hasAuthorRegistered(): bool
     {
         return $this

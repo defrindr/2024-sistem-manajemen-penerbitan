@@ -16,6 +16,15 @@
                 <div class="card-header">
                     {{-- Tombol kembali --}}
                     <a href="{{ route('theme.index') }}" class="btn btn-default">Kembali</a>
+
+                    @admin(true)
+                        @if ($theme->status == \App\Models\Theme::STATUS_CLOSE || $theme->status == \App\Models\Theme::STATUS_PUBLISH)
+                            <a href="{{ route('theme.download-zip', compact('theme')) }}" class="btn btn-success"
+                                target="_blank">
+                                Download Zip
+                            </a>
+                        @endif
+                    @endadmin
                 </div>
                 <div class="card-body">
                     <table class="table table-borderless">

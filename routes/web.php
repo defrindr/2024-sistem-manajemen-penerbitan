@@ -45,6 +45,9 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::post('{theme}/review', [ThemeController::class, 'review'])
             ->name('theme.review');
+
+        Route::get('{theme}/download-zip', [ThemeController::class, 'downloadZip'])
+            ->name('theme.download-zip');
     });
 
 
