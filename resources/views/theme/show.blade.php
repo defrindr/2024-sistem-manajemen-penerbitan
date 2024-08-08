@@ -11,7 +11,7 @@
 
 @section('content')
     <div class="row">
-        <div class="col-md-12 mb-3">
+        <div class="col-md-4 mb-3">
             <div class="card card-default">
                 <div class="card-header">
                     {{-- Tombol kembali --}}
@@ -36,37 +36,35 @@
                         <tbody>
                             {{-- tampilkan setiap kolom --}}
                             <tr>
-                                <td>Nama Judul :</td>
+                                <th>Nama Judul</th>
                                 <td>{{ $theme->name }}</td>
                             </tr>
                             {{-- tampilkan setiap kolom --}}
-                            <tr>
-                                <td>Deadline :</td>
-                                <td> {{ $theme->dueDateFormatted }}</td>
-                            </tr>
-                            <tr>
-                                <td>ISBN :</td>
-                                <td> {{ $theme->isbn }}</td>
-                            </tr>
+                            @if ($theme->isbn)
+                                <tr>
+                                    <th>ISBN</th>
+                                    <td> {{ $theme->isbn }}</td>
+                                </tr>
+                            @endif
                             {{-- tampilkan setiap kolom --}}
                             <tr>
-                                <td>Status :</td>
+                                <th>Status</th>
                                 <td> {{ $theme->statusFormatted }}</td>
                             </tr>
 
                             <tr>
-                                <td>Reviewer 1 :</td>
+                                <th>Reviewer 1</th>
                                 <td>{{ $theme->reviewer1->name }}</td>
                             </tr>
 
                             <tr>
-                                <td>Reviewer 2 :</td>
+                                <th>Reviewer 2</th>
                                 <td>{{ $theme->reviewer2->name }}</td>
                             </tr>
 
                             @if ($theme->status === \App\Models\Theme::STATUS_PUBLISH)
                                 <tr>
-                                    <td>Cover :</td>
+                                    <th>Cover</th>
                                     <td>
                                         <img src="{{ $theme->pathToFile('cover') }}" alt="Cover" srcset=""
                                             class="img img-fluid" style="max-width: 250px">
@@ -74,7 +72,7 @@
                                 </tr>
 
                                 <tr>
-                                    <td>File :</td>
+                                    <th>File</th>
                                     <td>
                                         <a href="{{ $theme->pathToFile('file') }}" target="_blank"
                                             rel="noopener noreferrer">Unduh</a>
@@ -83,7 +81,9 @@
                             @endif
 
                             <tr>
-                                <td colspan="2">Deskripsi :</td>
+                                <td colspan="2">
+                                    <hr>
+                                </td>
                             </tr>
                             <tr>
                                 <td colspan="2">{{ $theme->description }}</td>
@@ -93,7 +93,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-12 mb-3">
+        <div class="col-md-8 mb-3">
             <div class="card card-default">
                 <div class="card-header">
                     <h3>Sub Tema</h3>
@@ -111,6 +111,7 @@
                         <thead>
                             <th>#</th>
                             <th>Sub Tema</th>
+                            <th>Deadline</th>
                             <th>Status</th>
                             <th>Author</th>
                             <th>Aksi</th>
@@ -125,6 +126,7 @@
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
                                         <td>{{ $subTheme->name }}</td>
+                                        <td> {{ $subTheme->dueDateFormatted }}</td>
                                         <td>
                                             {{ $subTheme->hasAuthorRegistered() ? 'Sudah ada author' : 'Belum ada Author' }}
                                         </td>
