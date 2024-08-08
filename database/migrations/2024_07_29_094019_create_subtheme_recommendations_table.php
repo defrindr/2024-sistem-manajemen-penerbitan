@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('themeId')->references('id')->on('theme_recommendations');
             $table->string('name');
+            $table->dateTime('dueDate');
             $table->timestamps();
             $table->softDeletes();
         });

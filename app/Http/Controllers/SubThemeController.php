@@ -20,19 +20,11 @@ class SubThemeController extends Controller
     public function store(Theme $theme, Request $request)
     {
         $request->validate([
-            'name' => 'required',
-            // 'reviewer1Id' => 'required',
-            // 'reviewer2Id' => 'nullable',
+            'name'    => 'required',
+            'dueDate' => 'required',
         ]);
 
-        // if ($request->reviewer1Id == $request->reviewer2Id) {
-        //     return redirect()
-        //         ->back()
-        //         ->withInput()
-        //         ->with('danger', 'Gagal menambahkan sub tema');
-        // }
-
-        $payload = $request->only('name');
+        $payload = $request->only('name', 'dueDate');
         $payload['themeId'] = $theme->id;
 
         if (SubTheme::create($payload)) {
@@ -51,27 +43,18 @@ class SubThemeController extends Controller
         return view('theme.sub.edit', compact('theme', 'subTheme', 'reviewers'));
     }
 
-    public function update(Theme $theme, Request $request)
+    public function update(Theme $theme, SubTheme $subTheme, Request $request)
     {
         $request->validate([
-            'name' => 'required',
-            // 'reviewer1Id' => 'required',
-            // 'reviewer2Id' => 'nullable',
+            'name'    => 'required',
+            'dueDate' => 'required',
         ]);
 
-        // if ($request->reviewer1Id == $request->reviewer2Id) {
-        //     return redirect()
-        //         ->back()
-        //         ->withInput()
-        //         ->with('danger', 'Gagal menambahkan sub tema');
-        // }
-
-
-        $payload = $request->only('name');
+        $payload = $request->only('name', 'dueDate');
         $payload['themeId'] = $theme->id;
 
-        if (SubTheme::create($payload)) {
-            return redirect()->route('theme.show', $theme)->with('success', 'Berhasil menambahkan sub tema');
+        if ($subTheme->update($payload)) {
+            return redirect()->route('theme.show', $theme->id)->with('success', 'Berhasil menambahkan sub tema');
         }
 
         return redirect()->back()->with('danger', 'Gagal menambahkan sub tema');

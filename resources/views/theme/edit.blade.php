@@ -54,16 +54,6 @@
                             </div>
                             <div class="col-md-12 mb-3">
                                 <div class="form-group">
-                                    <label for="dueDate">Deadline Pengumpulan</label>
-                                    <input type="date" class="form-control @error('dueDate') is-invalid @enderror"
-                                        name="dueDate" id="dueDate" value="{{ old('dueDate') ?? $theme->dueDate }}">
-                                    @error('dueDate')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col-md-12 mb-3">
-                                <div class="form-group">
                                     <label for="price">Biaya Pendaftaran</label>
                                     <input type="number" class="form-control @error('price') is-invalid @enderror"
                                         name="price" id="price" value="{{ old('price') ?? $theme->price }}">

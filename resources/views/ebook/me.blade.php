@@ -65,6 +65,11 @@
                                         <td>{{ $ebook->royalty }}</td>
                                         <td>{{ $ebook->createdAtFormatted }}</td>
                                         <td>
+                                            @if ($ebook->status !== 'pending')
+                                                <a href="{{ route('ebook.progress', $ebook) }}" class="btn btn-primary">
+                                                    Progress
+                                                </a>
+                                            @endif
                                             @if ($ebook->status === \App\Models\Ebook::STATUS_NOT_ACCEPT)
                                                 <a href="{{ route('ebook.edit', $ebook) }}" class="btn btn-warning">
                                                     Edit

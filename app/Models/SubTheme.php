@@ -14,9 +14,7 @@ class SubTheme extends Model
     protected $fillable = [
         'themeId',
         'name',
-        // 'description',
-        // 'reviewer1Id',
-        // 'reviewer2Id',
+        'dueDate',
     ];
 
     public function theme()
@@ -48,5 +46,15 @@ class SubTheme extends Model
             ->ebook()
             ->where('status', '!=', 'pending')
             ->exists();
+    }
+
+    public function getDueDateFormattedAttribute()
+    {
+        return date('d F Y', strtotime($this->dueDate));
+    }
+
+    public function isNotDeadline()
+    {
+        return strtotime($this->dueDate) >= time();
     }
 }

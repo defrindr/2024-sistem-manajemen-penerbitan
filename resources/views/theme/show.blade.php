@@ -153,10 +153,15 @@
                                                             Hapus
                                                         </button>
                                                     </form>
+                                                @elseif(!$subTheme->isNotDeadline())
+                                                    <a href="{{ route('themes.subThemes.edit', compact('subTheme', 'theme')) }}"
+                                                        class="btn btn-warning">
+                                                        Deadline Perlu diatur ulang
+                                                    </a>
                                                 @endif
                                             @endadmin
                                             @author
-                                            @if (!$subTheme->hasAuthorRegistered() && $subTheme->isThemeOpen())
+                                            @if (!$subTheme->hasAuthorRegistered() && $subTheme->isThemeOpen() && $subTheme->isNotDeadline())
                                                 <a href="{{ route('ebook.create', compact('theme', 'subTheme')) }}"
                                                     class="btn btn-primary">
                                                     Daftar Ke Judul
