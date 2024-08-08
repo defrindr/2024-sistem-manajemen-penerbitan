@@ -26,12 +26,13 @@
                             <th>Status</th>
                             <th>Royalti</th>
                             <th>Tanggal Pengajuan</th>
+                            <th>Oleh</th>
                             <th>Aksi</th>
                         </thead>
                         <tbody>
                             @if ($pagination->count() <= 0)
                                 <tr>
-                                    <td colspan="9" class="text-center">Belum terdapat karya yang diajukan</td>
+                                    <td colspan="10" class="text-center">Belum terdapat karya yang diajukan</td>
                                 </tr>
                             @else
                                 @foreach ($pagination->items() as $index => $ebook)
@@ -56,6 +57,7 @@
                                         <td>{{ $ebook->status }}</td>
                                         <td>{{ $ebook->royalty }}</td>
                                         <td>{{ $ebook->createdAtFormatted }}</td>
+                                        <td>{{ $ebook->author->name }}</td>
                                         <td>
                                             <form action="{{ route('ebook.konfirmasi-pembayaran-action', $ebook) }}" method="post"
                                             

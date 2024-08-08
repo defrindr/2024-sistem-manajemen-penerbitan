@@ -12,9 +12,16 @@ use App\Http\Controllers\ThemeController;
 use App\Models\Role;
 use Illuminate\Support\Facades\Route;
 
+<<<<<<< HEAD
 
 Route::group(['middleware' => 'auth'], function () {
     CheckDeadline::run();
+=======
+Route::group(['middleware' => 'auth'], function () {
+    // Check Deadline
+    CheckDeadline::run();
+
+>>>>>>> 6704254fdad445a915872be4abc104f4cfb83fa9
     $admin = Role::ADMINISTRATOR;
     $sa = Role::SUPERADMIN;
     $author = Role::AUTHOR;
