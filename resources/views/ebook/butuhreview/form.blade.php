@@ -52,7 +52,7 @@
                                         class="form-control  @error('acc') is-invalid @enderror">
                                         <option value="">-- Pilih Hasil Review --</option>
                                         <option value="1">Setujui</option>
-                                        <option value="-1">Tolak</option>
+                                        <option value="-1">Revisi</option>
                                     </select>
                                     @error('acc')
                                         <div class="invalid-feedback">{{ $message }}</div>
