@@ -26,6 +26,7 @@
                             <th>Status</th>
                             <th>Royalti</th>
                             <th>Tanggal Pengajuan</th>
+                            <th>Oleh</th>
                             <th>Aksi</th>
                         </thead>
                         <tbody>
@@ -56,6 +57,7 @@
                                         <td>{{ $ebook->status }}</td>
                                         <td>{{ $ebook->royalty }}</td>
                                         <td>{{ $ebook->createdAtFormatted }}</td>
+                                        <td>{{ $ebook->author->name }}</td>
                                         <td>
                                             <form action="{{ route('ebook.konfirmasi-pembayaran-action', $ebook) }}" method="post"
                                             
