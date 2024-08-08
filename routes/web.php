@@ -6,9 +6,11 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EbookController;
 use App\Http\Controllers\EbookReviewController;
 use App\Http\Controllers\kategoriController;
+use App\Http\Controllers\KeuanganController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\SubThemeController;
 use App\Http\Controllers\ThemeController;
+use App\Models\Keuangan;
 use App\Models\Role;
 use Illuminate\Support\Facades\Route;
 
@@ -34,6 +36,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('topik', ThemeController::class)
         ->names('theme')
         ->parameters(['topik' => 'theme']);
+
+
+    Route::resource('topik.keuangan', KeuanganController::class)
+        ->names('theme.keuangan')
+        ->parameters(['topik' => 'theme'])->except(['update', 'edit']);
     Route::resource('topik.sub-topik', SubThemeController::class)
         ->names('themes.subThemes')
         ->parameters(['sub-topik' => 'subTheme', 'topik' => 'theme'])
