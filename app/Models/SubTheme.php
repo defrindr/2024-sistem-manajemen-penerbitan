@@ -21,11 +21,32 @@ class SubTheme extends Model
 
     public function theme()
     {
-        return $this->belongsTo(Theme::class);
+        return $this->belongsTo(Theme::class, "themeId");
     }
 
     public function ebook()
     {
-        return $this->hasMany(Ebook::class);
+        return $this->hasMany(Ebook::class, "subThemeId");
+    }
+
+    public function isThemeOpen(): bool
+    {
+        return $this->theme->status === Theme::STATUS_OPEN;
+    }
+
+    public function acceptEbook(): Ebook | null
+    {
+        return $this
+            ->ebook()
+            ->where('status', '=', 'accept')
+            ->first();
+    }
+
+    public function hasAuthorRegistered(): bool
+    {
+        return $this
+            ->ebook()
+            ->where('status', '!=', 'pending')
+            ->exists();
     }
 }

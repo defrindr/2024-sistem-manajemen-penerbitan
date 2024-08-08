@@ -6,13 +6,18 @@ use App\Models\Ebook;
 use App\Models\EbookReview;
 use App\Models\Kategori;
 use App\Models\Role;
+use App\Models\SubTheme;
 use App\Models\Theme;
 use App\Models\User;
+use App\Trait\UploadTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use ZipArchive;
 
 class ThemeController extends Controller
 {
+    use UploadTrait;
+
     public function index(Request $request)
     {
         $query = Theme::orderBy('id', 'desc');
@@ -41,11 +46,24 @@ class ThemeController extends Controller
     public function publishAction(Theme $theme, Request $request)
     {
         $request->validate([
-            'isbn' => 'required'
+            'isbn' => 'required',
+            'file' => 'required|file',
+            'cover' => 'required|file',
         ]);
 
+        $request->request->add(
+            [
+                'status' => Theme::STATUS_PUBLISH
+            ]
+        );
+        $payload  = $request->all();
+        $fileCover = $request->file('cover');
+        $fileBook = $request->file('file');
 
-        $success = $theme->update(['isbn' => $request->isbn, 'status' => Theme::STATUS_PUBLISH]);
+        $payload['cover'] = $this->uploadImage($fileCover, Theme::PATH);
+        $payload['file'] = $this->uploadImage($fileBook, Theme::PATH);
+
+        $success = $theme->update($payload);
 
         if ($success) {
             return redirect()->route('theme.index')->with('success', 'Berhasil menambahkan topik baru.');
@@ -201,5 +219,49 @@ class ThemeController extends Controller
         }
 
         return redirect()->back()->with('danger', 'Gagal ketika mengubah status topik ke close.');
+    }
+
+    public function downloadZip(Theme $theme)
+    {
+        // Variable Initialize
+        $zipname = $theme->name . '.zip';
+        $zippath = storage_path($theme->name . '.zip');
+
+        if (!file_exists($zippath)) {
+            $this->generateZipFile($theme, $zippath);
+        }
+
+        header('Content-Type: application/zip');
+        header('Content-disposition: attachment; filename=' . $zipname);
+        header('Content-Length: ' . filesize($zippath));
+        readfile($zippath);
+    }
+
+    protected function generateZipFile(Theme $theme, string $zipname)
+    {
+        $files = [];
+        // Fetch All Sub Topics
+        $subTopics = $theme->subThemes;
+
+        foreach ($subTopics as $index => $subTopic) {
+            $acceptEbook = $subTopic->acceptEbook();
+            // Get Only Ebook has already reviewed
+            if ($acceptEbook) {
+                $filenames = explode(".", $acceptEbook->draft);
+                $files[] = [
+                    'path' => storage_path("app/public/" . Ebook::FILE_PATH . "/" . $acceptEbook->draft),
+                    'name' => $subTopic->theme->name . "/" . ($index + 1) . " - " . $subTopic->name . "." . end($filenames)
+                ];
+            }
+        }
+
+        $zip = new ZipArchive;
+        $zip->open($zipname, ZipArchive::CREATE);
+
+        foreach ($files as $file) {
+            $zip->addFile($file['path'], $file['name']);
+        }
+
+        $zip->close();
     }
 }

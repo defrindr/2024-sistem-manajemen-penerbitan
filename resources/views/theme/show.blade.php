@@ -16,6 +16,16 @@
                 <div class="card-header">
                     {{-- Tombol kembali --}}
                     <a href="{{ route('theme.index') }}" class="btn btn-default">Kembali</a>
+
+                    @admin(true)
+                        {{-- @if ($theme->status == \App\Models\Theme::STATUS_CLOSE || $theme->status == \App\Models\Theme::STATUS_PUBLISH) --}}
+                        @if ($theme->status == \App\Models\Theme::STATUS_CLOSE)
+                            <a href="{{ route('theme.download-zip', compact('theme')) }}" class="btn btn-success"
+                                target="_blank">
+                                Download Zip
+                            </a>
+                        @endif
+                    @endadmin
                 </div>
                 <div class="card-body">
                     <table class="table table-borderless">
@@ -50,6 +60,24 @@
                                 <td>{{ $theme->reviewer2->name }}</td>
                             </tr>
 
+                            @if ($theme->status === \App\Models\Theme::STATUS_PUBLISH)
+                                <tr>
+                                    <td>Cover :</td>
+                                    <td>
+                                        <img src="{{ $theme->pathToFile('cover') }}" alt="Cover" srcset=""
+                                            class="img img-fluid" style="max-width: 250px">
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>File :</td>
+                                    <td>
+                                        <a href="{{ $theme->pathToFile('file') }}" target="_blank"
+                                            rel="noopener noreferrer">Unduh</a>
+                                    </td>
+                                </tr>
+                            @endif
+
                             <tr>
                                 <td colspan="2">Deskripsi :</td>
                             </tr>
@@ -79,6 +107,8 @@
                         <thead>
                             <th>#</th>
                             <th>Sub Tema</th>
+                            <th>Status</th>
+                            <th>Author</th>
                             <th>Aksi</th>
                         </thead>
                         <tbody>
@@ -91,7 +121,14 @@
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
                                         <td>{{ $subTheme->name }}</td>
-                                        <td>{{ $subTheme->status }}</td>
+                                        <td>
+                                            {{ $subTheme->hasAuthorRegistered() ? 'Sudah ada author' : 'Belum ada Author' }}
+                                        </td>
+                                        <td>
+                                            @if ($subTheme->hasAuthorRegistered())
+                                                {{ $subTheme->ebook()->first()?->author?->name }}
+                                            @endif
+                                        </td>
                                         <td>
                                             @admin(true)
                                                 @if ($theme->status == \App\Models\Theme::STATUS_DRAFT)
@@ -113,10 +150,12 @@
                                                 @endif
                                             @endadmin
                                             @author
-                                            <a href="{{ route('ebook.create', compact('theme', 'subTheme')) }}"
-                                                class="btn btn-primary">
-                                                Daftar Ke Topik
-                                            </a>
+                                            @if (!$subTheme->hasAuthorRegistered() && $subTheme->isThemeOpen())
+                                                <a href="{{ route('ebook.create', compact('theme', 'subTheme')) }}"
+                                                    class="btn btn-primary">
+                                                    Daftar Ke Topik
+                                                </a>
+                                            @endif
                                             @endauthor
                                         </td>
                                     </tr>
@@ -130,7 +169,7 @@
         <div class="col-md-12 mb-3">
             <div class="card card-default">
                 <div class="card-header">
-                    <h3>Daftar Karya Diajukan</h3>
+                    <h3>Pendaftaran</h3>
                 </div>
                 <div class="card-body">
                     <table class="table table-striped table-hover">
