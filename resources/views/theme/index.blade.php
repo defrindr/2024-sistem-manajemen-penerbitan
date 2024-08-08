@@ -49,7 +49,7 @@
                                                     {{-- Agar tidak expired ketika di submit --}}
                                                     @csrf
                                                     {{-- Tombol Delete --}}
-                                                    <button class="btn btn-primary bg-purple">Tutup</button>
+                                                    <button class="btn btn-danger">Tutup</button>
                                                 </form>
                                             @elseif ($item->status == \App\Models\Theme::STATUS_OPEN)
                                                 {{-- cek kembali di routes untuk memastikan --}}
@@ -58,11 +58,11 @@
                                                     {{-- Agar tidak expired ketika di submit --}}
                                                     @csrf
                                                     {{-- Tombol Delete --}}
-                                                    <button class="btn btn-primary bg-purple">Ke Tahap Review</button>
+                                                    <button class="btn btn-warning">Ke Tahap Review</button>
                                                 </form>
                                             @elseif($item->status == \App\Models\Theme::STATUS_CLOSE)
                                                 <a href="{{ route('theme.publish-form', ['theme' => $item]) }}"
-                                                    class="btn btn-warning">Publish</a>
+                                                    class="btn btn-primary">Publish</a>
                                             @elseif($item->status == \App\Models\Theme::STATUS_PUBLISH)
                                             @else
                                                 {{-- cek kembali di routes untuk memastikan --}}
