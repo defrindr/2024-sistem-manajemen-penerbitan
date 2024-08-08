@@ -1,11 +1,11 @@
 @extends('layouts.admin.main')
 
-@section('title', 'Daftar Topik')
+@section('title', 'Daftar Judul')
 
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="#">Home</a></li>
     <li class="breadcrumb-item active" aria-current="page">
-        Topik Cerita
+        Judul Cerita
     </li>
 @endsection
 
@@ -16,7 +16,7 @@
                 <div class="card-header">
                     {{-- Tombol tambah --}}
                     @admin(true)
-                        <a href="{{ route('theme.create') }}" class="btn btn-success">Tambah Topik</a>
+                        <a href="{{ route('theme.create') }}" class="btn btn-success">Tambah Judul</a>
                     @endadmin
                 </div>
                 <div class="card-body">
@@ -24,7 +24,7 @@
                         <thead>
                             <tr>
                                 <td>#</td>
-                                <td>Topik Cerita</td>
+                                <td>Judul Cerita</td>
                                 <td>Deskripsi</td>
                                 <td>Biaya Pendaftaran</td>
                                 <td>Status</td>

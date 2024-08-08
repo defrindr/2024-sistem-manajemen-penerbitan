@@ -1,10 +1,10 @@
 @extends('layouts.admin.main')
 
-@section('title', 'Publish Topik')
+@section('title', 'Publish Judul')
 
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="#">Home</a></li>
-    <li class="breadcrumb-item"><a href="{{ route('theme.index') }}">Topik</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('theme.index') }}">Judul</a></li>
     <li class="breadcrumb-item"><a href="{{ route('theme.show', $theme) }}">{{ $theme->name }}</a></li>
     <li class="breadcrumb-item active" aria-current="page">
         Publish

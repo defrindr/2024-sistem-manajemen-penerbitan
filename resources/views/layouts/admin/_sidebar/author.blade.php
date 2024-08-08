@@ -2,7 +2,7 @@
     <a href="{{ route('theme.index') }}" class="nav-link">
         <i class="nav-icon bi bi-speedometer"></i>
         <p>
-            Manajemen Topik
+            Manajemen Judul
         </p>
     </a>
 </li>

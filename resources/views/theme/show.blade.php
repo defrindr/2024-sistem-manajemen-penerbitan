@@ -1,11 +1,11 @@
 @extends('layouts.admin.main')
 
-@section('title', 'Detail Topik')
+@section('title', 'Detail Judul')
 
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="#">Home</a></li>
     <li class="breadcrumb-item active" aria-current="page">
-        Topik
+        Judul
     </li>
 @endsection
 
@@ -36,7 +36,7 @@
                         <tbody>
                             {{-- tampilkan setiap kolom --}}
                             <tr>
-                                <td>Nama Topik :</td>
+                                <td>Nama Judul :</td>
                                 <td>{{ $theme->name }}</td>
                             </tr>
                             {{-- tampilkan setiap kolom --}}
@@ -157,7 +157,7 @@
                                             @if (!$subTheme->hasAuthorRegistered() && $subTheme->isThemeOpen())
                                                 <a href="{{ route('ebook.create', compact('theme', 'subTheme')) }}"
                                                     class="btn btn-primary">
-                                                    Daftar Ke Topik
+                                                    Daftar Ke Judul
                                                 </a>
                                             @endif
                                             @endauthor
