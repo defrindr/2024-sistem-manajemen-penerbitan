@@ -32,7 +32,7 @@
                         <tbody>
                             @if ($pagination->count() <= 0)
                                 <tr>
-                                    <td colspan="9" class="text-center">Belum terdapat karya yang diajukan</td>
+                                    <td colspan="10" class="text-center">Belum terdapat karya yang diajukan</td>
                                 </tr>
                             @else
                                 @foreach ($pagination->items() as $index => $ebook)

@@ -4,10 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Ebook;
 use App\Models\EbookReview;
+use App\Trait\UploadTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class EbookReviewController extends Controller
 {
+    use UploadTrait;
+
     public function butuhReview()
     {
         $currentUser = auth()->user();
@@ -48,9 +52,11 @@ class EbookReviewController extends Controller
     {
         $request->validate([
             'acc' => 'required|in:1,-1',
-            'comment' => 'required'
+            'comment' => 'required',
+            'draft' => 'file|nullable'
         ]);
 
+        DB::beginTransaction();
         $currentUser = auth()->user();
         $model = EbookReview::where('reviewerId', $currentUser->id)
             ->where('ebookId', $ebook->id)
@@ -65,6 +71,15 @@ class EbookReviewController extends Controller
                 $ebook->update(['status' => $jumlaReject == 0 ? Ebook::STATUS_ACCEPT : Ebook::STATUS_NOT_ACCEPT]);
             }
 
+            if ($request->has('draft')) {
+                $ebook->draft = $this->uploadImage($request->file('draft'), Ebook::FILE_PATH, $ebook->draft);
+            } else {
+                $ebook->draft = $ebook->draft;
+            }
+
+            $ebook->save();
+
+            DB::commit();
             return redirect()->route('ebook.butuhreview')->with('success', 'Berhasil memberikan review ke ebook.');
         }
 

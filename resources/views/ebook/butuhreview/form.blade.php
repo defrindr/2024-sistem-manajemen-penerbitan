@@ -69,6 +69,17 @@
                                     @enderror
                                 </div>
                             </div>
+                            <div class="col-md-12 mb-3">
+                                <div class="form-group">
+                                    <label for="draft">File Draft</label>
+                                    <input type="file" class="form-control @error('draft') is-invalid @enderror"
+                                        name="draft" id="draft"
+                                        accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/octet-stream">
+                                    @error('draft')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="card-footer">
