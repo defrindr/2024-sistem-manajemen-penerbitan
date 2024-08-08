@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\WordHelper;
 use App\Models\Ebook;
 use App\Models\EbookReview;
 use App\Models\Kategori;
@@ -70,6 +71,20 @@ class ThemeController extends Controller
         }
 
         return redirect()->back()->with('danger', 'Gagal ketika menambahkan topik')->withInputs();
+    }
+
+    public function mergeDocuments(Theme $theme)
+    {
+        $files = [];
+
+        $ebooks = $theme->ebooks()->get();
+
+        foreach ($ebooks as $ebook) {
+            $files[] = storage_path("app/public/" . Ebook::FILE_PATH  . "/" . $ebook->draft);
+        }
+
+        $wh = new WordHelper();
+        $wh->mergeDocuments($files);
     }
 
     public function create()

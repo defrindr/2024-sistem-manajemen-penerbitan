@@ -48,6 +48,9 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::get('{theme}/download-zip', [ThemeController::class, 'downloadZip'])
             ->name('theme.download-zip');
+
+        Route::get('{theme}/merge-documents', [ThemeController::class, 'mergeDocuments'])
+            ->name('theme.merge-documents');
     });
 
 

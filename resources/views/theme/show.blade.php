@@ -24,6 +24,10 @@
                                 target="_blank">
                                 Download Zip
                             </a>
+                            {{-- <a href="{{ route('theme.merge-documents', compact('theme')) }}" class="btn btn-success"
+                                target="_blank">
+                                Gabungkan Dokumen
+                            </a> --}}
                         @endif
                     @endadmin
                 </div>
