@@ -1,11 +1,11 @@
 @extends('layouts.admin.main')
 
-@section('title', 'Daftar Topik')
+@section('title', 'Daftar Judul')
 
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="#">Home</a></li>
     <li class="breadcrumb-item active" aria-current="page">
-        Topik Cerita
+        Judul Cerita
     </li>
 @endsection
 
@@ -16,7 +16,7 @@
                 <div class="card-header">
                     {{-- Tombol tambah --}}
                     @admin(true)
-                        <a href="{{ route('theme.create') }}" class="btn btn-success">Tambah Topik</a>
+                        <a href="{{ route('theme.create') }}" class="btn btn-success">Tambah Judul</a>
                     @endadmin
                 </div>
                 <div class="card-body">
@@ -24,7 +24,7 @@
                         <thead>
                             <tr>
                                 <td>#</td>
-                                <td>Topik Cerita</td>
+                                <td>Judul Cerita</td>
                                 <td>Deskripsi</td>
                                 <td>Biaya Pendaftaran</td>
                                 <td>Status</td>
@@ -49,20 +49,28 @@
                                                     {{-- Agar tidak expired ketika di submit --}}
                                                     @csrf
                                                     {{-- Tombol Delete --}}
-                                                    <button class="btn btn-primary bg-purple">Tutup</button>
+                                                    <button class="btn btn-danger">Tutup</button>
                                                 </form>
                                             @elseif ($item->status == \App\Models\Theme::STATUS_OPEN)
                                                 {{-- cek kembali di routes untuk memastikan --}}
-                                                <form action="{{ route('theme.review', $item) }}" method="post"
+                                                <form action="{{ route('theme.close', $item) }}" method="post"
                                                     onsubmit="return confirm('Apakah anda yakin ??')" class="d-inline-block">
                                                     {{-- Agar tidak expired ketika di submit --}}
                                                     @csrf
                                                     {{-- Tombol Delete --}}
-                                                    <button class="btn btn-primary bg-purple">Ke Tahap Review</button>
+                                                    <button class="btn btn-danger">Tutup</button>
                                                 </form>
+                                                {{-- cek kembali di routes untuk memastikan
+                                                <form action="{{ route('theme.review', $item) }}" method="post"
+                                                    onsubmit="return confirm('Apakah anda yakin ??')" class="d-inline-block">
+                                                    Agar tidak expired ketika di submit
+                                                    @csrf
+                                                    Tombol Delete
+                                                    <button class="btn btn-warning">Ke Tahap Review</button>
+                                                </form> --}}
                                             @elseif($item->status == \App\Models\Theme::STATUS_CLOSE)
                                                 <a href="{{ route('theme.publish-form', ['theme' => $item]) }}"
-                                                    class="btn btn-warning">Publish</a>
+                                                    class="btn btn-primary">Publish</a>
                                             @elseif($item->status == \App\Models\Theme::STATUS_PUBLISH)
                                             @else
                                                 {{-- cek kembali di routes untuk memastikan --}}

@@ -29,7 +29,6 @@ class Theme extends Model
     protected $fillable = [
         'name',
         'description',
-        'dueDate',
         'status',
         'isbn',
         'file',
@@ -69,12 +68,6 @@ class Theme extends Model
     {
         return $this->ebooks()->where('userId', auth()->id())->exists();
     }
-
-    public function getDueDateFormattedAttribute()
-    {
-        return date('d F Y', strtotime($this->dueDate));
-    }
-
 
     public function getPriceFormattedAttribute()
     {

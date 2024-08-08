@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('cover')->nullable();
             $table->string('name');
             $table->string('isbn')->nullable()->comment('di atur ketika mau publish');
-            $table->date('dueDate');
             $table->integer('price');
             $table->text('description');
             $table->foreignId('reviewer1Id')->references('id')->on('users');

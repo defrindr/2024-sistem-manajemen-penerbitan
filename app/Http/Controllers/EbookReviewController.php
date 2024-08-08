@@ -12,10 +12,14 @@ class EbookReviewController extends Controller
     {
         $currentUser = auth()->user();
 
-        $query = Ebook::query()->where('status', 'review')->whereIn(
-            'id',
-            EbookReview::where('reviewerId', $currentUser->id)->where('acc', '0')->select('ebookId')
-        );
+        $query = Ebook::query()
+            // ->where('status', 'review')
+            ->whereIn(
+                'id',
+                EbookReview::where('reviewerId', $currentUser->id)
+                    ->where('acc', '0')
+                    ->select('ebookId')
+            );
         $pagination = $query->paginate();
 
         return view('ebook.butuhreview.index', compact('pagination'));

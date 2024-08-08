@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\WordHelper;
 use App\Models\Ebook;
 use App\Models\EbookReview;
 use App\Models\Kategori;
@@ -72,6 +73,20 @@ class ThemeController extends Controller
         return redirect()->back()->with('danger', 'Gagal ketika menambahkan topik')->withInputs();
     }
 
+    public function mergeDocuments(Theme $theme)
+    {
+        $files = [];
+
+        $ebooks = $theme->ebooks()->get();
+
+        foreach ($ebooks as $ebook) {
+            $files[] = storage_path("app/public/" . Ebook::FILE_PATH  . "/" . $ebook->draft);
+        }
+
+        $wh = new WordHelper();
+        $wh->mergeDocuments($files);
+    }
+
     public function create()
     {
         $categories = Kategori::all();
@@ -83,7 +98,6 @@ class ThemeController extends Controller
     {
         $request->validate([
             'name'        => 'required',
-            'dueDate'     => 'required',
             'price'       => 'required',
             'description' => 'required',
             'categoryId'  => 'required',
@@ -98,7 +112,7 @@ class ThemeController extends Controller
                 ->with('danger', 'Gagal menambahkan sub tema');
         }
 
-        $payload = $request->only('name', 'dueDate', 'description', 'price', 'categoryId', 'reviewer1Id', 'reviewer2Id');
+        $payload = $request->only('name', 'description', 'price', 'categoryId', 'reviewer1Id', 'reviewer2Id');
 
         if (Theme::create($payload)) {
             return redirect()->route('theme.index')->with('success', 'Berhasil menambahkan topik baru.');
@@ -118,7 +132,6 @@ class ThemeController extends Controller
     {
         $request->validate([
             'name'        => 'required',
-            'dueDate'     => 'required',
             'price'       => 'required',
             'description' => 'required',
             'categoryId'  => 'required',
@@ -133,7 +146,7 @@ class ThemeController extends Controller
                 ->with('danger', 'Gagal menambahkan sub tema');
         }
 
-        $payload = $request->only('name', 'dueDate', 'description', 'price', 'categoryId', 'reviewer1Id', 'reviewer2Id');
+        $payload = $request->only('name', 'description', 'price', 'categoryId', 'reviewer1Id', 'reviewer2Id');
 
         if ($theme->update($payload)) {
             return redirect()->route('theme.index')->with('success', 'Berhasil mengubah topik.');
@@ -165,23 +178,23 @@ class ThemeController extends Controller
         DB::beginTransaction();
         $success = $theme->update(['status' => Theme::STATUS_REVIEW]);
 
-        foreach ($theme->ebooks as $ebook) {
-            $success = $success && $ebook->update(['status' => Ebook::STATUS_REVIEW]);
+        // foreach ($theme->ebooks as $ebook) {
+        //     $success = $success && $ebook->update(['status' => Ebook::STATUS_REVIEW]);
 
-            $success = $success && EbookReview::create([
-                'ebookId' => $ebook->id,
-                'reviewerId' => $ebook->theme->reviewer1Id,
-                'acc' => 0,
-            ]);
+        //     $success = $success && EbookReview::create([
+        //         'ebookId' => $ebook->id,
+        //         'reviewerId' => $ebook->theme->reviewer1Id,
+        //         'acc' => 0,
+        //     ]);
 
-            if ($ebook->theme->reviewer2Id) {
-                $success = $success && EbookReview::create([
-                    'ebookId' => $ebook->id,
-                    'reviewerId' => $ebook->theme->reviewer2Id,
-                    'acc' => 0,
-                ]);
-            }
-        }
+        //     if ($ebook->theme->reviewer2Id) {
+        //         $success = $success && EbookReview::create([
+        //             'ebookId' => $ebook->id,
+        //             'reviewerId' => $ebook->theme->reviewer2Id,
+        //             'acc' => 0,
+        //         ]);
+        //     }
+        // }
 
         if ($success) {
             DB::commit();
@@ -210,7 +223,7 @@ class ThemeController extends Controller
 
     public function close(Theme $theme)
     {
-        if ($theme->status !== Theme::STATUS_REVIEW) {
+        if ($theme->status !== Theme::STATUS_OPEN) {
             return abort(403, 'Status bukan review');
         }
         $success = $theme->update(['status' => Theme::STATUS_CLOSE]);

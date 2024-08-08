@@ -1,10 +1,10 @@
 @extends('layouts.admin.main')
 
-@section('title', 'Edit Topik')
+@section('title', 'Edit Judul')
 
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="#">Home</a></li>
-    <li class="breadcrumb-item"><a href="{{ route('theme.index') }}">Topik</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('theme.index') }}">Judul</a></li>
     <li class="breadcrumb-item"><a href="{{ route('theme.show', $theme) }}">{{ $theme->name }}</a></li>
     <li class="breadcrumb-item active" aria-current="page">
         Edit
@@ -44,20 +44,10 @@
                             </div>
                             <div class="col-md-12 mb-3">
                                 <div class="form-group">
-                                    <label for="name">Topik</label>
+                                    <label for="name">Judul</label>
                                     <input type="text" class="form-control @error('name') is-invalid @enderror"
                                         name="name" id="name" value="{{ old('name') ?? $theme->name }}">
                                     @error('name')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col-md-12 mb-3">
-                                <div class="form-group">
-                                    <label for="dueDate">Deadline Pengumpulan</label>
-                                    <input type="date" class="form-control @error('dueDate') is-invalid @enderror"
-                                        name="dueDate" id="dueDate" value="{{ old('dueDate') ?? $theme->dueDate }}">
-                                    @error('dueDate')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
@@ -74,7 +64,7 @@
                             </div>
                             <div class="col-md-12 mb-3">
                                 <div class="form-group">
-                                    <label for="description">Deskripsi Topik</label>
+                                    <label for="description">Deskripsi Judul</label>
                                     <textarea name="description" class="form-control @error('description') is-invalid @enderror" id="description"
                                         cols="30" rows="10">{{ old('description') ?? $theme->description }}</textarea>
                                     @error('description')

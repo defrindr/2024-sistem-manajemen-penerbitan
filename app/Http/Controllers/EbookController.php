@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ebook;
+use App\Models\EbookReview;
 use App\Models\Role;
 use App\Models\SubTheme;
 use App\Models\Theme;
@@ -28,6 +29,15 @@ class EbookController extends Controller
         return view('ebook.me', compact('pagination'));
     }
 
+    public function progress(Ebook $ebook)
+    {
+        $currentUser = auth()->user();
+
+        $theme = $ebook->theme;
+
+        return view('ebook.progress', compact('theme'));
+    }
+
     public function konfirmasiPembayaranList()
     {
         $query = Ebook::query()->where('status', 'pending');
@@ -38,6 +48,20 @@ class EbookController extends Controller
     public function konfirmasiPembayaranAction(Ebook $ebook)
     {
         $success = $ebook->update(['status' => Ebook::STATUS_SUBMIT]);
+
+        $success = $success && EbookReview::create([
+            'ebookId' => $ebook->id,
+            'reviewerId' => $ebook->theme->reviewer1Id,
+            'acc' => 0,
+        ]);
+
+        if ($ebook->theme->reviewer2Id) {
+            $success = $success && EbookReview::create([
+                'ebookId' => $ebook->id,
+                'reviewerId' => $ebook->theme->reviewer2Id,
+                'acc' => 0,
+            ]);
+        }
 
         if ($success) {
             return redirect()->route('ebook.konfirmasi-pembayaran-list')->with('success', 'Berhasil mengonfirmasi pembayaran.');

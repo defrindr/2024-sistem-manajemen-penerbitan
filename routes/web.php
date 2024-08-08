@@ -1,5 +1,6 @@
 <?php
 
+use App\Helpers\CheckDeadline;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EbookController;
@@ -10,6 +11,8 @@ use App\Http\Controllers\SubThemeController;
 use App\Http\Controllers\ThemeController;
 use App\Models\Role;
 use Illuminate\Support\Facades\Route;
+
+CheckDeadline::run();
 
 Route::group(['middleware' => 'auth'], function () {
     $admin = Role::ADMINISTRATOR;
@@ -48,6 +51,9 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::get('{theme}/download-zip', [ThemeController::class, 'downloadZip'])
             ->name('theme.download-zip');
+
+        Route::get('{theme}/merge-documents', [ThemeController::class, 'mergeDocuments'])
+            ->name('theme.merge-documents');
     });
 
 
@@ -76,6 +82,9 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::get('me', [EbookController::class, 'me'])
             ->name('ebook.me')->middleware('rbac:' . implode(',', [$sa, $author]));
+
+        Route::get('progress/{ebook}', [EbookController::class, 'progress'])
+            ->name('ebook.progress')->middleware('rbac:' . implode(',', [$sa, $author]));
 
         Route::group(['prefix' => 'siap-publish'], function () use ($sa, $admin) {
             Route::get('/', [EbookController::class, 'siapPublish'])

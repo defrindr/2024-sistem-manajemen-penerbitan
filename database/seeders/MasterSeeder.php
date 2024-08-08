@@ -80,7 +80,6 @@ class MasterSeeder extends Seeder
             $theme = Theme::create([
                 'categoryId' => $categoryId,
                 'name' => $topic,
-                'dueDate' => date('Y-m-d'),
                 'price' => random_int(10000, 100000),
                 'description' => '-',
                 'reviewer1Id' => self::findUserWithCategory($categoryId),
@@ -88,9 +87,11 @@ class MasterSeeder extends Seeder
             ]);
 
             foreach ($subtopics as $title) {
+                $randInt = random_int(1, 99);
                 SubTheme::create([
                     'themeId' => $theme->id,
                     'name' => $title,
+                    'dueDate' => date('Y-m-d H:i:s', strtotime("+ $randInt minutes")),
                 ]);
             }
         }
@@ -104,7 +105,7 @@ class MasterSeeder extends Seeder
     public static function findUserWithCategory($categoryId)
     {
         $user = User::where(['roleId' => Role::findIdByName(Role::REVIEWER), 'categoryId' => $categoryId])->inRandomOrder()->select('id')->first();
-        if (! $user) {
+        if (!$user) {
             return null;
         }
 
