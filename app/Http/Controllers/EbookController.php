@@ -141,7 +141,23 @@ class EbookController extends Controller
 
     public function create(Theme $theme, SubTheme $subTheme)
     {
-        return view('ebook.create', compact('theme', 'subTheme'));
+        // Create ebook when access this page, if not exist
+        $ebook = $theme->ebooks()->where('subthemeId', $subTheme->id)->first();
+        if (!$ebook) {
+            $ebook = $theme->ebooks()->create([
+                'subthemeId' => $subTheme->id,
+                'userId' => auth()->user()->id,
+                'title' => $subTheme->theme->name . " - " . $subTheme->name,
+                'draft' => null,
+                'proofOfPayment' => null,
+                'royalty' => 0,
+                'status' => Ebook::STATUS_PAYMENT,
+                // Due date, 24 hours from now
+                'dueDate' => now()->addHours(24),
+            ]);
+        }
+
+        return view('ebook.create', compact('theme', 'subTheme', 'ebook'));
     }
 
     public function aturRoyaltiStore(Request $request, Ebook $ebook)
@@ -178,7 +194,10 @@ class EbookController extends Controller
 
         $payload['proofOfPayment'] = $this->uploadImage($request->file('proofOfPayment'), Ebook::FILE_PATH);
 
-        if (Ebook::create($payload)) {
+        // Find existing ebook from this subtheme and user
+        $ebook = $theme->ebooks()->where('subthemeId', $subTheme->id)->where('userId', auth()->id())->first();
+
+        if ($ebook->update($payload)) {
             return redirect()->route('ebook.me')->with('success', 'Berhasil menambahkan ebook.');
         }
 

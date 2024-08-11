@@ -111,7 +111,6 @@
                         <a href="{{ route('themes.sub-theme.export', compact('theme')) }}" class="btn btn-default">
                             Export
                         </a>
-                        
                     @endadmin
                 </div>
                 <div class="card-body">
@@ -162,16 +161,25 @@
                                                         </button>
                                                     </form>
                                                 @elseif(!$subTheme->isNotDeadline())
-                                                    <a href="{{ route('themes.subThemes.edit', compact('subTheme', 'theme')) }}"
-                                                        class="btn btn-warning">
-                                                        Deadline Perlu diatur ulang
-                                                    </a>
+                                                    @if ($theme->multipleAuthor == 0)
+                                                        <a href="{{ route('theme.edit', compact('theme')) }}"
+                                                            class="btn btn-warning">
+                                                            Deadline Perlu diatur ulang
+                                                        </a>
+                                                    @else
+                                                        <a href="{{ route('themes.subThemes.edit', compact('subTheme', 'theme')) }}"
+                                                            class="btn btn-warning">
+                                                            Deadline Perlu diatur ulang
+                                                        </a>
+                                                    @endif
                                                 @endif
                                             @endadmin
                                             @author
                                             @if (!$subTheme->hasAuthorRegistered() && $subTheme->isThemeOpen() && $subTheme->isNotDeadline())
                                                 <a href="{{ route('ebook.create', compact('theme', 'subTheme')) }}"
-                                                    @if ($theme->multipleAuthor == 0) onclick="return confirm('Ketika anda mendaftar, maka anda akan mengakuisisi seluruh sub judul di judul ini')" @endif
+                                                    @if ($theme->multipleAuthor == 0) onclick="return confirm('Melanjutkan berarti mendaftar. Ketika anda mendaftar, maka anda akan mengakuisisi seluruh sub judul di judul ini. Harap melakukan pembayaran setelahnya')" 
+                                                    @else 
+                                                    onclick="return confirm('Melanjutkan berarti mendaftar. Harap melakukan pembayaran setelah ini')" @endif
                                                     class="btn btn-primary">
                                                     Daftar Ke Judul
                                                 </a>
