@@ -34,6 +34,8 @@ class Theme extends Model
         'file',
         'cover',
         'price',
+        'multipleAuthor',
+        'dueDate',
         'categoryId',
         'reviewer1Id',
         'reviewer2Id'
@@ -42,6 +44,10 @@ class Theme extends Model
     public function subThemes(): HasMany
     {
         return $this->hasMany(SubTheme::class, 'themeId');
+    }
+    public function publications(): HasMany
+    {
+        return $this->hasMany(Publication::class, 'themeId');
     }
 
     public function ebooks(): HasMany

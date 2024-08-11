@@ -49,19 +49,62 @@ class EbookController extends Controller
     {
         $success = $ebook->update(['status' => Ebook::STATUS_SUBMIT]);
 
-        $success = $success && EbookReview::create([
-            'ebookId' => $ebook->id,
-            'reviewerId' => $ebook->theme->reviewer1Id,
-            'acc' => 0,
-        ]);
-
-        if ($ebook->theme->reviewer2Id) {
+        if ($ebook->theme->multipleAuthor) {
             $success = $success && EbookReview::create([
                 'ebookId' => $ebook->id,
-                'reviewerId' => $ebook->theme->reviewer2Id,
+                'reviewerId' => $ebook->theme->reviewer1Id,
                 'acc' => 0,
             ]);
+
+            if ($ebook->theme->reviewer2Id) {
+                $success = $success && EbookReview::create([
+                    'ebookId' => $ebook->id,
+                    'reviewerId' => $ebook->theme->reviewer2Id,
+                    'acc' => 0,
+                ]);
+            }
+        } else {
+            $subThemes = $ebook
+                ->theme
+                ->subThemes()
+                ->where(
+                    'id',
+                    '!=',
+                    $ebook->subthemeId
+                )
+                ->get();
+
+            $ebooks = [$ebook];
+            foreach ($subThemes as $subTheme) {
+                $ebooks[] = Ebook::create([
+                    'themeId' => $ebook->theme->id,
+                    'subthemeId' => $subTheme->id,
+                    'userId' => $ebook->userId,
+                    'title' => $subTheme->theme->name . " - " . $subTheme->name,
+                    'draft' => null,
+                    'proofOfPayment' => $ebook->proofOfPayment,
+                    'royalty' => $ebook->royalty,
+                    'status' => Ebook::STATUS_SUBMIT,
+                ]);
+            }
+
+            foreach ($ebooks as $eb) {
+                $success = $success && EbookReview::create([
+                    'ebookId' => $eb->id,
+                    'reviewerId' => $eb->theme->reviewer1Id,
+                    'acc' => 0,
+                ]);
+
+                if ($eb->theme->reviewer2Id) {
+                    $success = $success && EbookReview::create([
+                        'ebookId' => $eb->id,
+                        'reviewerId' => $eb->theme->reviewer2Id,
+                        'acc' => 0,
+                    ]);
+                }
+            }
         }
+
 
         if ($success) {
             return redirect()->route('ebook.konfirmasi-pembayaran-list')->with('success', 'Berhasil mengonfirmasi pembayaran.');

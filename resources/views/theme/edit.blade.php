@@ -105,15 +105,39 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-12 mb-3">
+                            <div class="form-group">
+                                <label for="name">Multi Author</label>
+                                <select name="multipleAuthor" id="multipleAuthor" class="form-control">
+                                    <option value="0" @if ((old('multipleAuthor') ?? $theme->multipleAuthor) == 0) selected @endif>Tidak
+                                    </option>
+                                    <option value="1" @if ((old('multipleAuthor') ?? $theme->multipleAuthor) == 1) selected @endif>Ya</option>
+                                </select>
+                                @error('multipleAuthor')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-12 mb-3" id="container_deadline">
+                            <div class="form-group">
+                                <label for="name">Deadline Pengumpulan</label>
+                                <input type="datetime-local" name="dueDate" id="dueDate" class="form-control"
+                                    value="{{ old('dueDate') ?? $theme->dueDate }}">
+                                @error('dueDate')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
                     </div>
-                    <div class="card-footer">
-                        <button class="btn btn-success">
-                            Simpan
-                        </button>
-                    </div>
-                </form>
             </div>
+            <div class="card-footer">
+                <button class="btn btn-success">
+                    Simpan
+                </button>
+            </div>
+            </form>
         </div>
+    </div>
     </div>
 @endsection
 
@@ -148,5 +172,21 @@
                 document.querySelector('#reviewer2Id').setAttribute('disabled', true);
             }
         })
+
+        const checkMultipleAuthor = (value) => {
+            document.querySelector('#container_deadline').setAttribute('style', 'display: none')
+            if (value == 0) {
+                document.querySelector('#container_deadline').setAttribute('style', 'display: block')
+            } else {
+                document.querySelector('#container_deadline').setAttribute('style', 'display: none')
+            }
+        }
+
+        document.querySelector('#multipleAuthor').addEventListener('change', (event) => checkMultipleAuthor(event.target
+            .value));
+
+        checkMultipleAuthor(
+            document.querySelector('#multipleAuthor').value
+        )
     </script>
 @endsection

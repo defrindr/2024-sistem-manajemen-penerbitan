@@ -17,6 +17,7 @@
                     {{-- Tombol tambah --}}
                     @admin(true)
                         <a href="{{ route('theme.create') }}" class="btn btn-success">Tambah Judul</a>
+                        <a href="{{ route('theme.export') }}" class="btn btn-default">Export</a>
                     @endadmin
                 </div>
                 <div class="card-body">
@@ -74,6 +75,8 @@
                                             @elseif($item->status == \App\Models\Theme::STATUS_PUBLISH)
                                                 <a href="{{ route('theme.keuangan.index', ['theme' => $item]) }}"
                                                     class="btn btn-warning">Keuangan</a>
+                                                <a href="{{ route('theme.publication.index', ['theme' => $item]) }}"
+                                                    class="btn btn-primary">Cetakan</a>
                                             @else
                                                 {{-- cek kembali di routes untuk memastikan --}}
                                                 <form action="{{ route('theme.open', $item) }}" method="post"

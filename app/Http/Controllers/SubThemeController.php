@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\SubThemesExport;
 use App\Models\Kategori;
 use App\Models\SubTheme;
 use App\Models\Theme;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class SubThemeController extends Controller
 {
@@ -68,5 +70,10 @@ class SubThemeController extends Controller
         } catch (\Throwable $th) {
             return redirect()->back()->with('danger', 'Gagal menghapus sub tema');
         }
+    }
+
+    public function export(Theme $theme)
+    {
+        return Excel::download(new SubThemesExport($theme), 'sub-themes.xlsx');
     }
 }

@@ -61,6 +61,10 @@
                                 <th>Reviewer 2</th>
                                 <td>{{ $theme->reviewer2->name }}</td>
                             </tr>
+                            <tr>
+                                <th>Multi Author</th>
+                                <td>{{ $theme->multipleAuthor ? 'Ya' : 'Tidak' }}</td>
+                            </tr>
 
                             @if ($theme->status === \App\Models\Theme::STATUS_PUBLISH)
                                 <tr>
@@ -104,6 +108,10 @@
                                 Tambah Sub Tema
                             </a>
                         @endif
+                        <a href="{{ route('themes.sub-theme.export', compact('theme')) }}" class="btn btn-default">
+                            Export
+                        </a>
+                        
                     @endadmin
                 </div>
                 <div class="card-body">
@@ -163,6 +171,7 @@
                                             @author
                                             @if (!$subTheme->hasAuthorRegistered() && $subTheme->isThemeOpen() && $subTheme->isNotDeadline())
                                                 <a href="{{ route('ebook.create', compact('theme', 'subTheme')) }}"
+                                                    @if ($theme->multipleAuthor == 0) onclick="return confirm('Ketika anda mendaftar, maka anda akan mengakuisisi seluruh sub judul di judul ini')" @endif
                                                     class="btn btn-primary">
                                                     Daftar Ke Judul
                                                 </a>
