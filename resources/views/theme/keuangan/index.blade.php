@@ -30,9 +30,11 @@
         <div class="col-md-12">
             <div class="card card-default">
                 <div class="card-header">
+                    <a href="{{ route('theme.index') }}" class="btn btn-default">Kembali</a>
                     {{-- Tombol tambah --}}
                     @admin(true)
-                        <a href="{{ route('theme.keuangan.create', compact('theme')) }}" class="btn btn-success">Tambah
+                        <a href="{{ route('theme.keuangan.create', compact('theme')) }}" class="btn btn-success"
+                            onclick="return confirm('Pastikan anda telah membuat cetakan sebelumnya, untuk menambahkan keuangan')">Tambah
                             Pemasukan</a>
                     @endadmin
                 </div>
@@ -53,7 +55,7 @@
                                     <td>{{ $loop->index + 1 }}</td>
                                     <td>{{ $keuangan->title }}</td>
                                     <td>{{ $keuangan->income }}</td>
-                                    <td>{{ $keuangan->productionCost }}</td>
+                                    <td>{{ App\Helpers\StrHelper::currency(intval($keuangan->productionCost), 'Rp') }}</td>
                                     <td>
                                         <button
                                             onclick="openModal('{{ route('theme.keuangan.show', compact('theme', 'keuangan')) }}')"

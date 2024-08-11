@@ -13,7 +13,7 @@
                 <td>{{ $loop->index + 1 }}</td>
                 <td>{{ $detail->role }}</td>
                 <td>{{ $detail->user ? $detail->user->name : '' }}</td>
-                <td>{{ $detail->profit }}</td>
+                <td>{{ App\Helpers\StrHelper::currency(intval($detail->profit), 'Rp') }}</td>
             </tr>
         @endforeach
     </tbody>
