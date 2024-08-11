@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('keuangans', function (Blueprint $table) {
             $table->id();
             $table->foreignId('themeId')->references('id')->on('theme_recommendations');
+            $table->foreignId('publicationId')->references('id')->on('publications');
             $table->string('title');
             $table->decimal('income', 20);
             $table->decimal('productionCost', 20);

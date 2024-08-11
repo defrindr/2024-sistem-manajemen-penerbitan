@@ -26,9 +26,27 @@
                         <div class="row">
                             <div class="col-md-12 mb-3">
                                 <div class="form-group">
+                                    <label for="publicationId">Publikasi</label>
+                                    <select name="publicationId" id="publicationId" class="form-control"
+                                        @error('publicationId') is-invalid @enderror>
+                                        <option value="">-- Pilih Publikasi --</option>
+                                        @foreach ($publications as $item)
+                                            <option value="{{ $item->id }}"
+                                                @if (old('publicationId') == $item->id) selected @endif>Cetakan
+                                                Ke-{{ $item->numberOfPrinting }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('publicationId')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <div class="form-group">
                                     <label for="title">Judul</label>
                                     <input type="text" class="form-control @error('title') is-invalid @enderror"
-                                        name="title" id="title" value="{{ old('title') }}">
+                                        name="title" id="title" value="{{ old('title') }}" readonly>
                                     @error('title')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -38,7 +56,7 @@
                                 <div class="form-group">
                                     <label for="productionCost">Biaya Produksi</label>
                                     <input type="number" class="form-control @error('productionCost') is-invalid @enderror"
-                                        name="productionCost" id="productionCost" value="{{ old('productionCost') }}">
+                                        name="productionCost" id="productionCost" value="{{ old('productionCost') }}" readonly>
                                     @error('productionCost')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -92,32 +110,15 @@
 
 @section('script')
     <script>
-        function changeopts(show) {
-            document.querySelectorAll(`#reviewer1Id option`)?.forEach(el => {
-                el.setAttribute('style', 'display: none');
-            })
-            document.querySelectorAll(`#reviewer1Id option[data-category="${show}"]`)?.forEach(el => {
-                el.setAttribute('style', 'display: block');
-            })
-            document.querySelectorAll(`#reviewer2Id option`)?.forEach(el => {
-                el.setAttribute('style', 'display: none');
-            })
-            document.querySelectorAll(`#reviewer2Id option[data-category="${show}"]`)?.forEach(el => {
-                el.setAttribute('style', 'display: block');
-            })
-        }
+        let publications = @json($publications);
 
-
-        document.querySelector('#categoryId').addEventListener('change', (event) => {
-            changeopts(document.querySelector('#categoryId').value);
-            if (event.target.value) {
-                document.querySelector('#reviewer1Id').removeAttribute('disabled');
-                document.querySelector('#reviewer2Id').removeAttribute('disabled');
-            } else {
-                document.querySelector('#reviewer1Id').value = '';
-                document.querySelector('#reviewer1Id').setAttribute('disabled', true);
-                document.querySelector('#reviewer2Id').value = '';
-                document.querySelector('#reviewer2Id').setAttribute('disabled', true);
+        // On publicationId changed, fill name & productionCost
+        document.querySelector('#publicationId').addEventListener('change', (event) => {
+            const publication = publications.find(publication => publication.id == event.target.value);
+            if (publication) {
+                document.querySelector('#title').value =
+                    `Cetakan Ke-${publication.numberOfPrinting} Tahun ${publication.productionYear}`;
+                document.querySelector('#productionCost').value = publication.totalProduction * publication.price;
             }
         })
     </script>

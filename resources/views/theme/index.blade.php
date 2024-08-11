@@ -73,10 +73,10 @@
                                                 <a href="{{ route('theme.publish-form', ['theme' => $item]) }}"
                                                     class="btn btn-primary">Publish</a>
                                             @elseif($item->status == \App\Models\Theme::STATUS_PUBLISH)
-                                                <a href="{{ route('theme.keuangan.index', ['theme' => $item]) }}"
-                                                    class="btn btn-warning">Keuangan</a>
                                                 <a href="{{ route('theme.publication.index', ['theme' => $item]) }}"
                                                     class="btn btn-primary">Cetakan</a>
+                                                <a href="{{ route('theme.keuangan.index', ['theme' => $item]) }}"
+                                                    class="btn btn-warning">Keuangan</a>
                                             @else
                                                 {{-- cek kembali di routes untuk memastikan --}}
                                                 <form action="{{ route('theme.open', $item) }}" method="post"

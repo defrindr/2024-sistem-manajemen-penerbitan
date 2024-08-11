@@ -23,4 +23,9 @@ class Publication extends Model
     {
         return $this->belongsTo(Theme::class, 'themeId');
     }
+
+    public function keuangans()
+    {
+        return $this->hasMany(Keuangan::class, 'publicationId');
+    }
 }
