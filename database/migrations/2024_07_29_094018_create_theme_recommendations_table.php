@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('isbn')->nullable()->comment('di atur ketika mau publish');
             $table->integer('price');
             $table->text('description');
+            $table->enum('multipleAuthor', [0, 1]);
+            $table->dateTime('dueDate')->nullable();
             $table->foreignId('reviewer1Id')->references('id')->on('users');
             $table->foreignId('reviewer2Id')->references('id')->on('users');
             $table->enum('status', ['draft', 'open', 'review', 'siap_publish', 'publish', 'close'])->default('draft');

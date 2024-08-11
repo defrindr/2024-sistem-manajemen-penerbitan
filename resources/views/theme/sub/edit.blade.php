@@ -19,8 +19,8 @@
                     {{-- Tombol kembali --}}
                     <a href="{{ route('theme.show', $theme) }}" class="btn btn-default">Kembali</a>
                 </div>
-                <form action="{{ route('themes.subThemes.update', compact('theme', 'subTheme')) }}" method="POST" class="form"
-                    onsubmit="return confirm('Apakah anda yakin ??')">
+                <form action="{{ route('themes.subThemes.update', compact('theme', 'subTheme')) }}" method="POST"
+                    class="form" onsubmit="return confirm('Apakah anda yakin ??')">
                     <div class="card-body">
                         {{-- Agar tidak 419 expired, ketika di simpan --}}
                         @csrf
@@ -30,7 +30,7 @@
                                 <div class="form-group">
                                     <label for="name">Sub Topik</label>
                                     <input type="text" class="form-control @error('name') is-invalid @enderror"
-                                        name="name" id="name" value="{{ (old('name') ?? $subTheme->name) }}">
+                                        name="name" id="name" value="{{ old('name') ?? $subTheme->name }}">
                                     @error('name')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -40,7 +40,11 @@
                                 <div class="form-group">
                                     <label for="dueDate">Deadline Pengumpulan</label>
                                     <input type="datetime-local" class="form-control @error('dueDate') is-invalid @enderror"
-                                        name="dueDate" id="dueDate" value="{{ old('dueDate') ?? $subTheme->dueDate }}">
+                                        name="dueDate" id="dueDate"
+                                        @if ($theme->multipleAuthor == 0) value="{{ $theme->dueDate }}"
+                                         readonly 
+                                         @else
+                                         value="{{ old('dueDate') ?? $subTheme->dueDate }}" @endif>
                                     @error('dueDate')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror

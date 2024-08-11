@@ -36,15 +36,19 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-12 mb-3">
-                        <div class="form-group">
-                            <label for="dueDate">Deadline Pengumpulan</label>
-                            <input type="datetime-local" class="form-control @error('dueDate') is-invalid @enderror"
-                                name="dueDate" id="dueDate" value="{{ old('dueDate') }}">
-                            @error('dueDate')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                        <div class="col-md-12 mb-3">
+                            <div class="form-group">
+                                <label for="dueDate">Deadline Pengumpulan</label>
+                                <input type="datetime-local" class="form-control @error('dueDate') is-invalid @enderror"
+                                    name="dueDate" id="dueDate"
+                                    @if ($theme->multipleAuthor == 0) value="{{ $theme->dueDate }}"
+                                     readonly 
+                                     @else
+                                     value="{{ old('dueDate') }}" @endif>
+                                @error('dueDate')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
                         </div>
                     </div>
                     <div class="card-footer">

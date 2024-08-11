@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ThemesExport;
 use App\Helpers\WordHelper;
 use App\Models\Ebook;
 use App\Models\EbookReview;
@@ -13,6 +14,7 @@ use App\Models\User;
 use App\Trait\UploadTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 use ZipArchive;
 
 class ThemeController extends Controller
@@ -97,13 +99,24 @@ class ThemeController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name'        => 'required',
-            'price'       => 'required',
-            'description' => 'required',
-            'categoryId'  => 'required',
-            'reviewer1Id' => 'required',
-            'reviewer2Id' => 'required',
+            'name'           => 'required',
+            'price'          => 'required',
+            'description'    => 'required',
+            'categoryId'     => 'required',
+            'reviewer1Id'    => 'required',
+            'reviewer2Id'    => 'required',
+            'multipleAuthor' => 'required',
         ]);
+
+        if (!$request->multipleAuthor) {
+            $request->validate([
+                'dueDate' => 'required'
+            ]);
+        } else {
+            $request->request->add([
+                'dueDate' => null
+            ]);
+        }
 
         if ($request->reviewer1Id == $request->reviewer2Id) {
             return redirect()
@@ -112,7 +125,7 @@ class ThemeController extends Controller
                 ->with('danger', 'Gagal menambahkan sub tema');
         }
 
-        $payload = $request->only('name', 'description', 'price', 'categoryId', 'reviewer1Id', 'reviewer2Id');
+        $payload = $request->only('name', 'description', 'price', 'categoryId', 'reviewer1Id', 'reviewer2Id', 'multipleAuthor', 'dueDate');
 
         if (Theme::create($payload)) {
             return redirect()->route('theme.index')->with('success', 'Berhasil menambahkan topik baru.');
@@ -131,13 +144,24 @@ class ThemeController extends Controller
     public function update(Request $request, Theme $theme)
     {
         $request->validate([
-            'name'        => 'required',
-            'price'       => 'required',
-            'description' => 'required',
-            'categoryId'  => 'required',
-            'reviewer1Id' => 'required',
-            'reviewer2Id' => 'required',
+            'name'           => 'required',
+            'price'          => 'required',
+            'description'    => 'required',
+            'categoryId'     => 'required',
+            'reviewer1Id'    => 'required',
+            'reviewer2Id'    => 'required',
+            'multipleAuthor' => 'required',
         ]);
+
+        if (!$request->multipleAuthor) {
+            $request->validate([
+                'dueDate' => 'required'
+            ]);
+        } else {
+            $request->request->add([
+                'dueDate' => null
+            ]);
+        }
 
         if ($request->reviewer1Id == $request->reviewer2Id) {
             return redirect()
@@ -146,9 +170,13 @@ class ThemeController extends Controller
                 ->with('danger', 'Gagal menambahkan sub tema');
         }
 
-        $payload = $request->only('name', 'description', 'price', 'categoryId', 'reviewer1Id', 'reviewer2Id');
+        $payload = $request->only('name', 'description', 'price', 'categoryId', 'reviewer1Id', 'reviewer2Id', 'multipleAuthor', 'dueDate');
 
+        DB::beginTransaction();
         if ($theme->update($payload)) {
+            $subThemes = $theme->subThemes;
+            foreach ($subThemes as $subTheme) $subTheme->update(['dueDate' => $payload['dueDate']]);
+            DB::commit();
             return redirect()->route('theme.index')->with('success', 'Berhasil mengubah topik.');
         }
 
@@ -276,5 +304,11 @@ class ThemeController extends Controller
         }
 
         $zip->close();
+    }
+
+
+    public function export()
+    {
+        return Excel::download(new ThemesExport, 'themes.xlsx');
     }
 }

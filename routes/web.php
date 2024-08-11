@@ -7,6 +7,7 @@ use App\Http\Controllers\EbookController;
 use App\Http\Controllers\EbookReviewController;
 use App\Http\Controllers\kategoriController;
 use App\Http\Controllers\KeuanganController;
+use App\Http\Controllers\PublicationController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\SubThemeController;
 use App\Http\Controllers\ThemeController;
@@ -25,7 +26,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::resource('category', kategoriController::class)->except(['show'])->names('kategori');
-
+    Route::get('/topik/unduh', [ThemeController::class, 'export'])->name('theme.export');
     Route::resource('topik', ThemeController::class)
         ->names('theme')
         ->parameters(['topik' => 'theme']);
@@ -34,13 +35,17 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('topik.keuangan', KeuanganController::class)
         ->names('theme.keuangan')
         ->parameters(['topik' => 'theme'])->except(['update', 'edit']);
+
+    Route::resource('topik.publication', PublicationController::class)
+        ->names('theme.publication')
+        ->parameters(['topik' => 'theme'])->except(['update', 'edit']);
     Route::resource('topik.sub-topik', SubThemeController::class)
         ->names('themes.subThemes')
         ->parameters(['sub-topik' => 'subTheme', 'topik' => 'theme'])
         ->except(['index', 'show']);
-
     Route::group(['prefix' => 'topik'], function () {
 
+        Route::get('/theme/{theme}/unduh', [SubThemeController::class, 'export'])->name('themes.sub-theme.export');
         Route::get('/theme/{theme}/publish-form', [ThemeController::class, 'publishForm'])
             ->name('theme.publish-form');
         Route::post('/theme/{theme}/publish-action', [ThemeController::class, 'publishAction'])
