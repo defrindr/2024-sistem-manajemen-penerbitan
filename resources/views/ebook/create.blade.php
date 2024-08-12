@@ -64,7 +64,7 @@
                                 <div class="form-group">
                                     <label for="dueDate">Deadline</label>
                                     <input type="text" class="form-control @error('dueDate') is-invalid @enderror"
-                                        name="themeName" id="themeName" value="{{ $theme->dueDate }}" disabled>
+                                        name="themeName" id="themeName" value="{{ $ebook->dueDate }}" disabled>
                                     @error('dueDate')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
