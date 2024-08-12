@@ -108,7 +108,8 @@
                                 Tambah Sub Tema
                             </a>
                         @endif
-                        <a href="{{ route('themes.sub-theme.export', compact('theme')) }}" class="btn btn-primary"  style="float: right">
+                        <a href="{{ route('themes.sub-theme.export', compact('theme')) }}" class="btn btn-primary"
+                            style="float: right">
                             Export
                         </a>
                     @endadmin
@@ -135,11 +136,13 @@
                                         <td>{{ $subTheme->name }}</td>
                                         <td> {{ $subTheme->dueDateFormatted }}</td>
                                         <td>
-                                            {{ $subTheme->hasAuthorRegistered() ? 'Sudah ada author' : 'Belum ada Author' }}
+                                            {{ $subTheme->hasAuthorRegistered() ? $subTheme->ebook()->first()->status : 'Belum ada Author' }}
                                         </td>
                                         <td>
                                             @if ($subTheme->hasAuthorRegistered())
-                                                {{ $subTheme->ebook()->first()?->author?->name }}
+                                                {{ $subTheme->ebook()->first()?->author?->name }} <br>
+                                                Email: {{ $subTheme->ebook()->first()?->author?->email }} <br>
+                                                HP: {{ $subTheme->ebook()->first()?->author?->phone }}
                                             @endif
                                         </td>
                                         <td>
@@ -186,49 +189,6 @@
                                             @endif
                                             @endauthor
                                         </td>
-                                    </tr>
-                                @endforeach
-                            @endif
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-12 mb-3">
-            <div class="card card-default">
-                <div class="card-header">
-                    <h3>Pendaftaran</h3>
-                </div>
-                <div class="card-body">
-                    <table class="table table-striped table-hover">
-                        <thead>
-                            <th>#</th>
-                            <th>Judul</th>
-                            <th>Author</th>
-                            <th>Tanggal Pengajuan</th>
-                            <th>Status</th>
-                            <th>Aksi</th>
-                        </thead>
-                        <tbody>
-                            @if ($theme->hasEbook() == false)
-                                <tr>
-                                    <td colspan="6" class="text-center">Belum terdapat karya yang diajukan</td>
-                                </tr>
-                            @else
-                                @foreach ($theme->ebooks as $index => $ebook)
-                                    <tr>
-                                        <td>{{ $index + 1 }}</td>
-                                        <td>{{ $ebook->title }}</td>
-                                        <td>
-                                            @if ($ebook->author)
-                                                {{ $ebook->author->name }} <br>
-                                                Email: {{ $ebook->author->email }} <br>
-                                                HP: {{ $ebook->author->phone }}
-                                            @endif
-                                        </td>
-                                        <td>{{ $ebook->createdAtFormatted }}</td>
-                                        <td>{{ $ebook->status }}</td>
-                                        <td></td>
                                     </tr>
                                 @endforeach
                             @endif
