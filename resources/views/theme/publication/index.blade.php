@@ -14,7 +14,7 @@
         <div class="col-md-12">
             <div class="card card-default">
                 <div class="card-header">
-                    <a href="{{ route('theme.index') }}" class="btn btn-default">Kembali</a>
+                    <a href="{{ route('theme.index') }}" class="btn btn-danger">Kembali</a>
                     {{-- Tombol tambah --}}
                     @admin(true)
                         <a href="{{ route('theme.publication.create', compact('theme')) }}" class="btn btn-success">Tambah

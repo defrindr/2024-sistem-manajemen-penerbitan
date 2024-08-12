@@ -15,7 +15,7 @@
             <div class="card card-default">
                 <div class="card-header">
                     {{-- Tombol kembali --}}
-                    <a href="{{ route('theme.index') }}" class="btn btn-default">Kembali</a>
+                    <a href="{{ route('theme.index') }}" class="btn btn-danger">Kembali</a>
 
                     @admin(true)
                         {{-- @if ($theme->status == \App\Models\Theme::STATUS_CLOSE || $theme->status == \App\Models\Theme::STATUS_PUBLISH) --}}
@@ -108,7 +108,7 @@
                                 Tambah Sub Tema
                             </a>
                         @endif
-                        <a href="{{ route('themes.sub-theme.export', compact('theme')) }}" class="btn btn-default">
+                        <a href="{{ route('themes.sub-theme.export', compact('theme')) }}" class="btn btn-primary"  style="float: right">
                             Export
                         </a>
                     @endadmin
