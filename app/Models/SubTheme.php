@@ -48,7 +48,7 @@ class SubTheme extends Model
 
         return $this
             ->ebook()
-            ->where('status', '!=', 'pending')
+            // ->where('status', '!=', 'pending')
             ->exists();
     }
 
