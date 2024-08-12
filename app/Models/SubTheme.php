@@ -43,7 +43,7 @@ class SubTheme extends Model
     public function hasAuthorRegistered(): bool
     {
         if ($this->theme->multipleAuthor) {
-            return $this->theme->ebook()->exists();
+            return $this->theme->ebooks()->exists();
         }
 
         return $this
