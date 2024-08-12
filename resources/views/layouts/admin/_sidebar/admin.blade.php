@@ -1,7 +1,6 @@
-
 <li class="nav-item">
     <a href="{{ route('kategori.index') }}" class="nav-link">
-        <i class="nav-icon bi bi-speedometer"></i>
+        <i class="nav-icon bi bi-box"></i>
         <p>
             Master Kategori
         </p>
@@ -9,7 +8,7 @@
 </li>
 <li class="nav-item">
     <a href="{{ route('theme.index') }}" class="nav-link">
-        <i class="nav-icon bi bi-speedometer"></i>
+        <i class="nav-icon bi bi-list"></i>
         <p>
             Manajemen Judul
         </p>
@@ -25,9 +24,17 @@
 </li> --}}
 <li class="nav-item">
     <a href="{{ route('ebook.konfirmasi-pembayaran-list') }}" class="nav-link">
-        <i class="nav-icon bi bi-speedometer"></i>
+        <i class="nav-icon bi bi-cash"></i>
         <p>
             Konfirmasi Pembayaran
+        </p>
+    </a>
+</li>
+<li class="nav-item">
+    <a href="{{ route('rekapcetakan.index') }}" class="nav-link">
+        <i class="nav-icon bi bi-bookmark"></i>
+        <p>
+            Rekapitulasi Cetakan
         </p>
     </a>
 </li>

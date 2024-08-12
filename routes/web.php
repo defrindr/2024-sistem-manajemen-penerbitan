@@ -9,6 +9,7 @@ use App\Http\Controllers\kategoriController;
 use App\Http\Controllers\KeuanganController;
 use App\Http\Controllers\PublicationController;
 use App\Http\Controllers\RegistrationController;
+use App\Http\Controllers\RekapCetakanController;
 use App\Http\Controllers\SubThemeController;
 use App\Http\Controllers\ThemeController;
 use App\Models\Keuangan;
@@ -119,6 +120,9 @@ Route::group(['middleware' => 'auth'], function () {
         });
     });
     Route::resource('ebook', EbookController::class)->except(['create', 'store']);
+
+
+    Route::get('/rekapcetakan', [RekapCetakanController::class, 'index'])->name('rekapcetakan.index');
 });
 
 // Authentication Route
