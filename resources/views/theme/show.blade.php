@@ -126,7 +126,7 @@
                         <tbody>
                             @if ($theme->subThemes()->count() == false)
                                 <tr>
-                                    <td colspan="6" class="text-center">Belum terdapat sub tema yang diajukan</td>
+                                    <td colspan="7" class="text-center">Belum terdapat sub tema yang diajukan</td>
                                 </tr>
                             @else
                                 @foreach ($theme->subThemes as $index => $subTheme)
@@ -219,7 +219,13 @@
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
                                         <td>{{ $ebook->title }}</td>
-                                        <td>{{ $ebook->author->name }}</td>
+                                        <td>
+                                            @if ($ebook->author)
+                                                {{ $ebook->author->name }} <br>
+                                                Email: {{ $ebook->author->email }} <br>
+                                                HP: {{ $ebook->author->phone }}
+                                            @endif
+                                        </td>
                                         <td>{{ $ebook->createdAtFormatted }}</td>
                                         <td>{{ $ebook->status }}</td>
                                         <td></td>
