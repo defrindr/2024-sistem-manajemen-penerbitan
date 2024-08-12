@@ -70,6 +70,15 @@
                                                     Progress
                                                 </a>
                                             @endif
+                                            @if ($ebook->status === \App\Models\Ebook::STATUS_PAYMENT)
+                                                <a href="{{ route('ebook.create', [
+                                                    'theme' => $ebook->theme,
+                                                    'subTheme' => $ebook->subTheme,
+                                                ]) }}"
+                                                    class="btn btn-warning">
+                                                    Bayar
+                                                </a>
+                                            @endif
                                             @if ($ebook->status === \App\Models\Ebook::STATUS_NOT_ACCEPT)
                                                 <a href="{{ route('ebook.edit', $ebook) }}" class="btn btn-warning">
                                                     Edit

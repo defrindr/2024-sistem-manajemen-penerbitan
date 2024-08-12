@@ -11,6 +11,7 @@ class Ebook extends Model
 {
     use HasFactory;
 
+    const STATUS_PAYMENT = 'payment';
     const STATUS_PENDING = 'pending';
 
     const STATUS_DRAFT = 'draft';
@@ -35,6 +36,7 @@ class Ebook extends Model
         'userId',
         'title',
         'draft',
+        'dueDate',
         'proofOfPayment',
         'royalty',
         'status',

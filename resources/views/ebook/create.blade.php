@@ -40,8 +40,8 @@
                                     <label for="themeId">Sub Topik</label>
                                     <input type="hidden" class="form-control" name="themeId" id="themeId"
                                         value="{{ $subTheme->id }}">
-                                        <input type="hidden" class="form-control" name="title" id="title"
-                                            value="{{ $theme->name . " - " . $subTheme->name }}">
+                                    <input type="hidden" class="form-control" name="title" id="title"
+                                        value="{{ $theme->name . ' - ' . $subTheme->name }}">
                                     <input type="text" class="form-control @error('themeId') is-invalid @enderror"
                                         name="themeName" id="themeName" value="{{ $subTheme->name }}" disabled>
                                     @error('themeId')
@@ -53,8 +53,19 @@
                                 <div class="form-group">
                                     <label for="price">Harga</label>
                                     <input type="text" class="form-control @error('price') is-invalid @enderror"
-                                        name="themeName" id="themeName" value="{{ \App\Helpers\StrHelper::currency($theme->price) }}" disabled>
+                                        name="themeName" id="themeName"
+                                        value="{{ \App\Helpers\StrHelper::currency($theme->price) }}" disabled>
                                     @error('price')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <div class="form-group">
+                                    <label for="dueDate">Deadline</label>
+                                    <input type="text" class="form-control @error('dueDate') is-invalid @enderror"
+                                        name="themeName" id="themeName" value="{{ $theme->dueDate }}" disabled>
+                                    @error('dueDate')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
