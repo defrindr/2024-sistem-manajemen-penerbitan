@@ -79,4 +79,9 @@ class User extends Authenticatable
 
         return $query;
     }
+
+    public static function authorCount()
+    {
+        return User::where('roleId', Role::findIdByName(Role::AUTHOR))->count();
+    }
 }

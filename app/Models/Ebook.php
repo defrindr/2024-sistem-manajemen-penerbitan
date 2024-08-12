@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\DB;
 
 class Ebook extends Model
 {
@@ -78,5 +79,52 @@ class Ebook extends Model
     {
         $path = self::FILE_PATH;
         return asset("storage/$path/{$this->proofOfPayment}");
+    }
+
+    /**
+     * Retrieves ebook data as chart data based on the creation date.
+     *
+     * This function groups the ebook records by the month of their creation date and counts the total number of ebooks for each month.
+     * The result is returned as a collection of objects, where each object contains the month (as an integer) and the total count of ebooks.
+     *
+     * @return array An array of objects with 'month' and 'total' properties.
+     */
+    public static function chartData()
+    {
+        $data = Ebook::select(DB::raw('MONTH(created_at) as month'), DB::raw('count(*) as total'))
+            ->groupBy('month')
+            ->get()
+            ->toArray();
+
+        // generate dummy data
+        for ($i = 1; $i <= 12; $i++) {
+            if (!in_array($i, array_column($data, 'month'))) {
+                $data[] = ['month' => $i, 'total' => 0];
+            }
+        }
+
+        // sort data
+        usort($data, function ($a, $b) {
+            return $a['month'] - $b['month'];
+        });
+
+        // return data
+        return $data;
+    }
+
+    /**
+     * Retrieves the count of draft ebooks for a given user.
+     *
+     * @param int $userId The ID of the user.
+     * @return int The count of draft ebooks.
+     */
+    public static function draftCount($userId)
+    {
+        return Ebook::where('userId', $userId)->whereNotIn('status', [Ebook::STATUS_ACCEPT, Ebook::STATUS_PUBLISH])->count();
+    }
+
+    public static function publishCount($userId)
+    {
+        return Ebook::where('userId', $userId)->whereIn('status', [Ebook::STATUS_ACCEPT, Ebook::STATUS_PUBLISH])->count();
     }
 }
