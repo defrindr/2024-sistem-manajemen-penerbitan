@@ -4,6 +4,7 @@
             <td>#</td>
             <td>Sebagai</td>
             <td>Nama</td>
+            <td>Persentase</td>
             <td>Profit</td>
         </tr>
     </thead>
@@ -13,6 +14,7 @@
                 <td>{{ $loop->index + 1 }}</td>
                 <td>{{ $detail->role }}</td>
                 <td>{{ $detail->user ? $detail->user->name : '' }}</td>
+                <td>{{ $detail->percent }}</td>
                 <td>{{ App\Helpers\StrHelper::currency(intval($detail->profit), 'Rp') }}</td>
             </tr>
         @endforeach

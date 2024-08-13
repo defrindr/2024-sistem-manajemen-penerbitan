@@ -56,18 +56,30 @@
                                 <div class="form-group">
                                     <label for="productionCost">Biaya Produksi</label>
                                     <input type="number" class="form-control @error('productionCost') is-invalid @enderror"
-                                        name="productionCost" id="productionCost" value="{{ old('productionCost') }}" readonly>
+                                        name="productionCost" id="productionCost" value="{{ old('productionCost') }}"
+                                        readonly>
                                     @error('productionCost')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-12 mb-3">
+                            <div class="col-md-6 mb-3">
                                 <div class="form-group">
-                                    <label for="income">Total Pemasukan</label>
-                                    <input type="number" class="form-control @error('income') is-invalid @enderror"
-                                        name="income" id="income" value="{{ old('income') }}">
-                                    @error('income')
+                                    <label for="sellPrice">Harga Penjualan</label>
+                                    <input type="number" class="form-control @error('sellPrice') is-invalid @enderror"
+                                        name="sellPrice" id="sellPrice" value="{{ old('sellPrice') }}">
+                                    @error('sellPrice')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <label for="sellCount">Total Penjualan</label>
+                                    <input type="number" class="form-control @error('sellCount') is-invalid @enderror"
+                                        name="sellCount" id="sellCount" value="{{ old('sellCount') }}">
+                                    @error('sellCount')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
@@ -119,6 +131,8 @@
                 document.querySelector('#title').value =
                     `Cetakan Ke-${publication.numberOfPrinting} Tahun ${publication.productionYear}`;
                 document.querySelector('#productionCost').value = publication.totalProduction * publication.price;
+                document.querySelector('#sellCount').value = publication.totalProduction
+                document.querySelector('#sellPrice').value = publication.price
             }
         })
     </script>

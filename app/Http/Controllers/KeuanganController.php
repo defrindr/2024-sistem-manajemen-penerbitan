@@ -46,12 +46,13 @@ class KeuanganController extends Controller
     {
         // Validate the incoming request data
         $request->validate([
-            'publicationId'  => 'required',
-            'title'           => 'required',
-            'productionCost'  => 'required',
-            'income'          => 'required',
-            'percentReviewer' => 'required',
-            'percentAdmin'    => 'required',
+            'publicationId'     => 'required',
+            'title'             => 'required',
+            'productionCost'    => 'required',
+            'percentReviewer'   => 'required',
+            'sellPrice'         => 'required',
+            'sellCount'         => 'required',
+            'percentAdmin'      => 'required',
         ]);
 
         // Add the themeId to the request data
@@ -63,7 +64,9 @@ class KeuanganController extends Controller
         DB::beginTransaction();
         try {
             // Create a new Keuangan record
-            $keuangan = Keuangan::create($request->all());
+            $payload = $request->all();
+            $payload['income'] = $request->sellPrice * $request->sellCount;
+            $keuangan = Keuangan::create($payload);
 
             // If the Keuangan record was not created, rollback the transaction and redirect back with an error message
             if (!$keuangan) {
@@ -93,6 +96,7 @@ class KeuanganController extends Controller
                 'keuanganId' => $keuangan->id,
                 'userId' => null,
                 'role' => 'ADMIN',
+                'percent' => $percentAdmin,
                 'profit' => ($profit / 100) * $percentAdmin,
             ]);
 
@@ -100,6 +104,7 @@ class KeuanganController extends Controller
                 'keuanganId' => $keuangan->id,
                 'userId' => $theme->reviewer1Id,
                 'role' => 'REVIEWER',
+                'percent' => $percentPerReviewer,
                 'profit' => ($profit / 100) * $percentPerReviewer,
             ]);
 
@@ -108,6 +113,7 @@ class KeuanganController extends Controller
                     'keuanganId' => $keuangan->id,
                     'userId' => $theme->reviewer2Id,
                     'role' => 'REVIEWER',
+                    'percent' => $percentPerReviewer,
                     'profit' => ($profit / 100) * $percentPerReviewer,
                 ]);
             }
@@ -120,6 +126,7 @@ class KeuanganController extends Controller
                     'keuanganId' => $keuangan->id,
                     'userId' => $author->userId,
                     'role' => 'AUTHOR',
+                    'percent' => $percentPerAuthor * $totalContribution,
                     'profit' => ($profit / 100) * ($percentPerAuthor * $totalContribution),
                 ]);
             }
