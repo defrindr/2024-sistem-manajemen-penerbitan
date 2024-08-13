@@ -62,7 +62,9 @@
                             @foreach ($finances as $keuangan)
                                 <tr>
                                     <td>{{ $loop->index + 1 }}</td>
-                                    <td>{{ $keuangan->title }}</td>
+                                    <td>{{ $keuangan->theme->name }} <br />
+                                        <b><sup>{{ $keuangan->title }}</sup></b>
+                                    </td>
                                     <td>{{ $keuangan->sellCount }}</td>
                                     <td>{{ App\Helpers\StrHelper::currency(intval($keuangan->income), 'Rp ') }}</td>
                                     <td>{{ App\Helpers\StrHelper::currency(intval($keuangan->productionCost), 'Rp') }}</td>

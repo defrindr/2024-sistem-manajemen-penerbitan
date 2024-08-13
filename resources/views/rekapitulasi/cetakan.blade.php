@@ -35,13 +35,17 @@
                                 <td>Ctk Ke</td>
                                 <td>Tahun</td>
                                 <td>Total Produksi</td>
-                                <td>Biaya Produksi</td>
+                                <td>Harga Produksi Buku</td>
+                                <td>Total Biaya</td>
+                                @admin(true)
+                                    <td>Aksi</td>
+                                @endadmin
                             </tr>
                         </thead>
                         <tbody>
                             @if ($publications->count() == 0)
                                 <tr>
-                                    <td colspan="6" class="text-center">Tidak ada data</td>
+                                    <td colspan="10" class="text-center">Tidak ada data</td>
                                 </tr>
                             @endif
                             @foreach ($publications as $item)
@@ -52,7 +56,25 @@
                                     <td>{{ $item->productionYear }}</td>
                                     <td>{{ App\Helpers\StrHelper::currency($item->totalProduction) }}</td>
                                     <td>{{ App\Helpers\StrHelper::currency($item->price, 'Rp') }}</td>
-                                    {{-- <td></td> --}}
+                                    <td>{{ App\Helpers\StrHelper::currency($item->price * $item->totalProduction, 'Rp') }}
+                                    </td>
+                                    @admin(true)
+                                        <td>
+                                            @php
+                                                $theme = $item->theme;
+                                                $publication = $item;
+                                            @endphp
+                                            <form
+                                                action="{{ route('theme.publication.destroy', compact('theme', 'publication')) }}"
+                                                method="post" onsubmit="return confirm('Yakin ingin menjalankan aksi ini ?')">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button class="btn btn-danger">
+                                                    Hapus
+                                                </button>
+                                            </form>
+                                        </td>
+                                    @endadmin
                                 </tr>
                             @endforeach
                         </tbody>

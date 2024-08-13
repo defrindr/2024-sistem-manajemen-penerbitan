@@ -70,8 +70,14 @@ class PublicationController extends Controller
      */
     public function destroy(Theme $theme, Publication $publication)
     {
-        $details = $publication->details;
-        foreach ($details as $detail) $detail->delete();
+        $keuangans = $publication->keuangans;
+        foreach ($keuangans as $keuangan) {
+            $details = $keuangan->details;
+            foreach ($details as $detail) {
+                $detail->delete();
+            }
+            $keuangan->delete();
+        }
         $publication->delete();
 
         return redirect()->route('theme.publication.index', compact('theme'))->with('success', 'Berhasil dihapus');
