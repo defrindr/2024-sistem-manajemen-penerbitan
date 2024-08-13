@@ -16,6 +16,8 @@ return new class extends Migration
             $table->foreignId('themeId')->references('id')->on('theme_recommendations');
             $table->foreignId('publicationId')->references('id')->on('publications');
             $table->string('title');
+            $table->decimal('sellPrice');
+            $table->integer('sellCount');
             $table->decimal('income', 20);
             $table->decimal('productionCost', 20);
             $table->timestamps();

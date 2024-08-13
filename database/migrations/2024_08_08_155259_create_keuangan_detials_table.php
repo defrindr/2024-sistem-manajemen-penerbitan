@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('keuanganId')->references('id')->on('keuangans');
             $table->foreignId('userId')->nullable()->references('id')->on('users');
+            $table->float('percent');
             $table->string('role');
             $table->decimal('profit', 20);
             $table->timestamps();

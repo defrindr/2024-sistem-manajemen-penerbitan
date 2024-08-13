@@ -109,4 +109,14 @@ class Theme extends Model
 
         return asset("storage/" . self::PATH . "/" . $path);
     }
+
+    public static function publishedCount()
+    {
+        return self::where('status', self::STATUS_PUBLISH)->count();
+    }
+
+    public static function openCount()
+    {
+        return self::where('status', self::STATUS_OPEN)->count();
+    }
 }

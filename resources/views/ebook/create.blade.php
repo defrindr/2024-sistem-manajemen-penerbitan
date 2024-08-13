@@ -15,7 +15,7 @@
             <div class="card card-default">
                 <div class="card-header">
                     {{-- Tombol kembali --}}
-                    <a href="{{ route('theme.show', $theme) }}" class="btn btn-default">Kembali</a>
+                    <a href="{{ route('theme.show', $theme) }}" class="btn btn-danger">Kembali</a>
                 </div>
                 <form action="{{ route('ebook.store', compact('theme', 'subTheme')) }}" method="POST" class="form"
                     onsubmit="return confirm('Apakah anda yakin ??')" enctype="multipart/form-data">

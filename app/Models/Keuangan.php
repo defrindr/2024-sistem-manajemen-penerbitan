@@ -15,6 +15,8 @@ class Keuangan extends Model
         'themeId',
         'title',
         'income',
+        'sellPrice',
+        'sellCount',
         'productionCost',
         'percentAdmin',
         'percentReviewer',

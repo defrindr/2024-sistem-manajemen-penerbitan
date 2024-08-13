@@ -15,7 +15,7 @@
             <div class="card card-default">
                 <div class="card-header">
                     {{-- Tombol kembali --}}
-                    <a href="{{ url()->previous() }}" class="btn btn-default">Kembali</a>
+                    <a href="{{ url()->previous() }}" class="btn btn-danger">Kembali</a>
                 </div>
                 <form action="{{ route('ebook.butuhreview.action', $ebook) }}" method="POST" class="form"
                     onsubmit="return confirm('Apakah anda yakin ??')" enctype="multipart/form-data">

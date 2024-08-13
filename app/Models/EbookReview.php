@@ -45,4 +45,14 @@ class EbookReview extends Model
 
         return $statusLabel;
     }
+
+    public static function needReviewCount($userId)
+    {
+        return EbookReview::where('reviewerId', $userId)
+            ->where(function ($qb) {
+                $qb->where('acc', 0)
+                    ->orWhere('acc', -1);
+            })
+            ->count();
+    }
 }

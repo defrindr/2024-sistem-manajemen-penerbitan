@@ -14,6 +14,7 @@ class KeuanganDetail extends Model
         'keuanganId',
         'userId',
         'role',
+        'percent',
         'profit',
     ];
 

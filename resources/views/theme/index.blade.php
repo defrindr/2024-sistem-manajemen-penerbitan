@@ -17,7 +17,7 @@
                     {{-- Tombol tambah --}}
                     @admin(true)
                         <a href="{{ route('theme.create') }}" class="btn btn-success">Tambah Judul</a>
-                        <a href="{{ route('theme.export') }}" class="btn btn-default">Export</a>
+                        <a href="{{ route('theme.export') }}" class="btn btn-primary" style="float: right">Export</a>
                     @endadmin
                 </div>
                 <div class="card-body">

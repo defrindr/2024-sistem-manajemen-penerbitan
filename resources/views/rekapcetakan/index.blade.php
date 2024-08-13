@@ -14,12 +14,17 @@
         <div class="col-md-12">
             <div class="card card-default">
                 <div class="card-header">
-                    <a href="{{ route('theme.index') }}" class="btn btn-danger">Kembali</a>
-                    {{-- Tombol tambah --}}
-                    @admin(true)
-                        <a href="{{ route('theme.publication.create', compact('theme')) }}" class="btn btn-success">Tambah
-                            Cetakan Baru</a>
-                    @endadmin
+                    <form action="{{ route('rekapcetakan.index') }}">
+                        <div class="input-group">
+                            <input type="text" name="search" class="form-control" placeholder="Cari..."
+                                value="{{ request('search') }}">
+                            <div class="input-group-append">
+                                <button class="btn btn-default" type="submit">
+                                    Cari
+                                </button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
                 <div class="card-body">
                     <table class="table table-hover table-striped">
@@ -31,18 +36,22 @@
                                 <td>Tahun</td>
                                 <td>Total Produksi</td>
                                 <td>Biaya Produksi</td>
-                                {{-- <td>Aksi</td> --}}
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($pagination as $keuangan)
+                            @if (count($publications) == 0)
+                            <tr>
+                                <td colspan="6" class="text-center">Tidak ada data</td>
+                            </tr>
+                            @endif
+                            @foreach ($publications as $item)
                                 <tr>
                                     <td>{{ $loop->index + 1 }}</td>
-                                    <td>{{ $keuangan->title }}</td>
-                                    <td>{{ $keuangan->numberOfPrinting }}</td>
-                                    <td>{{ $keuangan->productionYear }}</td>
-                                    <td>{{ App\Helpers\StrHelper::currency($keuangan->totalProduction) }}</td>
-                                    <td>{{ App\Helpers\StrHelper::currency($keuangan->price, 'Rp') }}</td>
+                                    <td>{{ $item->title }}</td>
+                                    <td>{{ $item->numberOfPrinting }}</td>
+                                    <td>{{ $item->productionYear }}</td>
+                                    <td>{{ App\Helpers\StrHelper::currency($item->totalProduction) }}</td>
+                                    <td>{{ App\Helpers\StrHelper::currency($item->price, 'Rp') }}</td>
                                     {{-- <td></td> --}}
                                 </tr>
                             @endforeach
