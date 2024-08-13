@@ -14,7 +14,7 @@
         <div class="col-md-12">
             <div class="card card-default">
                 <div class="card-header">
-                    <a href="{{ url()->previous() }}" class="btn btn-default">
+                    <a href="{{ url()->previous() }}" class="btn btn-danger">
                         Kembali
                     </a>
                 </div>
