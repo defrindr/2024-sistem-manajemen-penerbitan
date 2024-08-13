@@ -1,20 +1,36 @@
 @extends('layouts.admin.main')
 
-@section('title', 'Publikasi')
+@section('title', 'Keuangan')
 
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="#">Home</a></li>
     <li class="breadcrumb-item active" aria-current="page">
-        Publikasi
+        Keuangan
     </li>
 @endsection
 
 @section('content')
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Detail Keuangan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="detail-keuangan">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-12">
             <div class="card card-default">
                 <div class="card-header">
-                    <form action="{{ route('rekapcetakan.index') }}">
+                    <form action="{{ route('rekapitulasi.keuangan') }}">
                         <div class="input-group">
                             <input type="text" name="search" class="form-control" placeholder="Cari..."
                                 value="{{ request('search') }}">
@@ -32,31 +48,31 @@
                             <tr>
                                 <td>#</td>
                                 <td>Judul Cerita</td>
-                                <td>Ctk Ke</td>
-                                <td>Tahun</td>
-                                <td>Total Produksi</td>
+                                <td>Total Penjualan</td>
+                                <td>Pemasukan</td>
                                 <td>Biaya Produksi</td>
                             </tr>
                         </thead>
                         <tbody>
-                            @if (count($publications) == 0)
-                            <tr>
-                                <td colspan="6" class="text-center">Tidak ada data</td>
-                            </tr>
+                            @if ($finances->count() == 0)
+                                <tr>
+                                    <td colspan="6" class="text-center">Tidak ada data</td>
+                                </tr>
                             @endif
-                            @foreach ($publications as $item)
+                            @foreach ($finances as $keuangan)
                                 <tr>
                                     <td>{{ $loop->index + 1 }}</td>
-                                    <td>{{ $item->title }}</td>
-                                    <td>{{ $item->numberOfPrinting }}</td>
-                                    <td>{{ $item->productionYear }}</td>
-                                    <td>{{ App\Helpers\StrHelper::currency($item->totalProduction) }}</td>
-                                    <td>{{ App\Helpers\StrHelper::currency($item->price, 'Rp') }}</td>
-                                    {{-- <td></td> --}}
+                                    <td>{{ $keuangan->title }}</td>
+                                    <td>{{ $keuangan->sellCount }}</td>
+                                    <td>{{ App\Helpers\StrHelper::currency(intval($keuangan->income), 'Rp ') }}</td>
+                                    <td>{{ App\Helpers\StrHelper::currency(intval($keuangan->productionCost), 'Rp') }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
+                </div>
+                <div class="card-footer">
+                    {{ $finances->links() }}
                 </div>
             </div>
         </div>
