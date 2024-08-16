@@ -10,10 +10,15 @@ use Maatwebsite\Excel\Concerns\FromView;
 
 class RekapKeuanganExport implements FromView
 {
+    protected $query;
+    public function __construct($query = null)
+    {
+        $this->query = $query;
+    }
     public function view(): View
     {
         return view('exports.rekap-keuangan', [
-            'pagination' => KeuanganDetail::get()
+            'pagination' => $this->query ?? KeuanganDetail::get()
         ]);
     }
 }

@@ -15,7 +15,8 @@
         @foreach ($pagination as $detail)
             <tr>
                 <td>{{ $loop->index + 1 }}</td>
-                <td>{{ $detail->keuangan->title }}</td>
+                <td>{{ $detail->keuangan->theme->name }} <br />
+                    <b><sup>{{ $detail->keuangan->title }}</sup></b>
                 <td>{{ App\Helpers\StrHelper::currency(intval($detail->keuangan->income), 'Rp') }}</td>
                 <td>{{ App\Helpers\StrHelper::currency(intval($detail->keuangan->productionCost), 'Rp') }}</td>
                 <td>{{ $detail->role }}</td>
