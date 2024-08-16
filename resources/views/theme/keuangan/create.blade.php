@@ -65,7 +65,7 @@
                             </div>
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">
-                                    <label for="sellPrice">Harga Penjualan</label>
+                                    <label for="sellPrice">Harga Jual Perbuku</label>
                                     <input type="number" class="form-control @error('sellPrice') is-invalid @enderror"
                                         name="sellPrice" id="sellPrice" value="{{ old('sellPrice') }}">
                                     @error('sellPrice')
