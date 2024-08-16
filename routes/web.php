@@ -124,6 +124,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/rekapitulasi/cetakan', [RekapitulasiController::class, 'cetakan'])->name('rekapitulasi.cetakan');
     Route::get('/rekapitulasi/keuangan', [RekapitulasiController::class, 'keuangan'])->name('rekapitulasi.keuangan');
+    Route::get('/rekapitulasi/export-keuangan', [RekapitulasiController::class, 'exportKeuangan'])->name('rekapitulasi.export-keuangan');
+    Route::get('/rekapitulasi/export-cetakan', [RekapitulasiController::class, 'exportCetakan'])->name('rekapitulasi.export-cetakan');
 });
 
 // Authentication Route

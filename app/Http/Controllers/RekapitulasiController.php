@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\RekapCetakanExport;
+use App\Exports\RekapKeuanganExport;
 use App\Models\Keuangan;
+use App\Models\KeuanganDetail;
 use App\Models\Publication;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class RekapitulasiController extends Controller
 {
@@ -29,7 +33,8 @@ class RekapitulasiController extends Controller
         return view('rekapitulasi.cetakan', compact('publications'));
     }
 
-    public function keuangan(Request $request) {
+    public function keuangan(Request $request)
+    {
         // Retrieve the necessary data for generating the rekapitulasi keuangan
         $financeQuery = Keuangan::query();
 
@@ -41,5 +46,15 @@ class RekapitulasiController extends Controller
         $finances = $financeQuery->orderBy('created_at', 'asc')->paginate();
 
         return view('rekapitulasi.keuangan', compact('finances'));
+    }
+
+    public function exportCetakan()
+    {
+        return Excel::download(new RekapCetakanExport(), 'rekapitulasi.cetakan.xlsx');
+    }
+
+    public function exportKeuangan()
+    {
+        return Excel::download(new RekapKeuanganExport(), 'rekapitulasi.keuangan.xlsx');
     }
 }
