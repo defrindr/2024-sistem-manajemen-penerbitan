@@ -29,9 +29,12 @@ class KeuanganController extends Controller
     {
 
         // Get All Publications where doesnt have keuangans
-        $publications = Publication::whereDoesntHave('keuangans', function ($query) use ($theme) {
-            $query->where('themeId', $theme->id);
-        })->get();
+        $publications = Publication::whereNotIn(
+            'id',
+            Keuangan::where('themeId', $theme->id)->select('publicationId')
+        )
+            ->where('themeId', $theme->id)
+            ->get();
         return view('theme.keuangan.create', compact('theme', 'publications'));
     }
 
