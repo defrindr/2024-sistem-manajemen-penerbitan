@@ -1,6 +1,6 @@
 @extends('layouts.admin.main')
 
-@section('title', 'Tambah Judul')
+@section('title', 'Tambah Cetakan')
 
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="#">Home</a></li>
