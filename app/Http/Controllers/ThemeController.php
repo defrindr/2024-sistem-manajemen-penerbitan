@@ -13,6 +13,7 @@ use App\Models\Theme;
 use App\Models\User;
 use App\Trait\UploadTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use ZipArchive;
@@ -25,7 +26,7 @@ class ThemeController extends Controller
     {
         $query = Theme::orderBy('id', 'desc');
 
-        $currentUser = auth()->user();
+        $currentUser = Auth::user();
 
         if ($currentUser->roleId == Role::findIdByName(Role::AUTHOR)) {
             $query->where('status', 'open');

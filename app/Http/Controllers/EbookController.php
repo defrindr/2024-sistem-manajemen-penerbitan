@@ -9,6 +9,7 @@ use App\Models\SubTheme;
 use App\Models\Theme;
 use App\Trait\UploadTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class EbookController extends Controller
@@ -17,7 +18,7 @@ class EbookController extends Controller
 
     public function me()
     {
-        $currentUser = auth()->user();
+        $currentUser = Auth::user();
 
         $query = Ebook::query();
         if ($currentUser->roleId !== Role::findIdByName(Role::ADMINISTRATOR)) {
@@ -31,7 +32,7 @@ class EbookController extends Controller
 
     public function progress(Ebook $ebook)
     {
-        $currentUser = auth()->user();
+        $currentUser = Auth::user();
 
         $theme = $ebook->theme;
 
@@ -126,7 +127,7 @@ class EbookController extends Controller
 
     public function siapPublish()
     {
-        $currentUser = auth()->user();
+        $currentUser = Auth::user();
 
         $query = Ebook::query()->where('status', Ebook::STATUS_ACCEPT);
         $pagination = $query->paginate();
@@ -146,7 +147,7 @@ class EbookController extends Controller
         if (!$ebook) {
             $ebook = $theme->ebooks()->create([
                 'subthemeId' => $subTheme->id,
-                'userId' => auth()->user()->id,
+                'userId' => Auth::user()->id,
                 'title' => $subTheme->theme->name . " - " . $subTheme->name,
                 'draft' => null,
                 'proofOfPayment' => null,

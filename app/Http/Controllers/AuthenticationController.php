@@ -31,11 +31,11 @@ class AuthenticationController extends Controller
 
     public function logoutAction()
     {
-        if (!auth()->user()) {
+        if (!Auth::user()) {
             return redirect()->route('login');
         }
 
-        auth()->logout();
+        Auth::logout();
 
         return redirect()->route('login');
     }
