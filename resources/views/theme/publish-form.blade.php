@@ -37,6 +37,16 @@
                             </div>
                             <div class="col-md-12 mb-3">
                                 <div class="form-group">
+                                    <label for="description">Sinopsis</label>
+                                    <textarea name="description" id="description" cols="30" rows="10"
+                                        class="form-control @error('description') is-invalid @enderror">{{ old('description') ?? $theme->description }}</textarea>
+                                    @error('description')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <div class="form-group">
                                     <label for="cover">Cover</label>
                                     <input type="file" class="form-control @error('cover') is-invalid @enderror"
                                         name="cover" id="cover" accept="image/*">

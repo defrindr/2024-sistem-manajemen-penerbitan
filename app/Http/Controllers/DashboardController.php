@@ -71,8 +71,10 @@ class DashboardController extends Controller
 
         // get my ebooks publish
         $myEbooksPublish = Ebook::publishCount($userId);
+        // chart ebook, group by per bulan
+        $ebooksChart = Ebook::chartDataPenjualanBuku();
 
-        return view('dashboard.author', compact('totalThemeOpen', 'myEbooksDraft', 'myEbooksPublish'));
+        return view('dashboard.author', compact('totalThemeOpen', 'myEbooksDraft', 'myEbooksPublish', 'ebooksChart'));
     }
 
     public function dashboardReviewer()

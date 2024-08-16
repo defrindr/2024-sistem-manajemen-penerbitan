@@ -46,13 +46,14 @@ class KeuanganController extends Controller
     {
         // Validate the incoming request data
         $request->validate([
-            'publicationId'     => 'required',
-            'title'             => 'required',
-            'productionCost'    => 'required',
-            'percentReviewer'   => 'required',
-            'sellPrice'         => 'required',
-            'sellCount'         => 'required',
-            'percentAdmin'      => 'required',
+            'publicationId'   => 'required',
+            'title'           => 'required',
+            'year'            => 'required',
+            'productionCost'  => 'required',
+            'percentReviewer' => 'required',
+            'sellPrice'       => 'required',
+            'sellCount'       => 'required',
+            'percentAdmin'    => 'required',
         ]);
 
         // Add the themeId to the request data

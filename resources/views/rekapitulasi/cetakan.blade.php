@@ -14,7 +14,8 @@
         <div class="col-md-12">
             <div class="card card-default">
                 <div class="card-header">
-                    <a href="{{route('rekapitulasi.export-cetakan')}}" class="btn btn-primary mb-2" style="float: right">Export</a>
+                    <a href="{{ route('rekapitulasi.export-cetakan') }}" class="btn btn-primary mb-2"
+                        style="float: right">Export</a>
                     <form action="{{ route('rekapitulasi.cetakan') }}">
                         <div class="input-group">
                             <input type="text" name="search" class="form-control" placeholder="Cari..."
@@ -65,6 +66,10 @@
                                                 $theme = $item->theme;
                                                 $publication = $item;
                                             @endphp
+                                            <a href="{{ route('theme.publication.show', compact('theme', 'publication')) }}"
+                                                class="btn btn-primary mb-2">
+                                                Lihat
+                                            </a>
                                             <form
                                                 action="{{ route('theme.publication.destroy', compact('theme', 'publication')) }}"
                                                 method="post" onsubmit="return confirm('Yakin ingin menjalankan aksi ini ?')">

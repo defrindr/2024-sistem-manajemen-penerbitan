@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Publication;
 use App\Models\Theme;
+use App\Trait\UploadTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class PublicationController extends Controller
 {
+    use UploadTrait;
+
     /**
      * Display a listing of the resource.
      */
@@ -36,6 +39,7 @@ class PublicationController extends Controller
         $request->validate([
             'title' => 'required',
             'numberOfPrinting' => 'required',
+            'cover' => 'nullable|file',
             'productionYear' => 'required',
             'totalProduction' => 'required',
             'price' => 'required',
@@ -48,11 +52,18 @@ class PublicationController extends Controller
 
         DB::beginTransaction();
         try {
-            Publication::create($request->all());
+            $payload = $request->all();
+            $fileCover = $request->file('cover');
+            if ($fileCover) {
+                $payload['cover'] = $this->uploadImage($fileCover, Theme::PATH);
+            } else {
+                $payload['cover'] = $theme->cover;
+            }
+            Publication::create($payload);
             DB::commit();
             return redirect()->route('theme.publication.index', $theme)->withSuccess('Berhasil menambahkan data');
         } catch (\Throwable $th) {
-            return redirect()->back()->withInput()->withError('Gagal menambahkan data');
+            return redirect()->back()->withError('Gagal menambahkan data');
         }
     }
 

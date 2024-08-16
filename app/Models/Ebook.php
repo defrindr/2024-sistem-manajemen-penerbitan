@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class Ebook extends Model
@@ -110,6 +111,32 @@ class Ebook extends Model
 
         // return data
         return $data;
+    }
+
+    public static function chartDataPenjualanBuku($year = null)
+    {
+        if (!$year) $year = date('Y');
+        $raws = Ebook::where('userId', Auth::user()->id)
+            ->where('keuangans.year', $year)
+            ->join('theme_recommendations', 'theme_recommendations.id', '=', 'ebooks.themeId')
+            ->join('keuangans', 'theme_recommendations.id', '=', 'keuangans.themeId')
+            ->groupBy('keuangans.year', 'theme_recommendations.name')
+            ->select(
+                DB::raw('sum(keuangans.sellCount) as totalSellCount'),
+                'keuangans.year',
+                'theme_recommendations.name'
+            )
+            ->get();
+
+        $labels = [];
+        $data  = [];
+
+        foreach ($raws as $item) {
+            $labels[]  = $item->name;
+            $data[]  = $item->totalSellCount;
+        }
+
+        return compact('labels', 'data', 'year');
     }
 
     /**

@@ -17,6 +17,7 @@ class Keuangan extends Model
         'income',
         'sellPrice',
         'sellCount',
+        'year',
         'productionCost',
         'percentAdmin',
         'percentReviewer',

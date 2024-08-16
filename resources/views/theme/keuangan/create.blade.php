@@ -73,7 +73,6 @@
                                     @enderror
                                 </div>
                             </div>
-
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">
                                     <label for="sellCount">Total Penjualan</label>
@@ -85,11 +84,23 @@
                                 </div>
                             </div>
 
+                            <div class="col-md-12 mb-3">
+                                <div class="form-group">
+                                    <label for="year">Tahun Penjualan</label>
+                                    <input type="number" class="form-control @error('year') is-invalid @enderror"
+                                        name="year" id="year" value="{{ old('year') }}">
+                                    @error('year')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">
                                     <label for="percentAdmin">Admin (%)</label>
                                     <input type="number" class="form-control @error('percentAdmin') is-invalid @enderror"
-                                        name="percentAdmin" id="percentAdmin" value="{{ old('percentAdmin') }}">
+                                        min="0" name="percentAdmin" id="percentAdmin"
+                                        value="{{ old('percentAdmin') }}">
                                     @error('percentAdmin')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -100,7 +111,7 @@
                                 <div class="form-group">
                                     <label for="percentReviewer">Reviewer (%)</label>
                                     <input type="number"
-                                        class="form-control @error('percentReviewer') is-invalid @enderror"
+                                        class="form-control @error('percentReviewer') is-invalid @enderror" min="0"
                                         name="percentReviewer" id="percentReviewer" value="{{ old('percentReviewer') }}">
                                     @error('percentReviewer')
                                         <div class="invalid-feedback">{{ $message }}</div>
@@ -131,8 +142,9 @@
                 document.querySelector('#title').value =
                     `Cetakan Ke-${publication.numberOfPrinting} Tahun ${publication.productionYear}`;
                 document.querySelector('#productionCost').value = publication.totalProduction * publication.price;
-                document.querySelector('#sellCount').value = publication.totalProduction
-                document.querySelector('#sellPrice').value = publication.price
+                document.querySelector('#sellCount').value = publication.totalProduction;
+                document.querySelector('#sellPrice').value = publication.price;
+                document.querySelector('#year').value = publication.productionYear;
             }
         })
     </script>
