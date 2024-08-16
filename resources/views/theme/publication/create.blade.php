@@ -70,7 +70,7 @@
 
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">
-                                    <label for="price">Harga Per Buku</label>
+                                    <label for="price">Biaya Produksi Perbuku</label>
                                     <input type="number" class="form-control @error('price') is-invalid @enderror"
                                         min="0" name="price" id="price" value="{{ old('price') }}">
                                     @error('price')
