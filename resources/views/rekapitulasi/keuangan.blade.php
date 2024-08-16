@@ -30,7 +30,8 @@
         <div class="col-md-12">
             <div class="card card-default">
                 <div class="card-header">
-                    <a href="{{route('rekapitulasi.export-keuangan')}}" class="btn btn-primary mb-2" style="float: right">Export</a>
+                    <a href="{{ route('rekapitulasi.export-keuangan') }}" class="btn btn-primary mb-2"
+                        style="float: right">Export</a>
                     <form action="{{ route('rekapitulasi.keuangan') }}">
                         <div class="input-group">
                             <input type="text" name="search" class="form-control" placeholder="Cari..."
@@ -52,6 +53,7 @@
                                 <td>Total Penjualan</td>
                                 <td>Pemasukan</td>
                                 <td>Biaya Produksi</td>
+                                <td>Aksi</td>
                             </tr>
                         </thead>
                         <tbody>
@@ -69,6 +71,16 @@
                                     <td>{{ $keuangan->sellCount }}</td>
                                     <td>{{ App\Helpers\StrHelper::currency(intval($keuangan->income), 'Rp ') }}</td>
                                     <td>{{ App\Helpers\StrHelper::currency(intval($keuangan->productionCost), 'Rp') }}</td>
+                                    <td>
+                                        @php
+                                        $theme = $keuangan->theme;
+                                        @endphp
+                                        <button
+                                            onclick="openModal('{{ route('theme.keuangan.show', compact('theme', 'keuangan')) }}')"
+                                            class="btn-detail-keuangan btn btn-primary">
+                                            Detail
+                                        </button>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
