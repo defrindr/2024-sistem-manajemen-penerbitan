@@ -13,6 +13,7 @@ class Publication extends Model
     protected $fillable = [
         'themeId',
         'title',
+        'cover',
         'numberOfPrinting',
         'productionYear',
         'totalProduction',
@@ -27,5 +28,10 @@ class Publication extends Model
     public function keuangans()
     {
         return $this->hasMany(Keuangan::class, 'publicationId');
+    }
+
+    public function getCoverLinkAttribute()
+    {
+        return asset("storage/" . Theme::PATH . "/" . $this->cover);
     }
 }

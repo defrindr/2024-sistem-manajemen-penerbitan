@@ -6,6 +6,7 @@ use App\Models\Ebook;
 use App\Models\EbookReview;
 use App\Trait\UploadTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class EbookReviewController extends Controller
@@ -14,7 +15,7 @@ class EbookReviewController extends Controller
 
     public function butuhReview()
     {
-        $currentUser = auth()->user();
+        $currentUser = Auth::user();
 
         $query = Ebook::query()
             // ->where('status', 'review')
@@ -31,7 +32,7 @@ class EbookReviewController extends Controller
 
     public function sudahReview()
     {
-        $currentUser = auth()->user();
+        $currentUser = Auth::user();
 
         $query = Ebook::query()->where('status', 'review')->whereIn(
             'id',
@@ -57,7 +58,7 @@ class EbookReviewController extends Controller
         ]);
 
         DB::beginTransaction();
-        $currentUser = auth()->user();
+        $currentUser = Auth::user();
         $model = EbookReview::where('reviewerId', $currentUser->id)
             ->where('ebookId', $ebook->id)
             ->first();

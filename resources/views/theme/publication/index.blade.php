@@ -26,26 +26,61 @@
                         <thead>
                             <tr>
                                 <td>#</td>
+                                <td>Cover</td>
                                 <td>Judul Cerita</td>
                                 <td>Ctk Ke</td>
                                 <td>Tahun</td>
                                 <td>Total Produksi</td>
                                 <td>Biaya Produksi</td>
-                                {{-- <td>Aksi</td> --}}
+                                @admin(true)
+                                    <td>Aksi</td>
+                                @endadmin
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($pagination as $keuangan)
+                            @if ($pagination->count() == 0)
                                 <tr>
-                                    <td>{{ $loop->index + 1 }}</td>
-                                    <td>{{ $keuangan->title }}</td>
-                                    <td>{{ $keuangan->numberOfPrinting }}</td>
-                                    <td>{{ $keuangan->productionYear }}</td>
-                                    <td>{{ App\Helpers\StrHelper::currency($keuangan->totalProduction) }}</td>
-                                    <td>{{ App\Helpers\StrHelper::currency($keuangan->price, 'Rp') }}</td>
-                                    {{-- <td></td> --}}
+                                    <td colspan="7" class="text-center">Data Kosong</td>
                                 </tr>
-                            @endforeach
+                            @else
+                                @foreach ($pagination as $publication)
+                                    <tr>
+                                        <td>{{ $loop->index + 1 }}</td>
+                                        <td>
+                                            <img src="{{ asset($publication->coverLink) }}" alt="{{ $publication->title }}"
+                                                srcset="" class="img img-fluid"
+                                                style="max-width: 100px;max-height:100px">
+                                        </td>
+                                        <td>{{ $publication->title }}</td>
+                                        <td>{{ $publication->numberOfPrinting }}</td>
+                                        <td>{{ $publication->productionYear }}</td>
+                                        <td>{{ App\Helpers\StrHelper::currency($publication->totalProduction) }}</td>
+                                        <td>{{ App\Helpers\StrHelper::currency($publication->price, 'Rp') }}</td>
+                                        @admin(true)
+                                            <td>
+                                                @php
+                                                    $theme = $publication->theme;
+                                                @endphp
+                                                <a href="{{ route('theme.publication.show', compact('theme', 'publication')) }}"
+                                                    class="btn btn-primary mb-2">
+                                                    Lihat
+                                                </a>
+                                                {{-- cek kembali di routes untuk memastikan --}}
+                                                <form
+                                                    action="{{ route('theme.publication.destroy', compact('publication', 'theme')) }}"
+                                                    method="post" onsubmit="return confirm('Apakah anda yakin ??')"
+                                                    class="d-inline-block">
+                                                    {{-- Agar tidak expired ketika di submit --}}
+                                                    @csrf
+                                                    {{-- Tombol Delete --}}
+                                                    @method('DELETE')
+                                                    <button class="btn btn-danger  mb-2">Hapus</button>
+                                                </form>
+                                            </td>
+                                        @endadmin
+                                    </tr>
+                                @endforeach
+                            @endif
                         </tbody>
                     </table>
                 </div>

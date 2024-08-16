@@ -50,31 +50,39 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($pagination as $keuangan)
+                            @if ($pagination->count() == 0)
                                 <tr>
-                                    <td>{{ $loop->index + 1 }}</td>
-                                    <td>{{ $keuangan->title }}</td>
-                                    <td>{{ $keuangan->income }}</td>
-                                    <td>{{ App\Helpers\StrHelper::currency(intval($keuangan->productionCost), 'Rp') }}</td>
-                                    <td>
-                                        <button
-                                            onclick="openModal('{{ route('theme.keuangan.show', compact('theme', 'keuangan')) }}')"
-                                            class="btn-detail-keuangan btn btn-primary">
-                                            Detail
-                                        </button>
-                                        {{-- cek kembali di routes untuk memastikan --}}
-                                        <form action="{{ route('theme.keuangan.destroy', compact('keuangan', 'theme')) }}"
-                                            method="post" onsubmit="return confirm('Apakah anda yakin ??')"
-                                            class="d-inline-block">
-                                            {{-- Agar tidak expired ketika di submit --}}
-                                            @csrf
-                                            {{-- Tombol Delete --}}
-                                            @method('DELETE')
-                                            <button class="btn btn-danger">Hapus</button>
-                                        </form>
-                                    </td>
+                                    <td colspan="7" class="text-center">Data Kosong</td>
                                 </tr>
-                            @endforeach
+                            @else
+                                @foreach ($pagination as $keuangan)
+                                    <tr>
+                                        <td>{{ $loop->index + 1 }}</td>
+                                        <td>{{ $keuangan->title }}</td>
+                                        <td>{{ $keuangan->income }}</td>
+                                        <td>{{ App\Helpers\StrHelper::currency(intval($keuangan->productionCost), 'Rp') }}
+                                        </td>
+                                        <td>
+                                            <button
+                                                onclick="openModal('{{ route('theme.keuangan.show', compact('theme', 'keuangan')) }}')"
+                                                class="btn-detail-keuangan btn btn-primary">
+                                                Detail
+                                            </button>
+                                            {{-- cek kembali di routes untuk memastikan --}}
+                                            <form
+                                                action="{{ route('theme.keuangan.destroy', compact('keuangan', 'theme')) }}"
+                                                method="post" onsubmit="return confirm('Apakah anda yakin ??')"
+                                                class="d-inline-block">
+                                                {{-- Agar tidak expired ketika di submit --}}
+                                                @csrf
+                                                {{-- Tombol Delete --}}
+                                                @method('DELETE')
+                                                <button class="btn btn-danger">Hapus</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endif
                         </tbody>
                     </table>
                 </div>

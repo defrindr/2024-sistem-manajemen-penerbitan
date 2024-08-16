@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Role;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
@@ -22,13 +23,13 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Blade::if('sa', function () {
-            $user = auth()->user();
+            $user = Auth::user();
 
             return $user && $user->roleId === Role::findIdByName(Role::SUPERADMIN);
         });
 
         Blade::if('admin', function ($bypass = false) {
-            $user = auth()->user();
+            $user = Auth::user();
             if ($bypass && $user && $user->roleId === Role::findIdByName(Role::SUPERADMIN)) {
                 return true;
             } // bypass SA
@@ -37,7 +38,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Blade::if('adminreviewer', function ($bypass = false) {
-            $user = auth()->user();
+            $user = Auth::user();
             if ($bypass && $user && $user->roleId === Role::findIdByName(Role::SUPERADMIN)) {
                 return true;
             } // bypass SA
@@ -46,7 +47,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Blade::if('author', function ($bypass = false) {
-            $user = auth()->user();
+            $user = Auth::user();
             if ($bypass && $user && $user->roleId === Role::findIdByName(Role::SUPERADMIN)) {
                 return true;
             } // bypass SA
@@ -55,12 +56,18 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Blade::if('reviewer', function ($bypass = false) {
-            $user = auth()->user();
+            $user = Auth::user();
             if ($bypass && $user && $user->roleId === Role::findIdByName(Role::SUPERADMIN)) {
                 return true;
             } // bypass SA
 
             return $user && $user->roleId === Role::findIdByName(Role::REVIEWER);
+        });
+
+
+        Blade::if('forrole', function ($roles = []) {
+            $user = Auth::user();
+            return in_array($user->roleId, $roles);
         });
     }
 }

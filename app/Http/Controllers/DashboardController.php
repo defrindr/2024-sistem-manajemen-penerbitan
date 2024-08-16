@@ -7,6 +7,7 @@ use App\Models\EbookReview;
 use App\Models\Role;
 use App\Models\Theme;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
@@ -20,7 +21,7 @@ class DashboardController extends Controller
     public function index()
     {
         // check if user is super admin or admin
-        $roleId = auth()->user()->roleId;
+        $roleId = Auth::user()->roleId;
 
         //  check user based on role, return view accordingly
         switch ($roleId) {
@@ -60,7 +61,7 @@ class DashboardController extends Controller
      */
     private function dashboardAuthor()
     {
-        $userId = auth()->user()->id;
+        $userId = Auth::user()->id;
 
         // get total theme open
         $totalThemeOpen = Theme::openCount();
@@ -70,13 +71,15 @@ class DashboardController extends Controller
 
         // get my ebooks publish
         $myEbooksPublish = Ebook::publishCount($userId);
+        // chart ebook, group by per bulan
+        $ebooksChart = Ebook::chartDataPenjualanBuku();
 
-        return view('dashboard.author', compact('totalThemeOpen', 'myEbooksDraft', 'myEbooksPublish'));
+        return view('dashboard.author', compact('totalThemeOpen', 'myEbooksDraft', 'myEbooksPublish', 'ebooksChart'));
     }
 
     public function dashboardReviewer()
     {
-        $userId = auth()->user()->id;
+        $userId = Auth::user()->id;
 
         // ebooks need review by reviewer
         $ebooksNeedReview = EbookReview::needReviewCount($userId);

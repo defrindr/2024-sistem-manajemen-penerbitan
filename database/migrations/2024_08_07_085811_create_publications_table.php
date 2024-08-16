@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('themeId')->references('id')->on('theme_recommendations');
             $table->string('title');
+            $table->string('cover');
             $table->integer('numberOfPrinting');
             $table->integer('productionYear');
             $table->integer('totalProduction');

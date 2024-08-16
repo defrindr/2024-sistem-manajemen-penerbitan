@@ -29,8 +29,7 @@
         integrity="sha256-+uGLJmmTKOqBr+2E6KDYs/NRsHxSkONXFHUL0fy2O/4=" crossorigin="anonymous">
 
     {{-- fontawesome --}}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
-        integrity="sha512-q4aU8/q9/3s7u49F7+22b80v9l7z5p9u9kO9yZ0i7d/6767m80e7J3/
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
     @yield('css')
 </head> <!--end::Head--> <!--begin::Body-->
 
@@ -49,6 +48,6 @@
     </div> <!--end::App Wrapper-->
     @include('layouts.admin.script')
     @yield('script')
-    </body><!--end::Body-->
+</body><!--end::Body-->
 
 </html>

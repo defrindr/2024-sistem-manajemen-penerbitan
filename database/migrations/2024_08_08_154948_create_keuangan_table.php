@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('title');
             $table->decimal('sellPrice');
             $table->integer('sellCount');
+            $table->integer('year');
             $table->decimal('income', 20);
             $table->decimal('productionCost', 20);
             $table->timestamps();

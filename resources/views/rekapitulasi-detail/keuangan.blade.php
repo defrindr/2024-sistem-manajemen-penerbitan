@@ -30,9 +30,9 @@
         <div class="col-md-12">
             <div class="card card-default">
                 <div class="card-header">
-                    <a href="{{ route('rekapitulasi.export-keuangan') }}" class="btn btn-primary mb-2"
+                    <a href="{{ route('rekapitulasi-detail.export-keuangan') }}" class="btn btn-primary mb-2"
                         style="float: right">Export</a>
-                    <form action="{{ route('rekapitulasi.keuangan') }}">
+                    <form action="{{ route('rekapitulasi-detail.keuangan') }}">
                         <div class="input-group">
                             <input type="text" name="search" class="form-control" placeholder="Cari..."
                                 value="{{ request('search') }}">
@@ -50,44 +50,34 @@
                             <tr>
                                 <td>#</td>
                                 <td>Judul Cerita</td>
-                                <td>Total Penjualan</td>
                                 <td>Pemasukan</td>
                                 <td>Biaya Produksi</td>
-                                <td>Aksi</td>
+                                <td>Role</td>
+                                <td>Nama</td>
+                                <td>Persentase</td>
+                                <td>Nilai Profit</td>
                             </tr>
                         </thead>
                         <tbody>
-                            @if ($finances->count() == 0)
-                                <tr>
-                                    <td colspan="6" class="text-center">Tidak ada data</td>
-                                </tr>
-                            @endif
-                            @foreach ($finances as $keuangan)
+                            @foreach ($pagination as $detail)
                                 <tr>
                                     <td>{{ $loop->index + 1 }}</td>
-                                    <td>{{ $keuangan->theme->name }} <br />
-                                        <b><sup>{{ $keuangan->title }}</sup></b>
+                                    <td>{{ $detail->keuangan->theme->name }} <br />
+                                        <b><sup>{{ $detail->keuangan->title }}</sup></b>
+                                    <td>{{ App\Helpers\StrHelper::currency(intval($detail->keuangan->income), 'Rp') }}</td>
+                                    <td>{{ App\Helpers\StrHelper::currency(intval($detail->keuangan->productionCost), 'Rp') }}
                                     </td>
-                                    <td>{{ $keuangan->sellCount }}</td>
-                                    <td>{{ App\Helpers\StrHelper::currency(intval($keuangan->income), 'Rp ') }}</td>
-                                    <td>{{ App\Helpers\StrHelper::currency(intval($keuangan->productionCost), 'Rp') }}</td>
-                                    <td>
-                                        @php
-                                        $theme = $keuangan->theme;
-                                        @endphp
-                                        <button
-                                            onclick="openModal('{{ route('theme.keuangan.show', compact('theme', 'keuangan')) }}')"
-                                            class="btn-detail-keuangan btn btn-primary">
-                                            Detail
-                                        </button>
-                                    </td>
+                                    <td>{{ $detail->role }}</td>
+                                    <td>{{ $detail->user ? $detail->user->name : '-' }}</td>
+                                    <td>{{ $detail->percent }}</td>
+                                    <td>{{ App\Helpers\StrHelper::currency(intval($detail->profit), 'Rp') }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
                 <div class="card-footer">
-                    {{ $finances->links() }}
+                    {{ $pagination->links() }}
                 </div>
             </div>
         </div>

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 
 class Theme extends Model
 {
@@ -72,7 +73,7 @@ class Theme extends Model
 
     public function doesntHaveEbook(): bool
     {
-        return $this->ebooks()->where('userId', auth()->id())->exists();
+        return $this->ebooks()->where('userId', Auth::id())->exists();
     }
 
     public function getPriceFormattedAttribute()
@@ -118,5 +119,18 @@ class Theme extends Model
     public static function openCount()
     {
         return self::where('status', self::STATUS_OPEN)->count();
+    }
+
+    public function getAuthorsAttribute()
+    {
+        $names = [];
+
+        $userIds = Ebook::where('themeId', $this->id)->groupBy('userId')->select('userId');
+
+        $items = User::where('id', $userIds)->get();
+
+        foreach ($items as $item) $names[] = $item->name;
+
+        return implode(" | ", $names);
     }
 }

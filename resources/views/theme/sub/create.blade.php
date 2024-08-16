@@ -1,11 +1,11 @@
 @extends('layouts.admin.main')
 
-@section('title', 'Tambah Sub Topik')
+@section('title', 'Tambah Sub Judul')
 
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="#">Home</a></li>
-    <li class="breadcrumb-item"><a href="{{ route('theme.show', $theme) }}">Topik</a></li>
-    <li class="breadcrumb-item"><a href="#">Sub Topik</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('theme.show', $theme) }}">Judul</a></li>
+    <li class="breadcrumb-item"><a href="#">Sub Judul</a></li>
     <li class="breadcrumb-item active" aria-current="page">
         Tambah
     </li>
@@ -27,7 +27,7 @@
                         <div class="row">
                             <div class="col-md-12 mb-3">
                                 <div class="form-group">
-                                    <label for="name">Sub Topik</label>
+                                    <label for="name">Sub Judul</label>
                                     <input type="text" class="form-control @error('name') is-invalid @enderror"
                                         name="name" id="name" value="{{ old('name') }}">
                                     @error('name')

@@ -1,6 +1,6 @@
 @extends('layouts.admin.main')
 
-@section('title', 'Tambah Judul')
+@section('title', 'Tambah Cetakan')
 
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="#">Home</a></li>
@@ -19,7 +19,7 @@
                     <a href="{{ route('theme.publication.index', compact('theme')) }}" class="btn btn-danger">Kembali</a>
                 </div>
                 <form action="{{ route('theme.publication.store', compact('theme')) }}" method="POST" class="form"
-                    onsubmit="return confirm('Apakah anda yakin ??')">
+                    onsubmit="return confirm('Apakah anda yakin ??')" enctype="multipart/form-data">
                     <div class="card-body">
                         {{-- Agar tidak 419 expired, ketika di simpan --}}
                         @csrf
@@ -30,6 +30,16 @@
                                     <input type="text" class="form-control @error('title') is-invalid @enderror"
                                         name="title" id="title" value="{{ old('title') ?? $theme->name }}">
                                     @error('title')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <div class="form-group">
+                                    <label for="cover">Cover</label>
+                                    <input type="file" class="form-control @error('cover') is-invalid @enderror"
+                                        name="cover" id="cover" value="{{ old('cover') ?? $theme->name }}">
+                                    @error('cover')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
@@ -50,7 +60,8 @@
                                 <div class="form-group">
                                     <label for="productionYear">Tahun Produksi</label>
                                     <input type="year" class="form-control @error('productionYear') is-invalid @enderror"
-                                        name="productionYear" id="productionYear" value="{{ old('productionYear') ?? date('Y') }}">
+                                        name="productionYear" id="productionYear"
+                                        value="{{ old('productionYear') ?? date('Y') }}">
                                     @error('productionYear')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -61,7 +72,7 @@
                                 <div class="form-group">
                                     <label for="price">Harga Per Buku</label>
                                     <input type="number" class="form-control @error('price') is-invalid @enderror"
-                                        name="price" id="price" value="{{ old('price') }}">
+                                        min="0" name="price" id="price" value="{{ old('price') }}">
                                     @error('price')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -71,7 +82,7 @@
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">
                                     <label for="totalProduction">Jumlah Produksi</label>
-                                    <input type="number"
+                                    <input type="number" min="0"
                                         class="form-control @error('totalProduction') is-invalid @enderror"
                                         name="totalProduction" id="totalProduction" value="{{ old('totalProduction') }}">
                                     @error('totalProduction')

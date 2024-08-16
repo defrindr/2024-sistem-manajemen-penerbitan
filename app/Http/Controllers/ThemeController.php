@@ -13,6 +13,7 @@ use App\Models\Theme;
 use App\Models\User;
 use App\Trait\UploadTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use ZipArchive;
@@ -25,7 +26,7 @@ class ThemeController extends Controller
     {
         $query = Theme::orderBy('id', 'desc');
 
-        $currentUser = auth()->user();
+        $currentUser = Auth::user();
 
         if ($currentUser->roleId == Role::findIdByName(Role::AUTHOR)) {
             $query->where('status', 'open');
@@ -49,9 +50,10 @@ class ThemeController extends Controller
     public function publishAction(Theme $theme, Request $request)
     {
         $request->validate([
-            'isbn' => 'required',
-            'file' => 'required|file',
-            'cover' => 'required|file',
+            'isbn'        => 'required',
+            'description' => 'required',
+            'file'        => 'required|file',
+            'cover'       => 'required|file',
         ]);
 
         $request->request->add(
@@ -59,12 +61,12 @@ class ThemeController extends Controller
                 'status' => Theme::STATUS_PUBLISH
             ]
         );
-        $payload  = $request->all();
+        $payload   = $request->all();
         $fileCover = $request->file('cover');
-        $fileBook = $request->file('file');
+        $fileBook  = $request->file('file');
 
         $payload['cover'] = $this->uploadImage($fileCover, Theme::PATH);
-        $payload['file'] = $this->uploadImage($fileBook, Theme::PATH);
+        $payload['file']  = $this->uploadImage($fileBook, Theme::PATH);
 
         $success = $theme->update($payload);
 
