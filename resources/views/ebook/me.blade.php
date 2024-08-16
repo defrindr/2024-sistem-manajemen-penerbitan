@@ -51,12 +51,13 @@
                                             @if ($ebook->status == 'review' || $ebook->status === \App\Models\Ebook::STATUS_NOT_ACCEPT)
                                                 @if (count($ebook->reviews) >= 1)
                                                     Reviewer 1: <br>
-                                                    {!! $ebook->reviews[0]?->statusDetail !!}<br><br>
-                                                @elseif (count($ebook->reviews) >= 2)
-                                                    Reviewer 2:<br>
-                                                    {!! $ebook->reviews[1]?->statusDetail !!}
+                                                    {!! $ebook->reviews[0]?->statusDetail !!}<br>
                                                 @else
                                                     {{ $ebook->status }}
+                                                @endif
+                                                @if (count($ebook->reviews) >= 2)
+                                                    Reviewer 2:<br>
+                                                    {!! $ebook->reviews[1]?->statusDetail !!}
                                                 @endif
                                             @else
                                                 {{ $ebook->status }}
