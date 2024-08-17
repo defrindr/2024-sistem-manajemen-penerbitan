@@ -118,6 +118,17 @@
                                     @enderror
                                 </div>
                             </div>
+                            <div class="col-md-12 mb-3">
+                                <div class="form-group">
+                                    <label for="percentAuthor">Author (%)</label>
+                                    <input type="number" class="form-control @error('percentAuthor') is-invalid @enderror"
+                                        min="0" name="percentAuthor" id="percentAuthor"
+                                        value="{{ old('percentAuthor') }}">
+                                    @error('percentAuthor')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="card-footer">
@@ -135,6 +146,22 @@
     <script>
         let publications = @json($publications);
 
+        function hitungPersenAuthor() {
+            let nilaiAdmin = document.querySelector('#percentAdmin').value;
+            let persenAdmin = parseFloat(nilaiAdmin !== '' ? nilaiAdmin : '0');
+            let nilaiReviewer = document.querySelector('#percentReviewer').value;
+            let persenReviewer = parseFloat(nilaiReviewer !== '' ? nilaiReviewer : '0');
+
+            console.log(100 - (persenAdmin + persenReviewer))
+
+            document.querySelector('#percentAuthor').value = 100 - (persenAdmin + persenReviewer)
+        }
+
+        document.querySelector('#percentAdmin').addEventListener('keydown', () => hitungPersenAuthor());
+        document.querySelector('#percentReviewer').addEventListener('keydown', () => hitungPersenAuthor());
+        document.querySelector('#percentAdmin').addEventListener('keyup', () => hitungPersenAuthor());
+        document.querySelector('#percentReviewer').addEventListener('keyup', () => hitungPersenAuthor());
+
         // On publicationId changed, fill name & productionCost
         document.querySelector('#publicationId').addEventListener('change', (event) => {
             const publication = publications.find(publication => publication.id == event.target.value);
@@ -147,5 +174,7 @@
                 document.querySelector('#year').value = publication.productionYear;
             }
         })
+
+        hitungPersenAuthor();
     </script>
 @endsection
