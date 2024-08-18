@@ -127,7 +127,7 @@ class Theme extends Model
 
         $userIds = Ebook::where('themeId', $this->id)->groupBy('userId')->select('userId');
 
-        $items = User::where('id', $userIds)->get();
+        $items = User::whereIn('id', $userIds)->get();
 
         foreach ($items as $item) $names[] = $item->name;
 
