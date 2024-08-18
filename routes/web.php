@@ -7,6 +7,7 @@ use App\Http\Controllers\EbookController;
 use App\Http\Controllers\EbookReviewController;
 use App\Http\Controllers\kategoriController;
 use App\Http\Controllers\KeuanganController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PublicationController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\RekapitulasiController;
@@ -129,6 +130,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/rekapitulasi-detail/keuangan', [RekapitulasiDetailController::class, 'keuangan'])->name('rekapitulasi-detail.keuangan');
     Route::get('/rekapitulasi-detail/export-keuangan', [RekapitulasiDetailController::class, 'exportKeuangan'])->name('rekapitulasi-detail.export-keuangan');
     Route::get('/rekapitulasi/export-cetakan', [RekapitulasiController::class, 'exportCetakan'])->name('rekapitulasi.export-cetakan');
+
+
+    Route::get('/notification/{notification}', [NotificationController::class, 'read'])->name('notification.read');
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notification');
 });
 
 // Authentication Route

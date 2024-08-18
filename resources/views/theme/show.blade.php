@@ -122,6 +122,7 @@
                             <th>Deadline</th>
                             <th>Status</th>
                             <th>Author</th>
+                            <th>Reviews</th>
                             <th>Aksi</th>
                         </thead>
                         <tbody>
@@ -131,7 +132,7 @@
                                 </tr>
                             @else
                                 @foreach ($theme->subThemes as $index => $subTheme)
-                                    <tr>
+                                    <tr @if (request()->get('highlight') == $subTheme->id) class="bg-red" @endif>
                                         <td>{{ $index + 1 }}</td>
                                         <td>{{ $subTheme->name }}</td>
                                         <td> {{ $subTheme->dueDateFormatted }}</td>
@@ -143,6 +144,27 @@
                                                 {{ $subTheme->ebook()->first()?->author?->name }} <br>
                                                 Email: {{ $subTheme->ebook()->first()?->author?->email }} <br>
                                                 HP: {{ $subTheme->ebook()->first()?->author?->phone }}
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if ($subTheme->ebook()->exists())
+                                                @php
+                                                    $ebook = $subTheme->ebook()->first();
+                                                @endphp
+                                                @if (count($ebook->reviews) >= 1)
+                                                    <p>
+                                                        Reviewer 1: <br>
+                                                        {!! $ebook->reviews[0]?->statusDetail !!}
+                                                    </p>
+                                                @else
+                                                    {{ $ebook->status }}
+                                                @endif
+                                                @if (count($ebook->reviews) >= 2)
+                                                    <p>
+                                                        Reviewer 2:<br>
+                                                        {!! $ebook->reviews[1]?->statusDetail !!}
+                                                    </p>
+                                                @endif
                                             @endif
                                         </td>
                                         <td>
