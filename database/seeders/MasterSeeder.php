@@ -84,10 +84,11 @@ class MasterSeeder extends Seeder
                 'description' => '-',
                 'reviewer1Id' => self::findUserWithCategory($categoryId),
                 'reviewer2Id' => self::findUserWithCategory($categoryId),
+                'dueDate' => date('Y-m-d H:i:s', strtotime("+2 hours")),
             ]);
 
             foreach ($subtopics as $title) {
-                $randInt = random_int(1, 99);
+                $randInt = random_int(99, 990);
                 SubTheme::create([
                     'themeId' => $theme->id,
                     'name' => $title,

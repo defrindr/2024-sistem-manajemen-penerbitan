@@ -64,6 +64,16 @@ class KeuanganController extends Controller
             'themeId' => $theme->id,
         ]);
 
+        // Check if keuangan with publicationId and year are already exists
+        $keuangan = Keuangan::where('publicationId', $request->publicationId)
+            ->where('year', $request->year)
+            ->first();
+
+        // If the keuangan record exists, redirect back with an error message
+        if ($keuangan) {
+            return redirect()->back()->withInput()->withError('Keuangan dengan tema ini sudah ada pada tahun ' . $request->year);
+        }
+
         // Begin a database transaction
         DB::beginTransaction();
         try {

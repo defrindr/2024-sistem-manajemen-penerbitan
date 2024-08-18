@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use App\Models\Ebook;
+use App\Models\Notification;
 use App\Models\SubTheme;
 
 class CheckDeadline
@@ -28,6 +29,35 @@ class CheckDeadline
         ->get();
       foreach ($ebooks as $ebook) {
         $ebook->delete();
+      }
+
+      // Notifikasi reviewers sebelum h-3 jam deadline
+      $deadlineNotif = date('Y-m-d H:i:s', strtotime('+3 hours'));
+      $subThemeDeadlines = SubTheme::where('dueDate', '<=', $deadlineNotif)->get();
+      foreach ($subThemeDeadlines as $deadline) {
+        $ebook = $deadline->ebook()->first();
+
+        if ($ebook) {
+          // get all ebook reviewes
+          $reviews = $ebook->reviews()->get();
+
+          // create notification for each reviewer
+          foreach ($reviews as $review) {
+            if ($review->acc !== 1) {
+              // check if notification already exists
+              $payload = [
+                'ebookId' => $ebook->id,
+                'userId' => $review->reviewerId,
+                'description' => "Deadline hingga 3 jam sebelum pengajuan " . $ebook->title . " berakhir.",
+              ];
+              $notification = Notification::where($payload)->first();
+
+              if (!$notification) {
+                Notification::create($payload);
+              }
+            }
+          }
+        }
       }
     } catch (\Throwable $th) {
       throw $th;
