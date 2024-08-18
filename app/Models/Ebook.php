@@ -127,10 +127,12 @@ class Ebook extends Model
 
             $data = [];
             foreach ($labels as $year) {
-                $keuangan = Keuangan::where('themeId', $theme->id)->where('year', $year)->first();
+                $keuangan = Keuangan::where('themeId', $theme->id)->where('year', $year)->groupBy('year')->select(
+                    DB::raw('sum(sellCount) as sellPrice')
+                )->first();
 
                 if ($keuangan) {
-                    $data[] = $keuangan->sellCount;
+                    $data[] = $keuangan->sellPrice;
                 } else {
                     $data[] = 0;
                 }
