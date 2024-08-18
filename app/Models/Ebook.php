@@ -116,27 +116,40 @@ class Ebook extends Model
     public static function chartDataPenjualanBuku($year = null)
     {
         if (!$year) $year = date('Y');
-        $raws = Ebook::where('userId', Auth::user()->id)
-            ->where('keuangans.year', $year)
-            ->join('theme_recommendations', 'theme_recommendations.id', '=', 'ebooks.themeId')
-            ->join('keuangans', 'theme_recommendations.id', '=', 'keuangans.themeId')
-            ->groupBy('keuangans.year', 'theme_recommendations.name')
-            ->select(
-                DB::raw('sum(keuangans.sellCount) as totalSellCount'),
-                'keuangans.year',
-                'theme_recommendations.name'
-            )
-            ->get();
+        $raws = Keuangan::whereIn('themeId', Ebook::where('userId', Auth::user()->id)->select('themeId'))->get();
+        $datasets  = [];
+        $themes = Theme::whereIn('id', Ebook::where('userId', Auth::user()->id)->select('themeId'))->get();
+        // Year list with -3 year until current
+        $labels = range(date('Y') - 3, date('Y'));
 
-        $labels = [];
-        $data  = [];
+        foreach ($themes as $theme) {
+            $color = '#' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
 
-        foreach ($raws as $item) {
-            $labels[]  = $item->name;
-            $data[]  = $item->totalSellCount;
+            $data = [];
+            foreach ($labels as $year) {
+                $keuangan = Keuangan::where('themeId', $theme->id)->where('year', $year)->first();
+
+                if ($keuangan) {
+                    $data[] = $keuangan->sellCount;
+                } else {
+                    $data[] = 0;
+                }
+            }
+
+            $datasets[] = [
+                'label' => $theme->name,
+                'backgroundColor' => $color,
+                'borderColor' => $color,
+                'data' => $data,
+            ];
         }
 
-        return compact('labels', 'data', 'year');
+
+
+
+
+
+        return compact('labels', 'datasets', 'year');
     }
 
     /**
