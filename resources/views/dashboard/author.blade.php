@@ -20,15 +20,10 @@
         let dataChart = @json($ebooksChart);
 
         new Chart(ctx, {
-            type: 'bar',
+            type: 'line',
             data: {
                 labels: dataChart.labels,
-                datasets: [{
-                    label: dataChart.year,
-                    backgroundColor: '#f87979',
-                    data: dataChart.data,
-                    borderWidth: 1
-                }]
+                datasets: dataChart.datasets
             },
             options: {
                 scales: {
