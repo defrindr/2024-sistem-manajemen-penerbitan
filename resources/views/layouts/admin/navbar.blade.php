@@ -15,24 +15,27 @@
                 </a>
             </li> <!--end::Fullscreen Toggle-->
 
-            <!--end::Messages Dropdown Menu--> <!--begin::Notifications Dropdown Menu-->
-            <li class="nav-item dropdown"> <a class="nav-link" data-bs-toggle="dropdown" href="#"> <i
-                        class="bi bi-bell-fill"></i> <span
-                        class="navbar-badge badge text-bg-warning">{{ \App\Models\Notification::getUnReadFromAscCount() }}</span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
-                    @foreach (\App\Models\Notification::getUnReadFromDesc() as $item)
-                        <a href="{{ route('notification.read', $item->id) }}" target="blank" class="dropdown-item">
-                            {{ $item->descriptionMin }}
-                            <span class="float-end text-secondary fs-7">{{ $item->timelapse }}</span>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                    @endforeach
-                    <a href="{{ route('notification') }}" target="blank" class="dropdown-item">
-                        Selengkapnya
+            <!--end::Messages Dropdown Menu-->
+            @admin(true)
+                <!--begin::Notifications Dropdown Menu-->
+                <li class="nav-item dropdown"> <a class="nav-link" data-bs-toggle="dropdown" href="#"> <i
+                            class="bi bi-bell-fill"></i> <span
+                            class="navbar-badge badge text-bg-warning">{{ \App\Models\Notification::getUnReadFromAscCount() }}</span>
                     </a>
-                </div>
-            </li> <!--end::Notifications Dropdown Menu-->
+                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
+                        @foreach (\App\Models\Notification::getUnReadFromDesc() as $item)
+                            <a href="{{ route('notification.read', $item->id) }}" target="blank" class="dropdown-item">
+                                {{ $item->descriptionMin }}
+                                <span class="float-end text-secondary fs-7">{{ $item->timelapse }}</span>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                        @endforeach
+                        <a href="{{ route('notification') }}" target="blank" class="dropdown-item">
+                            Selengkapnya
+                        </a>
+                    </div>
+                </li> <!--end::Notifications Dropdown Menu-->
+            @endadmin
             <!--begin::User Menu Dropdown-->
             <li class="nav-item dropdown user-menu"> <a href="#" class="nav-link dropdown-toggle"
                     data-bs-toggle="dropdown"> <img src="{{ asset('dist/assets/img/user2-160x160.jpg') }}"
