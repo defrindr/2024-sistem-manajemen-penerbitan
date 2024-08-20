@@ -20,14 +20,13 @@
         let dataChart = @json($ebooks);
 
         new Chart(ctx, {
-            type: 'bar',
+            type: 'line',
             data: {
                 labels: dataChart.map(item => item.month),
                 datasets: [{
                     label: 'Sub Judul Selesai Di buat Berdasarkan Bulan',
                     backgroundColor: '#f87979',
                     data: dataChart.map(item => item.total),
-                    borderWidth: 1
                 }]
             },
             options: {
