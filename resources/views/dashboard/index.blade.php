@@ -46,38 +46,43 @@
     <div class="row">
         <div class="col-md-12">
             <div class="row">
-                <div class="col-md-6">
-                    <!-- small box -->
-                    <div class="small-box bg-info">
-                        <div class="inner">
-                            <h3>{{ $totalAuthors }}</h3>
-
-                            <p>Author</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- ./col -->
-                <div class="col-md-6">
-                    <!-- small box -->
-                    <div class="small-box bg-success">
-                        <div class="inner">
-                            <h3>
-                                {{ $publishedThemes }}
-                            </h3>
-
-                            <p>
-                                Judul dipublish
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-12 mb-4">
+                <div class="col-md-8 mb-4">
                     <div class="card card-default">
                         <div class="card-body">
 
                             <canvas id="myChart"></canvas>
                         </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <!-- small box -->
+                            <div class="small-box bg-info text-white">
+                                <div class="inner">
+                                    <h3>{{ $totalAuthors }}</h3>
+
+                                    <p>Author</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ./col -->
+                        <div class="col-md-12">
+                            <!-- small box -->
+                            <div class="small-box bg-success text-white">
+                                <div class="inner">
+                                    <h3>
+                                        {{ $publishedThemes }}
+                                    </h3>
+
+                                    <p>
+                                        Judul dipublish
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
