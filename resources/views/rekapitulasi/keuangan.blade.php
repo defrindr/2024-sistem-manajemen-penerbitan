@@ -30,7 +30,7 @@
         <div class="col-md-12">
             <div class="card card-default">
                 <div class="card-header">
-                    <a href="{{ route('rekapitulasi.export-keuangan') }}" class="btn btn-primary mb-2"
+                    <a href="{{ route('rekapitulasi.export-keuangan', request()->query()) }}" class="btn btn-primary mb-2"
                         style="float: right">Export</a>
                     <form action="{{ route('rekapitulasi.keuangan') }}">
                         <div class="input-group">
@@ -73,7 +73,7 @@
                                     <td>{{ App\Helpers\StrHelper::currency(intval($keuangan->productionCost), 'Rp') }}</td>
                                     <td>
                                         @php
-                                        $theme = $keuangan->theme;
+                                            $theme = $keuangan->theme;
                                         @endphp
                                         <button
                                             onclick="openModal('{{ route('theme.keuangan.show', compact('theme', 'keuangan')) }}')"
