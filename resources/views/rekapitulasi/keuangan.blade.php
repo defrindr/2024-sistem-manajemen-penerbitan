@@ -10,39 +10,24 @@
 @endsection
 
 @section('content')
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Detail Keuangan</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" id="detail-keuangan">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="row">
         <div class="col-md-12">
             <div class="card card-default">
-                <div class="card-header">
-                    <a href="{{ route('rekapitulasi.export-keuangan') }}" class="btn btn-primary mb-2"
-                        style="float: right">Export</a>
-                    <form action="{{ route('rekapitulasi.keuangan') }}">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <form action="{{ route('rekapitulasi.keuangan') }}" class="flex-grow-1">
                         <div class="input-group">
                             <input type="text" name="search" class="form-control" placeholder="Cari..."
                                 value="{{ request('search') }}">
                             <div class="input-group-append">
                                 <button class="btn btn-default" type="submit">
-                                    Cari
+                                    Search
                                 </button>
                             </div>
                         </div>
                     </form>
+                    <a href="{{ route('rekapitulasi.export-keuangan') }}" class="btn btn-primary ml-auto">
+                        Export
+                    </a>
                 </div>
                 <div class="card-body">
                     <table class="table table-hover table-striped">
@@ -53,35 +38,42 @@
                                 <td>Total Penjualan</td>
                                 <td>Pemasukan</td>
                                 <td>Biaya Produksi</td>
-                                <td>Aksi</td>
+                                <td>Sebagai</td>
+                                <td>Nama</td>
+                                <td>Persentase (%)</td>
+                                <td>Profit</td>
                             </tr>
                         </thead>
                         <tbody>
                             @if ($finances->count() == 0)
                                 <tr>
-                                    <td colspan="6" class="text-center">Tidak ada data</td>
+                                    <td colspan="9" class="text-center">Tidak ada data</td>
                                 </tr>
                             @endif
                             @foreach ($finances as $keuangan)
-                                <tr>
-                                    <td>{{ $loop->index + 1 }}</td>
-                                    <td>{{ $keuangan->theme->name }} <br />
-                                        <b><sup>{{ $keuangan->title }}</sup></b>
-                                    </td>
-                                    <td>{{ $keuangan->sellCount }}</td>
-                                    <td>{{ App\Helpers\StrHelper::currency(intval($keuangan->income), 'Rp ') }}</td>
-                                    <td>{{ App\Helpers\StrHelper::currency(intval($keuangan->productionCost), 'Rp') }}</td>
-                                    <td>
-                                        @php
-                                        $theme = $keuangan->theme;
-                                        @endphp
-                                        <button
-                                            onclick="openModal('{{ route('theme.keuangan.show', compact('theme', 'keuangan')) }}')"
-                                            class="btn-detail-keuangan btn btn-primary">
-                                            Detail
-                                        </button>
-                                    </td>
-                                </tr>
+                                @php
+                                    $firstDetail = true; // variabel untuk mengecek apakah detail pertama
+                                @endphp
+                                @foreach ($keuangan->details as $detail)
+                                    <tr>
+                                        @if ($firstDetail)
+                                            <td rowspan="{{ $keuangan->details->count() }}">{{ $loop->parent->index + 1 }}</td>
+                                            <td rowspan="{{ $keuangan->details->count() }}">{{ $keuangan->theme->name }} <br />
+                                                <b><sup>{{ $keuangan->title }}</sup></b>
+                                            </td>
+                                            <td rowspan="{{ $keuangan->details->count() }}">{{ $keuangan->sellCount }}</td>
+                                            <td rowspan="{{ $keuangan->details->count() }}">{{ App\Helpers\StrHelper::currency(intval($keuangan->income), 'Rp ') }}</td>
+                                            <td rowspan="{{ $keuangan->details->count() }}">{{ App\Helpers\StrHelper::currency(intval($keuangan->productionCost), 'Rp') }}</td>
+                                        @endif
+                                        <td>{{ $detail->role }}</td>
+                                        <td>{{ $detail->user ? $detail->user->name : '' }}</td>
+                                        <td>{{ $detail->percent }}</td>
+                                        <td>{{ App\Helpers\StrHelper::currency(intval($detail->profit), 'Rp') }}</td>
+                                    </tr>
+                                    @php
+                                        $firstDetail = false; // setelah detail pertama, set false
+                                    @endphp
+                                @endforeach
                             @endforeach
                         </tbody>
                     </table>
@@ -92,22 +84,4 @@
             </div>
         </div>
     </div>
-@endsection
-
-@section('script')
-    <script>
-        var myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {
-            keyboard: false
-        });
-
-        const openModal = (url) => {
-            let container = document.querySelector('#detail-keuangan');
-
-            myModal.show();
-
-            fetch(url).then(res => res.text()).then(res => {
-                container.innerHTML = res;
-            })
-        }
-    </script>
 @endsection

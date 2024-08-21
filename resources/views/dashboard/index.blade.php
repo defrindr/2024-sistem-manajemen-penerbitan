@@ -20,7 +20,7 @@
         let dataChart = @json($ebooks);
 
         new Chart(ctx, {
-            type: 'bar',
+            type: 'line',
             data: {
                 labels: dataChart.map(item => item.month),
                 datasets: [{
@@ -48,7 +48,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <!-- small box -->
-                    <div class="small-box bg-info">
+                    <div class="small-box bg-info text-white">
                         <div class="inner">
                             <h3>{{ $totalAuthors }}</h3>
 
@@ -59,7 +59,7 @@
                 <!-- ./col -->
                 <div class="col-md-6">
                     <!-- small box -->
-                    <div class="small-box bg-success">
+                    <div class="small-box bg-success text-white">
                         <div class="inner">
                             <h3>
                                 {{ $publishedThemes }}
@@ -72,11 +72,11 @@
                     </div>
                 </div>
 
-                <div class="col-md-12 mb-4">
+                <div class="col-md-12 mb-4 mt-3">
                     <div class="card card-default">
                         <div class="card-body">
 
-                            <canvas id="myChart"></canvas>
+                            <canvas id="myChart" width="800" height="200"></canvas>
                         </div>
                     </div>
                 </div>

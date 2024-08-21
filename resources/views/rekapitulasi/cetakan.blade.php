@@ -13,20 +13,21 @@
     <div class="row">
         <div class="col-md-12">
             <div class="card card-default">
-                <div class="card-header">
-                    <a href="{{ route('rekapitulasi.export-cetakan') }}" class="btn btn-primary mb-2"
-                        style="float: right">Export</a>
-                    <form action="{{ route('rekapitulasi.cetakan') }}">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <form action="{{ route('rekapitulasi.cetakan') }}" class="flex-grow-1">
                         <div class="input-group">
                             <input type="text" name="search" class="form-control" placeholder="Cari..."
                                 value="{{ request('search') }}">
                             <div class="input-group-append">
                                 <button class="btn btn-default" type="submit">
-                                    Cari
+                                    Search
                                 </button>
                             </div>
                         </div>
                     </form>
+                    <a href="{{ route('rekapitulasi.export-cetakan') }}" class="btn btn-primary ml-auto">
+                        Export
+                    </a>
                 </div>
                 <div class="card-body">
                     <table class="table table-hover table-striped">
@@ -61,7 +62,7 @@
                                     <td>{{ App\Helpers\StrHelper::currency($item->price * $item->totalProduction, 'Rp') }}
                                     </td>
                                     @admin(true)
-                                        <td>
+                                        <td class="d-flex gap-1">
                                             @php
                                                 $theme = $item->theme;
                                                 $publication = $item;

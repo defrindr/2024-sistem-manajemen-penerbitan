@@ -10,22 +10,6 @@
 @endsection
 
 @section('content')
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Detail Keuangan</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" id="detail-keuangan">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="row">
         <div class="col-md-12">
             <div class="card card-default">
@@ -43,44 +27,37 @@
                         <thead>
                             <tr>
                                 <td>#</td>
-                                <td>Judul Cerita</td>
+                                <td>Judul Buku</td>
                                 <td>Pemasukan</td>
                                 <td>Biaya Produksi</td>
-                                <td>Aksi</td>
+                                <td>Sebagai</td>
+                                <td>Nama</td>
+                                <td>Persentase</td>
+                                <td>Profit</td>
                             </tr>
                         </thead>
                         <tbody>
                             @if ($pagination->count() == 0)
                                 <tr>
-                                    <td colspan="7" class="text-center">Data Kosong</td>
+                                    <td colspan="8" class="text-center">Data Kosong</td>
                                 </tr>
                             @else
+                                @php $index = 1; @endphp <!-- Inisialisasi variabel untuk penomoran -->
                                 @foreach ($pagination as $keuangan)
-                                    <tr>
-                                        <td>{{ $loop->index + 1 }}</td>
-                                        <td>{{ $keuangan->title }}</td>
-                                        <td>{{ $keuangan->income }}</td>
-                                        <td>{{ App\Helpers\StrHelper::currency(intval($keuangan->productionCost), 'Rp') }}
-                                        </td>
-                                        <td>
-                                            <button
-                                                onclick="openModal('{{ route('theme.keuangan.show', compact('theme', 'keuangan')) }}')"
-                                                class="btn-detail-keuangan btn btn-primary">
-                                                Detail
-                                            </button>
-                                            {{-- cek kembali di routes untuk memastikan --}}
-                                            <form
-                                                action="{{ route('theme.keuangan.destroy', compact('keuangan', 'theme')) }}"
-                                                method="post" onsubmit="return confirm('Apakah anda yakin ??')"
-                                                class="d-inline-block">
-                                                {{-- Agar tidak expired ketika di submit --}}
-                                                @csrf
-                                                {{-- Tombol Delete --}}
-                                                @method('DELETE')
-                                                <button class="btn btn-danger">Hapus</button>
-                                            </form>
-                                        </td>
-                                    </tr>
+                                    @foreach ($keuangan->details as $detail)
+                                        <tr>
+                                            @if ($loop->first)
+                                                <td rowspan="{{ $keuangan->details->count() }}">{{ $index++ }}</td>
+                                                <td rowspan="{{ $keuangan->details->count() }}">{{ $keuangan->title }}</td>
+                                                <td rowspan="{{ $keuangan->details->count() }}">{{ $keuangan->income }}</td>
+                                                <td rowspan="{{ $keuangan->details->count() }}">{{ App\Helpers\StrHelper::currency(intval($keuangan->productionCost), 'Rp') }}</td>
+                                            @endif
+                                            <td>{{ $detail->role }}</td>
+                                            <td>{{ $detail->user ? $detail->user->name : '' }}</td>
+                                            <td>{{ $detail->percent }}</td>
+                                            <td>{{ App\Helpers\StrHelper::currency(intval($detail->profit), 'Rp') }}</td>
+                                        </tr>
+                                    @endforeach
                                 @endforeach
                             @endif
                         </tbody>
@@ -89,22 +66,4 @@
             </div>
         </div>
     </div>
-@endsection
-
-@section('script')
-    <script>
-        var myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {
-            keyboard: false
-        });
-
-        const openModal = (url) => {
-            let container = document.querySelector('#detail-keuangan');
-
-            myModal.show();
-
-            fetch(url).then(res => res.text()).then(res => {
-                container.innerHTML = res;
-            })
-        }
-    </script>
 @endsection
