@@ -62,7 +62,7 @@
                                     <td>{{ App\Helpers\StrHelper::currency($item->price * $item->totalProduction, 'Rp') }}
                                     </td>
                                     @admin(true)
-                                        <td class="d-flex gap-1">
+                                        <td>
                                             @php
                                                 $theme = $item->theme;
                                                 $publication = $item;

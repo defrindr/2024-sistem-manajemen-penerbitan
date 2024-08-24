@@ -17,8 +17,14 @@ class RekapKeuanganExport implements FromView
     }
     public function view(): View
     {
+        $financeQuery = KeuanganDetail::query()->join('keuangans', 'keuangans.id = keuangan_details.keuanganId')->select('keuangan_details.*');
+        if (request()->filled('search')) {
+            $searchTerm = request()->input('search');
+            $financeQuery->where('keuangans.title', 'like', "%{$searchTerm}%");
+        }
+
         return view('exports.rekap-keuangan', [
-            'pagination' => $this->query ?? KeuanganDetail::get()
+            'pagination' => $this->query ?? $financeQuery->get()
         ]);
     }
 }

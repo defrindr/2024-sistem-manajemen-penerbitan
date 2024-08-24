@@ -11,8 +11,16 @@ class RekapCetakanExport implements FromView
 {
     public function view(): View
     {
+
+        $query = Publication::query();
+        if (request()->filled('search')) {
+            $searchTerm = request()->input('search');
+            $query->where('title', 'like', "%{$searchTerm}%")
+                ->orWhere('productionYear', 'like', "%{$searchTerm}%");
+        }
+
         return view('exports.rekap-cetakan', [
-            'paginations' => Publication::get()
+            'paginations' => $query->get()
         ]);
     }
 }

@@ -45,7 +45,7 @@
                                         <td>{{ $item->description }}</td>
                                         <td>{{ $item->priceFormatted }}</td>
                                         <td>{{ $item->statusFormatted }}</td>
-                                        <td class="d-flex gap-1">
+                                        <td>
                                             <a href="{{ route('theme.show', $item) }}" class="btn btn-info">Lihat</a>
                                             @admin(true)
                                                 @if ($item->status == \App\Models\Theme::STATUS_REVIEW)
