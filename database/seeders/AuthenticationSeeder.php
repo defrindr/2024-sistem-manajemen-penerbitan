@@ -38,7 +38,7 @@ class AuthenticationSeeder extends Seeder
 
         for ($i = 1; $i <= 10; $i++) {
             User::factory()->create([
-                'name' => Role::AUTHOR . ' ' . $i,
+                'name' => Role::AUTHOR.' '.$i,
                 'email' => "author$i@example.com",
                 'npwp' => '12736615263187236',
                 'phone' => "62851625354$i",
@@ -51,7 +51,7 @@ class AuthenticationSeeder extends Seeder
 
         for ($i = 1; $i <= 100; $i++) {
             User::factory()->create([
-                'name' => Role::REVIEWER . ' ' . $i,
+                'name' => Role::REVIEWER.' '.$i,
                 'email' => "reviewer$i@example.com",
                 'npwp' => "127{$i}615263187236",
                 'phone' => "628516{$i}5354$i",

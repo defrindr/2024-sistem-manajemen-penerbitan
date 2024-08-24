@@ -8,7 +8,6 @@ use App\Models\Role;
 use App\Models\SubTheme;
 use App\Models\Theme;
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class EbookSeeder extends Seeder
@@ -32,7 +31,7 @@ class EbookSeeder extends Seeder
                     'themeId' => $theme->id,
                     'subthemeId' => $subTheme->id,
                     'userId' => $author->id,
-                    'title' => $subTheme->name . " - " . $theme->name,
+                    'title' => $subTheme->name.' - '.$theme->name,
                     'draft' => 'Revisi_1722751630.docx',
                     'proofOfPayment' => '007_Defri Indra Mahardika_1722708279.pdf',
                     'royalty' => null,

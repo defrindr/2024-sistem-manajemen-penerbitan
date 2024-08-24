@@ -84,7 +84,7 @@ class MasterSeeder extends Seeder
                 'description' => '-',
                 'reviewer1Id' => self::findUserWithCategory($categoryId),
                 'reviewer2Id' => self::findUserWithCategory($categoryId),
-                'dueDate' => date('Y-m-d H:i:s', strtotime("+2 hours")),
+                'dueDate' => date('Y-m-d H:i:s', strtotime('+2 hours')),
             ]);
 
             foreach ($subtopics as $title) {
@@ -106,7 +106,7 @@ class MasterSeeder extends Seeder
     public static function findUserWithCategory($categoryId)
     {
         $user = User::where(['roleId' => Role::findIdByName(Role::REVIEWER), 'categoryId' => $categoryId])->inRandomOrder()->select('id')->first();
-        if (!$user) {
+        if (! $user) {
             return null;
         }
 
