@@ -14,8 +14,10 @@
         <div class="col-md-12">
             <div class="card card-default">
                 <div class="card-header">
-                    <a href="{{ route('rekapitulasi.export-cetakan', request()->query()) }}" class="btn btn-primary mb-2"
-                        style="float: right">Export</a>
+                    @admin(true)
+                        <a href="{{ route('rekapitulasi.export-cetakan', request()->query()) }}" class="btn btn-primary mb-2"
+                            style="float: right">Export</a>
+                    @endadmin
                     <form action="{{ route('rekapitulasi.cetakan') }}">
                         <div class="input-group">
                             <input type="text" name="search" class="form-control" placeholder="Cari..."
@@ -39,9 +41,7 @@
                                 <td>Total Produksi</td>
                                 <td>Harga Produksi Buku</td>
                                 <td>Total Biaya</td>
-                                @admin(true)
-                                    <td>Aksi</td>
-                                @endadmin
+                                <td>Aksi</td>
                             </tr>
                         </thead>
                         <tbody>
@@ -60,16 +60,16 @@
                                     <td>{{ App\Helpers\StrHelper::currency($item->price, 'Rp') }}</td>
                                     <td>{{ App\Helpers\StrHelper::currency($item->price * $item->totalProduction, 'Rp') }}
                                     </td>
-                                    @admin(true)
-                                        <td>
-                                            @php
-                                                $theme = $item->theme;
-                                                $publication = $item;
-                                            @endphp
-                                            <a href="{{ route('theme.publication.show', compact('theme', 'publication')) }}"
-                                                class="btn btn-primary mb-2">
-                                                Lihat
-                                            </a>
+                                    <td>
+                                        @php
+                                            $theme = $item->theme;
+                                            $publication = $item;
+                                        @endphp
+                                        <a href="{{ route('theme.publication.show', compact('theme', 'publication')) }}"
+                                            class="btn btn-primary mb-2">
+                                            Lihat
+                                        </a>
+                                        @admin(true)
                                             <form
                                                 action="{{ route('theme.publication.destroy', compact('theme', 'publication')) }}"
                                                 method="post" onsubmit="return confirm('Yakin ingin menjalankan aksi ini ?')">
@@ -79,8 +79,8 @@
                                                     Hapus
                                                 </button>
                                             </form>
-                                        </td>
-                                    @endadmin
+                                        @endadmin
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
