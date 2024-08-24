@@ -14,7 +14,7 @@ trait UploadTrait
      * @param  string  $argName  nama argumen dari file eg: photo
      * @param  string  $path  lokasi file akan disimpan
      * @param  string|null  $oldFile  file lama yang akan dihapus ketika berhasil mengunggah file baru
-     * @return array berisi parameter success & fileName
+     * @return string berisi parameter fileName
      */
     public static function uploadImage(UploadedFile $file, string $path, ?string $oldFile = null)
     {
