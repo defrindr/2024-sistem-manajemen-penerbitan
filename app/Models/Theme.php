@@ -25,7 +25,7 @@ class Theme extends Model
 
     const STATUS_PUBLISH = 'publish';
 
-    const PATH = "theme";
+    const PATH = 'theme';
 
     protected $fillable = [
         'name',
@@ -39,13 +39,14 @@ class Theme extends Model
         'dueDate',
         'categoryId',
         'reviewer1Id',
-        'reviewer2Id'
+        'reviewer2Id',
     ];
 
     public function subThemes(): HasMany
     {
         return $this->hasMany(SubTheme::class, 'themeId');
     }
+
     public function publications(): HasMany
     {
         return $this->hasMany(Publication::class, 'themeId');
@@ -78,7 +79,7 @@ class Theme extends Model
 
     public function getPriceFormattedAttribute()
     {
-        return StrHelper::currency($this->price, "Rp");
+        return StrHelper::currency($this->price, 'Rp');
     }
 
     public function getStatusFormattedAttribute()
@@ -95,20 +96,20 @@ class Theme extends Model
 
     public function pathToFile($attribute)
     {
-        $path = "";
+        $path = '';
 
         switch ($attribute) {
-            case "cover":
+            case 'cover':
                 $path = $this->cover;
                 break;
-            case "file":
+            case 'file':
                 $path = $this->file;
                 break;
             default:
                 break;
         }
 
-        return asset("storage/" . self::PATH . "/" . $path);
+        return asset('storage/'.self::PATH.'/'.$path);
     }
 
     public static function publishedCount()
@@ -129,8 +130,10 @@ class Theme extends Model
 
         $items = User::whereIn('id', $userIds)->get();
 
-        foreach ($items as $item) $names[] = $item->name;
+        foreach ($items as $item) {
+            $names[] = $item->name;
+        }
 
-        return implode(" | ", $names);
+        return implode(' | ', $names);
     }
 }

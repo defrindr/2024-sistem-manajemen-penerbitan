@@ -43,6 +43,7 @@ class EbookController extends Controller
     {
         $query = Ebook::query()->where('status', 'pending');
         $pagination = $query->paginate();
+
         return view('ebook.konfirmasi-pembayaran-list', compact('pagination'));
     }
 
@@ -81,7 +82,7 @@ class EbookController extends Controller
                     'themeId' => $ebook->theme->id,
                     'subthemeId' => $subTheme->id,
                     'userId' => $ebook->userId,
-                    'title' => $subTheme->theme->name . " - " . $subTheme->name,
+                    'title' => $subTheme->theme->name.' - '.$subTheme->name,
                     'draft' => null,
                     'proofOfPayment' => $ebook->proofOfPayment,
                     'royalty' => $ebook->royalty,
@@ -105,7 +106,6 @@ class EbookController extends Controller
                 }
             }
         }
-
 
         if ($success) {
             return redirect()->route('ebook.konfirmasi-pembayaran-list')->with('success', 'Berhasil mengonfirmasi pembayaran.');
@@ -144,11 +144,11 @@ class EbookController extends Controller
     {
         // Create ebook when access this page, if not exist
         $ebook = $theme->ebooks()->where('subthemeId', $subTheme->id)->first();
-        if (!$ebook) {
+        if (! $ebook) {
             $ebook = $theme->ebooks()->create([
                 'subthemeId' => $subTheme->id,
                 'userId' => Auth::user()->id,
-                'title' => $subTheme->theme->name . " - " . $subTheme->name,
+                'title' => $subTheme->theme->name.' - '.$subTheme->name,
                 'draft' => null,
                 'proofOfPayment' => null,
                 'royalty' => 0,
@@ -240,6 +240,7 @@ class EbookController extends Controller
 
             if ($ebook->update($payload) && $success) {
                 DB::commit();
+
                 return redirect()->route('ebook.me')->with('success', 'Berhasil mengubah ebook.');
             }
             DB::rollBack();

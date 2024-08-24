@@ -49,7 +49,6 @@ class PublicationController extends Controller
             'themeId' => $theme->id,
         ]);
 
-
         DB::beginTransaction();
         try {
             $payload = $request->all();
@@ -61,6 +60,7 @@ class PublicationController extends Controller
             }
             Publication::create($payload);
             DB::commit();
+
             return redirect()->route('theme.publication.index', $theme)->withSuccess('Berhasil menambahkan data');
         } catch (\Throwable $th) {
             return redirect()->back()->withError('Gagal menambahkan data');
@@ -74,7 +74,6 @@ class PublicationController extends Controller
     {
         return view('theme.publication.show', compact('theme', 'publication'));
     }
-
 
     /**
      * Remove the specified resource from storage.

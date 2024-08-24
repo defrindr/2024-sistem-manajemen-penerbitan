@@ -68,9 +68,9 @@ class AppServiceProvider extends ServiceProvider
             return $user && $user->roleId === Role::findIdByName(Role::REVIEWER);
         });
 
-
         Blade::if('forrole', function ($roles = []) {
             $user = Auth::user();
+
             return in_array($user->roleId, $roles);
         });
     }

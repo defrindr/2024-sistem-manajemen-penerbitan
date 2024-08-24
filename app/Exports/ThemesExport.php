@@ -11,7 +11,7 @@ class ThemesExport implements FromView
     public function view(): View
     {
         return view('exports.themes', [
-            'pagination' => Theme::all()
+            'pagination' => Theme::all(),
         ]);
     }
 }

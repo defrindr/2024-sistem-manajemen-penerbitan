@@ -54,7 +54,7 @@ class EbookReviewController extends Controller
         $request->validate([
             'acc' => 'required|in:1,-1',
             'comment' => 'required',
-            'draft' => 'file|nullable'
+            'draft' => 'file|nullable',
         ]);
 
         DB::beginTransaction();
@@ -81,6 +81,7 @@ class EbookReviewController extends Controller
             $ebook->save();
 
             DB::commit();
+
             return redirect()->route('ebook.butuhreview')->with('success', 'Berhasil memberikan review ke ebook.');
         }
 

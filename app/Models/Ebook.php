@@ -14,6 +14,7 @@ class Ebook extends Model
     use HasFactory;
 
     const STATUS_PAYMENT = 'payment';
+
     const STATUS_PENDING = 'pending';
 
     const STATUS_DRAFT = 'draft';
@@ -79,6 +80,7 @@ class Ebook extends Model
     public function getProofOfPaymentPathAttribute()
     {
         $path = self::FILE_PATH;
+
         return asset("storage/$path/{$this->proofOfPayment}");
     }
 
@@ -99,7 +101,7 @@ class Ebook extends Model
 
         // generate dummy data
         for ($i = 1; $i <= 12; $i++) {
-            if (!in_array($i, array_column($data, 'month'))) {
+            if (! in_array($i, array_column($data, 'month'))) {
                 $data[] = ['month' => $i, 'total' => 0];
             }
         }
@@ -115,15 +117,17 @@ class Ebook extends Model
 
     public static function chartDataPenjualanBuku($year = null)
     {
-        if (!$year) $year = date('Y');
+        if (! $year) {
+            $year = date('Y');
+        }
         $raws = Keuangan::whereIn('themeId', Ebook::where('userId', Auth::user()->id)->select('themeId'))->get();
-        $datasets  = [];
+        $datasets = [];
         $themes = Theme::whereIn('id', Ebook::where('userId', Auth::user()->id)->select('themeId'))->get();
         // Year list with -3 year until current
         $labels = range(date('Y') - 3, date('Y'));
 
         foreach ($themes as $theme) {
-            $color = '#' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
+            $color = '#'.str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
 
             $data = [];
             foreach ($labels as $year) {
@@ -146,18 +150,13 @@ class Ebook extends Model
             ];
         }
 
-
-
-
-
-
         return compact('labels', 'datasets', 'year');
     }
 
     /**
      * Retrieves the count of draft ebooks for a given user.
      *
-     * @param int $userId The ID of the user.
+     * @param  int  $userId  The ID of the user.
      * @return int The count of draft ebooks.
      */
     public static function draftCount($userId)

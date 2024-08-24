@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Exports\RekapCetakanExport;
 use App\Exports\RekapKeuanganExport;
 use App\Models\Keuangan;
-use App\Models\KeuanganDetail;
 use App\Models\Publication;
 use App\Models\Role;
 use Illuminate\Http\Request;
@@ -17,7 +16,7 @@ class RekapitulasiController extends Controller
     /**
      * Retrieves a paginated list of publications based on the search term.
      *
-     * @param Request $request The HTTP request object.
+     * @param  Request  $request  The HTTP request object.
      * @return \Illuminate\View\View The view for displaying the list of publications.
      */
     public function cetakan(Request $request)
@@ -27,7 +26,7 @@ class RekapitulasiController extends Controller
             ->leftJoin('ebooks', 'ebooks.themeId', '=', 'theme_recommendations.id')
             ->leftJoin('ebook_reviews', 'ebook_reviews.ebookId', '=', 'ebooks.id');
 
-        if (!in_array(Auth::user()->role->name, [Role::ADMINISTRATOR, Role::SUPERADMIN])) {
+        if (! in_array(Auth::user()->role->name, [Role::ADMINISTRATOR, Role::SUPERADMIN])) {
             $publicationQuery
                 ->where(function ($query) {
                     if (Auth::user()->role->name == Role::AUTHOR) {
@@ -86,11 +85,11 @@ class RekapitulasiController extends Controller
 
     public function exportCetakan()
     {
-        return Excel::download(new RekapCetakanExport(), 'rekapitulasi.cetakan.xlsx');
+        return Excel::download(new RekapCetakanExport, 'rekapitulasi.cetakan.xlsx');
     }
 
     public function exportKeuangan()
     {
-        return Excel::download(new RekapKeuanganExport(), 'rekapitulasi.keuangan.xlsx');
+        return Excel::download(new RekapKeuanganExport, 'rekapitulasi.keuangan.xlsx');
     }
 }

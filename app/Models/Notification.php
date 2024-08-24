@@ -49,6 +49,7 @@ class Notification extends Model
             ->limit(5)
             ->get();
     }
+
     public static function getUnReadFromAscCount()
     {
         return self::where('isRead', false)
@@ -58,8 +59,9 @@ class Notification extends Model
 
     public function getDescriptionMinAttribute()
     {
-        return substr($this->description, 0, 15) . '...';
+        return substr($this->description, 0, 15).'...';
     }
+
     /**
      * Get the timelapse since the notification was created.
      *
@@ -72,15 +74,15 @@ class Notification extends Model
         $diff = $now->diff($created_at);
 
         if ($diff->y > 0) {
-            return $diff->y . ' year' . ($diff->y > 1 ? 's' : '') . ' ago';
+            return $diff->y.' year'.($diff->y > 1 ? 's' : '').' ago';
         } elseif ($diff->m > 0) {
-            return $diff->m . ' month' . ($diff->m > 1 ? 's' : '') . ' ago';
+            return $diff->m.' month'.($diff->m > 1 ? 's' : '').' ago';
         } elseif ($diff->d > 0) {
-            return $diff->d . ' day' . ($diff->d > 1 ? 's' : '') . ' ago';
+            return $diff->d.' day'.($diff->d > 1 ? 's' : '').' ago';
         } elseif ($diff->h > 0) {
-            return $diff->h . ' hour' . ($diff->h > 1 ? 's' : '') . ' ago';
+            return $diff->h.' hour'.($diff->h > 1 ? 's' : '').' ago';
         } elseif ($diff->i > 0) {
-            return $diff->i . ' min' . ($diff->i > 1 ? 's' : '') . ' ago';
+            return $diff->i.' min'.($diff->i > 1 ? 's' : '').' ago';
         } else {
             return 'Just now';
         }

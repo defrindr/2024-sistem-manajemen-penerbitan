@@ -31,7 +31,7 @@ class AuthenticationController extends Controller
 
     public function logoutAction()
     {
-        if (!Auth::user()) {
+        if (! Auth::user()) {
             return redirect()->route('login');
         }
 

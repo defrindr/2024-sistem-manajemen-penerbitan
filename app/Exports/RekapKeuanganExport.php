@@ -2,19 +2,19 @@
 
 namespace App\Exports;
 
-use App\Models\Keuangan;
 use App\Models\KeuanganDetail;
 use Illuminate\Contracts\View\View;
-use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\FromView;
 
 class RekapKeuanganExport implements FromView
 {
     protected $query;
+
     public function __construct($query = null)
     {
         $this->query = $query;
     }
+
     public function view(): View
     {
         $financeQuery = KeuanganDetail::query()->join('keuangans', 'keuangans.id = keuangan_details.keuanganId')->select('keuangan_details.*');
@@ -24,7 +24,7 @@ class RekapKeuanganExport implements FromView
         }
 
         return view('exports.rekap-keuangan', [
-            'pagination' => $this->query ?? $financeQuery->get()
+            'pagination' => $this->query ?? $financeQuery->get(),
         ]);
     }
 }

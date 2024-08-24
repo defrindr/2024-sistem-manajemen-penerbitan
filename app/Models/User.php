@@ -26,6 +26,9 @@ class User extends Authenticatable
         'bio',
         'npwp',
         'categoryId',
+        'ktp',
+        'bank',
+        'noRekening',
     ];
 
     /**
@@ -73,7 +76,7 @@ class User extends Authenticatable
 
         if ($categoryId) {
             $query->where([
-                'categoryId' => $categoryId
+                'categoryId' => $categoryId,
             ]);
         }
 
