@@ -30,7 +30,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::resource('category', kategoriController::class)->except(['show'])->names('kategori');
-    Route::resource('user', UserController::class)->only(['index', 'show']);
+    Route::resource('user', UserController::class)->only(['index', 'show', 'edit', 'update']);
     Route::get('/topik/unduh', [ThemeController::class, 'export'])->name('theme.export');
     Route::resource('topik', ThemeController::class)
         ->names('theme')

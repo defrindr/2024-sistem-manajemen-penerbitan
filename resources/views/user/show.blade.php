@@ -47,10 +47,15 @@
                                 <td>NPWP</td>
                                 <td>: {{ $user->npwp }}</td>
                             </tr>
-                            {{-- <tr>
+                            <tr>
                                 <td>KTP</td>
-                                <td>: {{ asset("storage/". $user->ktp) }}</td>
-                            </tr> --}}
+                                <td>:
+                                    <a href="{{ asset('storage/ktp/' . $user->ktp) }}" target="_blank">
+                                        <img src="{{ asset('storage/ktp/' . $user->ktp) }}" alt=""
+                                            class="img img-fluid" style="max-width:80px">
+                                    </a>
+                                </td>
+                            </tr>
                             <tr>
                                 <td>Bank</td>
                                 <td>: {{ $user->bank }}</td>

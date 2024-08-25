@@ -40,9 +40,9 @@
                                     <td>{{ $item->phone }}</td>
                                     <td>{{ $item->role->name }}</td>
                                     <td>
-                                        <a href="{{ route('user.show', $item) }}" class="btn btn-warning">Show</a>
+                                        <a href="{{ route('user.show', $item) }}" class="btn btn-primary">Show</a>
                                         {{-- Tombol Edit --}}
-                                        {{-- <a href="{{ route('user.edit', $item) }}" class="btn btn-warning">Edit</a> --}}
+                                        <a href="{{ route('user.edit', $item) }}" class="btn btn-warning">Edit</a>
 
                                         {{-- Menggunakan form, karena method untuk menghapus adalah DELETE --}}
                                         {{-- cek kembali di routes untuk memastikan --}}
