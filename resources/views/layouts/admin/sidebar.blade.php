@@ -30,11 +30,19 @@
                     @include('layouts.admin._sidebar.admin')
                 @endadmin
                 @author
-                    @include('layouts.admin._sidebar.author')
+                @include('layouts.admin._sidebar.author')
                 @endauthor
                 @reviewer
                     @include('layouts.admin._sidebar.reviewer')
                 @endreviewer
+                <li class="nav-item">
+                    <a href="{{ route('profile.me') }}" class="nav-link">
+                        <i class="nav-icon bi bi-person"></i>
+                        <p>
+                            Profile
+                        </p>
+                    </a>
+                </li>
             </ul> <!--end::Sidebar Menu-->
         </nav>
     </div> <!--end::Sidebar Wrapper-->

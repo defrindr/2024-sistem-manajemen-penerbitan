@@ -31,23 +31,23 @@ class EbookSeeder extends Seeder
                     'themeId' => $theme->id,
                     'subthemeId' => $subTheme->id,
                     'userId' => $author->id,
-                    'title' => $subTheme->name.' - '.$theme->name,
+                    'title' => $subTheme->name . ' - ' . $theme->name,
                     'draft' => 'Revisi_1722751630.docx',
                     'proofOfPayment' => '007_Defri Indra Mahardika_1722708279.pdf',
                     'royalty' => null,
-                    'status' => Ebook::STATUS_REVIEW,
+                    'status' => Ebook::STATUS_ACCEPT,
                 ]);
 
                 EbookReview::create([
                     'ebookId' => $ebook->id,
                     'reviewerId' => $reviewer1Id,
-                    'acc' => 0,
+                    'acc' => 1,
                 ]);
 
                 EbookReview::create([
                     'ebookId' => $ebook->id,
                     'reviewerId' => $reviewer2Id,
-                    'acc' => 0,
+                    'acc' => 1,
                 ]);
             }
 

@@ -21,6 +21,8 @@ return new class extends Migration
             $table->string('proofOfPayment')->nullable();
             $table->dateTime('dueDate')->nullable();
             $table->float('royalty')->nullable();
+            $table->string('haki')->nullable();
+            $table->string('ktp')->nullable();
             $table->enum('status', ['payment', 'pending', 'drafting', 'submit', 'review', 'accept', 'not_accept']);
             $table->timestamps();
             $table->softDeletes();

@@ -43,6 +43,8 @@ class Ebook extends Model
         'proofOfPayment',
         'royalty',
         'status',
+        'haki',
+        'ktp'
     ];
 
     public function theme(): BelongsTo
@@ -127,7 +129,7 @@ class Ebook extends Model
         $labels = range(date('Y') - 3, date('Y'));
 
         foreach ($themes as $theme) {
-            $color = '#'.str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
+            $color = '#' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
 
             $data = [];
             foreach ($labels as $year) {
