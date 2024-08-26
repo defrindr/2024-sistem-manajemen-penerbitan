@@ -18,7 +18,7 @@
                 </div>
                 <div class="card-body">
                     <div class="mb-5"
-                        style="width: 100%;height: 750px;overflow: hidden;background: url('{{ $publication->coverLink }}') 100% 100%; background-position: center">
+                        style="width: 100%;height: 750px;overflow: hidden;background: url('{{ $publication->coverLink }}') 100% 100%; background-position: center;background-size:contain;background-repeat:no-repeat">
                     </div>
                     <table class="table table-hover table-striped">
                         <tbody>
@@ -31,6 +31,17 @@
                                 <td>Judul</td>
                                 <td>:</td>
                                 <td>{{ $publication->theme->name }}</td>
+                            </tr>
+                            <tr>
+                                <td>Sub Judul</td>
+                                <td>:</td>
+                                <td>
+                                    <ol>
+                                        @foreach ($publication->theme->subThemes as $item)
+                                            <li>{{ $item->name }}</li>
+                                        @endforeach
+                                    </ol>
+                                </td>
                             </tr>
                             <tr>
                                 <td>Nama Penulis</td>
@@ -47,7 +58,7 @@
             </div>
         </div>
 
-        <div class="col-md-12 mt-3">
+        {{-- <div class="col-md-12 mt-3">
             <div class="card card-default">
                 <div class="card-header">
                     <h3>Sub Tema</h3>
@@ -83,6 +94,6 @@
                     </table>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
 @endsection
