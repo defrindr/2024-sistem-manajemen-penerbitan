@@ -46,6 +46,14 @@
         </p>
     </a>
 </li>
+<li class="nav-item">
+    <a href="{{ route('user.index') }}" class="nav-link">
+        <i class="nav-icon bi bi-people"></i>
+        <p>
+            Pengguna
+        </p>
+    </a>
+</li>
 {{-- <li class="nav-item">
     <a href="{{ route('ebook.butuhreview') }}" class="nav-link">
         <i class="nav-icon bi bi-speedometer"></i>

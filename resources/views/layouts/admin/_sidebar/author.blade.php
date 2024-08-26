@@ -22,3 +22,11 @@
         </p>
     </a>
 </li>
+<li class="nav-item">
+    <a href="{{ route('rekapitulasi.cetakan') }}" class="nav-link">
+        <i class="nav-icon bi bi-bookmark"></i>
+        <p>
+            Rekapitulasi Cetakan
+        </p>
+    </a>
+</li>

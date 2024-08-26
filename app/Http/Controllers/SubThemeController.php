@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Exports\SubThemesExport;
-use App\Models\Kategori;
 use App\Models\SubTheme;
 use App\Models\Theme;
 use App\Models\User;
@@ -22,7 +21,7 @@ class SubThemeController extends Controller
     public function store(Theme $theme, Request $request)
     {
         $request->validate([
-            'name'    => 'required',
+            'name' => 'required',
             'dueDate' => 'required',
         ]);
 
@@ -42,13 +41,14 @@ class SubThemeController extends Controller
     public function edit(Theme $theme, SubTheme $subTheme)
     {
         $reviewers = User::reviewerWithCategory($theme->categoryId)->get();
+
         return view('theme.sub.edit', compact('theme', 'subTheme', 'reviewers'));
     }
 
     public function update(Theme $theme, SubTheme $subTheme, Request $request)
     {
         $request->validate([
-            'name'    => 'required',
+            'name' => 'required',
             'dueDate' => 'required',
         ]);
 
@@ -66,6 +66,7 @@ class SubThemeController extends Controller
     {
         try {
             $subTheme->delete();
+
             return redirect()->back()->with('success', 'Berhasil menghapus sub tema');
         } catch (\Throwable $th) {
             return redirect()->back()->with('danger', 'Gagal menghapus sub tema');

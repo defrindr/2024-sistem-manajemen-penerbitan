@@ -26,22 +26,21 @@ class EbookReview extends Model
 
     public function getStatusDetailAttribute()
     {
-        $statusLabel = "Pending";
+        $statusLabel = 'Pending';
 
         switch ($this->acc) {
             case -1:
-                $statusLabel = "Ditolak";
+                $statusLabel = 'Ditolak';
                 break;
             case 1:
-                $statusLabel = "Diterima";
+                $statusLabel = 'Diterima';
                 break;
             default:
-                $statusLabel = "Pending";
+                $statusLabel = 'Pending';
                 break;
         }
 
-        $statusLabel .= "<br/><i>" . $this->comment . "</i>";
-
+        $statusLabel .= '<br/><i>'.$this->comment.'</i>';
 
         return $statusLabel;
     }

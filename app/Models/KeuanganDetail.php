@@ -10,6 +10,7 @@ class KeuanganDetail extends Model
     use HasFactory;
 
     protected $table = 'keuangan_details';
+
     protected $fillable = [
         'keuanganId',
         'userId',
@@ -20,11 +21,11 @@ class KeuanganDetail extends Model
 
     public function keuangan()
     {
-        return $this->belongsTo(Keuangan::class, "keuanganId");
+        return $this->belongsTo(Keuangan::class, 'keuanganId');
     }
 
     public function user()
     {
-        return $this->belongsTo(User::class, "userId");
+        return $this->belongsTo(User::class, 'userId');
     }
 }

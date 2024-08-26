@@ -35,28 +35,27 @@ class KeuanganController extends Controller
         )
             ->where('themeId', $theme->id)
             ->get();
+
         return view('theme.keuangan.create', compact('theme', 'publications'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Theme  $theme
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request, Theme $theme)
     {
         // Validate the incoming request data
         $request->validate([
-            'publicationId'   => 'required',
-            'title'           => 'required',
-            'year'            => 'required',
-            'productionCost'  => 'required',
+            'publicationId' => 'required',
+            'title' => 'required',
+            'year' => 'required',
+            'productionCost' => 'required',
             'percentReviewer' => 'required',
-            'sellPrice'       => 'required',
-            'sellCount'       => 'required',
-            'percentAdmin'    => 'required',
+            'sellPrice' => 'required',
+            'sellCount' => 'required',
+            'percentAdmin' => 'required',
         ]);
 
         // Add the themeId to the request data
@@ -71,7 +70,7 @@ class KeuanganController extends Controller
 
         // If the keuangan record exists, redirect back with an error message
         if ($keuangan) {
-            return redirect()->back()->withInput()->withError('Keuangan dengan tema ini sudah ada pada tahun ' . $request->year);
+            return redirect()->back()->withInput()->withError('Keuangan dengan tema ini sudah ada pada tahun '.$request->year);
         }
 
         // Begin a database transaction
@@ -83,8 +82,9 @@ class KeuanganController extends Controller
             $keuangan = Keuangan::create($payload);
 
             // If the Keuangan record was not created, rollback the transaction and redirect back with an error message
-            if (!$keuangan) {
+            if (! $keuangan) {
                 DB::rollBack();
+
                 return redirect()->back()->withInput()->withError('Gagal menambahkan data keuangan');
             }
 
@@ -98,9 +98,11 @@ class KeuanganController extends Controller
             }
 
             $percentageAuthors = 100 - ($keuangan->percentAdmin + $keuangan->percentReviewer);
-            if ($theme->ebooks()->count() > 0)
+            if ($theme->ebooks()->count() > 0) {
                 $percentPerAuthor = $percentageAuthors / $theme->ebooks()->count();
-            else $percentPerAuthor = $percentageAuthors;
+            } else {
+                $percentPerAuthor = $percentageAuthors;
+            }
 
             // Calculate the profit
             $profit = $keuangan->income - $keuangan->productionCost;
@@ -147,9 +149,11 @@ class KeuanganController extends Controller
 
             // Commit the transaction and redirect with a success message
             DB::commit();
+
             return redirect()->route('theme.keuangan.index', $theme)->withSuccess('Berhasil menambahkan data');
         } catch (\Throwable $th) {
             dd($th);
+
             // If an error occurs during the transaction, rollback and redirect back with an error message
             return redirect()->back()->withInput()->withError('Gagal menambahkan data');
         }
@@ -163,14 +167,15 @@ class KeuanganController extends Controller
         return view('theme.keuangan.show', compact('theme', 'keuangan'));
     }
 
-
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Theme $theme, Keuangan $keuangan)
     {
         $details = $keuangan->details;
-        foreach ($details as $detail) $detail->delete();
+        foreach ($details as $detail) {
+            $detail->delete();
+        }
         $keuangan->delete();
 
         return redirect()->route('theme.keuangan.index', compact('theme'))->with('success', 'Berhasil dihapus');

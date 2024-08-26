@@ -14,7 +14,7 @@ use App\Http\Controllers\RekapitulasiController;
 use App\Http\Controllers\RekapitulasiDetailController;
 use App\Http\Controllers\SubThemeController;
 use App\Http\Controllers\ThemeController;
-use App\Models\Keuangan;
+use App\Http\Controllers\UserController;
 use App\Models\Role;
 use Illuminate\Support\Facades\Route;
 
@@ -29,11 +29,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::resource('category', kategoriController::class)->except(['show'])->names('kategori');
+    Route::resource('user', UserController::class)->only(['index', 'show', 'edit', 'update']);
     Route::get('/topik/unduh', [ThemeController::class, 'export'])->name('theme.export');
     Route::resource('topik', ThemeController::class)
         ->names('theme')
         ->parameters(['topik' => 'theme']);
-
 
     Route::resource('topik.keuangan', KeuanganController::class)
         ->names('theme.keuangan')
@@ -54,7 +54,6 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/theme/{theme}/publish-action', [ThemeController::class, 'publishAction'])
             ->name('theme.publish-action');
 
-
         Route::post('{theme}/close', [ThemeController::class, 'close'])
             ->name('theme.close');
 
@@ -71,7 +70,6 @@ Route::group(['middleware' => 'auth'], function () {
             ->name('theme.merge-documents');
     });
 
-
     Route::group(['prefix' => 'ebook'], function () use ($sa, $author, $reviewer, $admin) {
         Route::get('/butuh-konfirmasi-pembayaran/list', [EbookController::class, 'konfirmasiPembayaranList'])
             ->name('ebook.konfirmasi-pembayaran-list')->middleware('rbac:' . implode(',', [$sa, $admin]));
@@ -87,7 +85,6 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::post('/{theme}/{subTheme}/store', [EbookController::class, 'store'])
             ->name('ebook.store')->middleware('rbac:' . implode(',', [$sa, $author]));
-
 
         Route::get('{ebook}/atur-royalti', [EbookController::class, 'aturRoyalti'])
             ->name('ebook.atur-royalti')->middleware('rbac:' . implode(',', [$sa, $author]));
@@ -122,14 +119,12 @@ Route::group(['middleware' => 'auth'], function () {
     });
     Route::resource('ebook', EbookController::class)->except(['create', 'store']);
 
-
     Route::get('/rekapitulasi/cetakan', [RekapitulasiController::class, 'cetakan'])->name('rekapitulasi.cetakan');
     Route::get('/rekapitulasi/keuangan', [RekapitulasiController::class, 'keuangan'])->name('rekapitulasi.keuangan');
     Route::get('/rekapitulasi/export-keuangan', [RekapitulasiController::class, 'exportKeuangan'])->name('rekapitulasi.export-keuangan');
     Route::get('/rekapitulasi-detail/keuangan', [RekapitulasiDetailController::class, 'keuangan'])->name('rekapitulasi-detail.keuangan');
     Route::get('/rekapitulasi-detail/export-keuangan', [RekapitulasiDetailController::class, 'exportKeuangan'])->name('rekapitulasi-detail.export-keuangan');
     Route::get('/rekapitulasi/export-cetakan', [RekapitulasiController::class, 'exportCetakan'])->name('rekapitulasi.export-cetakan');
-
 
     Route::get('/notification/{notification}', [NotificationController::class, 'read'])->name('notification.read');
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notification');

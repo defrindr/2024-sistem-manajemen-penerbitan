@@ -11,7 +11,7 @@
         <div class="card">
             <div class="card-body login-card-body">
                 <p class="login-box-msg">Register to access application</p>
-                <form action="{{ route('register.action') }}" method="post">
+                <form action="{{ route('register.action') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="input-group mb-3">
                         <div class="input-group has-validation">
@@ -49,8 +49,43 @@
                     <div class="input-group mb-3">
                         <div class="input-group has-validation">
                             <input type="text" name="npwp" class="form-control  @error('npwp') is-invalid @enderror"
-                                placeholder="npwp" value="{{ old('npwp') }}">
+                                placeholder="Npwp" value="{{ old('npwp') }}">
                             @error('npwp')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <label for="">Foto KTP</label>
+                        <div class="input-group has-validation">
+                            <input type="file" name="ktp" class="form-control  @error('ktp') is-invalid @enderror"
+                                placeholder="ktp">
+                            @error('ktp')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group has-validation">
+                            <input type="text" name="bank" class="form-control  @error('bank') is-invalid @enderror"
+                                placeholder="Nama Bank" value="{{ old('bank') }}">
+                            @error('bank')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group has-validation">
+                            <input type="text" name="noRekening"
+                                class="form-control  @error('noRekening') is-invalid @enderror" placeholder="No Rekening"
+                                value="{{ old('noRekening') }}">
+                            @error('noRekening')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>

@@ -8,7 +8,6 @@ use App\Models\Ebook;
 use App\Models\EbookReview;
 use App\Models\Kategori;
 use App\Models\Role;
-use App\Models\SubTheme;
 use App\Models\Theme;
 use App\Models\User;
 use App\Trait\UploadTrait;
@@ -50,23 +49,23 @@ class ThemeController extends Controller
     public function publishAction(Theme $theme, Request $request)
     {
         $request->validate([
-            'isbn'        => 'required',
+            'isbn' => 'required',
             'description' => 'required',
-            'file'        => 'required|file',
-            'cover'       => 'required|file',
+            'file' => 'required|file',
+            'cover' => 'required|file',
         ]);
 
         $request->request->add(
             [
-                'status' => Theme::STATUS_PUBLISH
+                'status' => Theme::STATUS_PUBLISH,
             ]
         );
-        $payload   = $request->all();
+        $payload = $request->all();
         $fileCover = $request->file('cover');
-        $fileBook  = $request->file('file');
+        $fileBook = $request->file('file');
 
         $payload['cover'] = $this->uploadImage($fileCover, Theme::PATH);
-        $payload['file']  = $this->uploadImage($fileBook, Theme::PATH);
+        $payload['file'] = $this->uploadImage($fileBook, Theme::PATH);
 
         $success = $theme->update($payload);
 
@@ -84,10 +83,10 @@ class ThemeController extends Controller
         $ebooks = $theme->ebooks()->get();
 
         foreach ($ebooks as $ebook) {
-            $files[] = storage_path("app/public/" . Ebook::FILE_PATH  . "/" . $ebook->draft);
+            $files[] = storage_path('app/public/'.Ebook::FILE_PATH.'/'.$ebook->draft);
         }
 
-        $wh = new WordHelper();
+        $wh = new WordHelper;
         $wh->mergeDocuments($files);
     }
 
@@ -95,28 +94,29 @@ class ThemeController extends Controller
     {
         $categories = Kategori::all();
         $reviewers = User::reviewerWithCategory(null)->get();
+
         return view('theme.create', compact('categories', 'reviewers'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'name'           => 'required',
-            'price'          => 'required',
-            'description'    => 'required',
-            'categoryId'     => 'required',
-            'reviewer1Id'    => 'required',
-            'reviewer2Id'    => 'required',
+            'name' => 'required',
+            'price' => 'required',
+            'description' => 'required',
+            'categoryId' => 'required',
+            'reviewer1Id' => 'required',
+            'reviewer2Id' => 'required',
             'multipleAuthor' => 'required',
         ]);
 
-        if (!$request->multipleAuthor) {
+        if (! $request->multipleAuthor) {
             $request->validate([
-                'dueDate' => 'required'
+                'dueDate' => 'required',
             ]);
         } else {
             $request->request->add([
-                'dueDate' => null
+                'dueDate' => null,
             ]);
         }
 
@@ -140,28 +140,29 @@ class ThemeController extends Controller
     {
         $categories = Kategori::all();
         $reviewers = User::reviewerWithCategory(null)->get();
+
         return view('theme.edit', compact('theme', 'categories', 'reviewers'));
     }
 
     public function update(Request $request, Theme $theme)
     {
         $request->validate([
-            'name'           => 'required',
-            'price'          => 'required',
-            'description'    => 'required',
-            'categoryId'     => 'required',
-            'reviewer1Id'    => 'required',
-            'reviewer2Id'    => 'required',
+            'name' => 'required',
+            'price' => 'required',
+            'description' => 'required',
+            'categoryId' => 'required',
+            'reviewer1Id' => 'required',
+            'reviewer2Id' => 'required',
             'multipleAuthor' => 'required',
         ]);
 
-        if (!$request->multipleAuthor) {
+        if (! $request->multipleAuthor) {
             $request->validate([
-                'dueDate' => 'required'
+                'dueDate' => 'required',
             ]);
         } else {
             $request->request->add([
-                'dueDate' => null
+                'dueDate' => null,
             ]);
         }
 
@@ -177,8 +178,11 @@ class ThemeController extends Controller
         DB::beginTransaction();
         if ($theme->update($payload)) {
             $subThemes = $theme->subThemes;
-            foreach ($subThemes as $subTheme) $subTheme->update(['dueDate' => $payload['dueDate']]);
+            foreach ($subThemes as $subTheme) {
+                $subTheme->update(['dueDate' => $payload['dueDate']]);
+            }
             DB::commit();
+
             return redirect()->route('theme.index')->with('success', 'Berhasil mengubah topik.');
         }
 
@@ -267,16 +271,16 @@ class ThemeController extends Controller
     public function downloadZip(Theme $theme)
     {
         // Variable Initialize
-        $zipname = $theme->name . '.zip';
-        $zippath = storage_path($theme->name . '.zip');
+        $zipname = $theme->name.'.zip';
+        $zippath = storage_path($theme->name.'.zip');
 
-        if (!file_exists($zippath)) {
+        if (! file_exists($zippath)) {
             $this->generateZipFile($theme, $zippath);
         }
 
         header('Content-Type: application/zip');
-        header('Content-disposition: attachment; filename=' . $zipname);
-        header('Content-Length: ' . filesize($zippath));
+        header('Content-disposition: attachment; filename='.$zipname);
+        header('Content-Length: '.filesize($zippath));
         readfile($zippath);
     }
 
@@ -290,10 +294,10 @@ class ThemeController extends Controller
             $acceptEbook = $subTopic->acceptEbook();
             // Get Only Ebook has already reviewed
             if ($acceptEbook) {
-                $filenames = explode(".", $acceptEbook->draft);
+                $filenames = explode('.', $acceptEbook->draft);
                 $files[] = [
-                    'path' => storage_path("app/public/" . Ebook::FILE_PATH . "/" . $acceptEbook->draft),
-                    'name' => $subTopic->theme->name . "/" . ($index + 1) . " - " . $subTopic->name . "." . end($filenames)
+                    'path' => storage_path('app/public/'.Ebook::FILE_PATH.'/'.$acceptEbook->draft),
+                    'name' => $subTopic->theme->name.'/'.($index + 1).' - '.$subTopic->name.'.'.end($filenames),
                 ];
             }
         }
@@ -307,7 +311,6 @@ class ThemeController extends Controller
 
         $zip->close();
     }
-
 
     public function export()
     {

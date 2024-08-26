@@ -4,7 +4,6 @@ namespace App\Exports;
 
 use App\Models\Publication;
 use Illuminate\Contracts\View\View;
-use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\FromView;
 
 class RekapCetakanExport implements FromView
@@ -20,7 +19,7 @@ class RekapCetakanExport implements FromView
         }
 
         return view('exports.rekap-cetakan', [
-            'paginations' => $query->get()
+            'paginations' => $query->get(),
         ]);
     }
 }

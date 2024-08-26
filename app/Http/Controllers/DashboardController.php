@@ -8,11 +8,9 @@ use App\Models\Role;
 use App\Models\Theme;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
-
     /**
      * Checks if the authenticated user is a super admin or admin and returns the dashboard accordingly.
      *

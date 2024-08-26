@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Keuangan extends Model
 {
     use HasFactory;
+
     protected $table = 'keuangans';
 
     protected $fillable = [
@@ -30,7 +31,7 @@ class Keuangan extends Model
      */
     public function theme()
     {
-        return $this->belongsTo(Theme::class, "themeId");
+        return $this->belongsTo(Theme::class, 'themeId');
     }
 
     /**
@@ -40,7 +41,7 @@ class Keuangan extends Model
      */
     public function details()
     {
-        return $this->hasMany(KeuanganDetail::class, "keuanganId");
+        return $this->hasMany(KeuanganDetail::class, 'keuanganId');
     }
 
     /**
@@ -50,6 +51,6 @@ class Keuangan extends Model
      */
     public function publication()
     {
-        return $this->belongsTo(Publication::class, "publicationId");
+        return $this->belongsTo(Publication::class, 'publicationId');
     }
 }

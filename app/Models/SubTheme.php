@@ -19,12 +19,12 @@ class SubTheme extends Model
 
     public function theme()
     {
-        return $this->belongsTo(Theme::class, "themeId");
+        return $this->belongsTo(Theme::class, 'themeId');
     }
 
     public function ebook()
     {
-        return $this->hasMany(Ebook::class, "subThemeId");
+        return $this->hasMany(Ebook::class, 'subThemeId');
     }
 
     public function isThemeOpen(): bool
@@ -32,7 +32,7 @@ class SubTheme extends Model
         return $this->theme->status === Theme::STATUS_OPEN;
     }
 
-    public function acceptEbook(): Ebook | null
+    public function acceptEbook(): ?Ebook
     {
         return $this
             ->ebook()

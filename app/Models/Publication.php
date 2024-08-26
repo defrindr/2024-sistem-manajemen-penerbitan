@@ -10,6 +10,7 @@ class Publication extends Model
     use HasFactory;
 
     protected $table = 'publications';
+
     protected $fillable = [
         'themeId',
         'title',
@@ -32,6 +33,6 @@ class Publication extends Model
 
     public function getCoverLinkAttribute()
     {
-        return asset("storage/" . Theme::PATH . "/" . $this->cover);
+        return asset('storage/'.Theme::PATH.'/'.$this->cover);
     }
 }

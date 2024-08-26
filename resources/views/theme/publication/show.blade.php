@@ -140,5 +140,43 @@
                 </div>
             </div>
         </div>
+
+        <div class="col-md-12 mt-3">
+            <div class="card card-default">
+                <div class="card-header">
+                    <h3>Sub Tema</h3>
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <th>#</th>
+                            <th>Sub Tema</th>
+                            <th>Author</th>
+                        </thead>
+                        <tbody>
+                            @if ($theme->subThemes()->count() == false)
+                                <tr>
+                                    <td colspan="7" class="text-center">Belum terdapat sub tema yang diajukan</td>
+                                </tr>
+                            @else
+                                @foreach ($theme->subThemes as $index => $subTheme)
+                                    <tr @if (request()->get('highlight') == $subTheme->id) class="bg-red" @endif>
+                                        <td>{{ $index + 1 }}</td>
+                                        <td>{{ $subTheme->name }}</td>
+                                        <td>
+                                            @if ($subTheme->hasAuthorRegistered())
+                                                {{ $subTheme->ebook()->first()?->author?->name }} <br>
+                                                Email: {{ $subTheme->ebook()->first()?->author?->email }} <br>
+                                                HP: {{ $subTheme->ebook()->first()?->author?->phone }}
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
