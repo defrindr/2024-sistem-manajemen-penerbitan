@@ -6,11 +6,14 @@ use App\Models\Keuangan;
 use App\Models\KeuanganDetail;
 use App\Models\Publication;
 use App\Models\Theme;
+use App\Trait\UploadTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class KeuanganController extends Controller
 {
+    use UploadTrait;
+
     /**
      * Display a listing of the resource.
      */
@@ -70,7 +73,7 @@ class KeuanganController extends Controller
 
         // If the keuangan record exists, redirect back with an error message
         if ($keuangan) {
-            return redirect()->back()->withInput()->withError('Keuangan dengan tema ini sudah ada pada tahun '.$request->year);
+            return redirect()->back()->withInput()->withError('Keuangan dengan tema ini sudah ada pada tahun ' . $request->year);
         }
 
         // Begin a database transaction
@@ -179,5 +182,46 @@ class KeuanganController extends Controller
         $keuangan->delete();
 
         return redirect()->route('theme.keuangan.index', compact('theme'))->with('success', 'Berhasil dihapus');
+    }
+
+    /**
+     * Display the form for uploading a proof of payment for a specific KeuanganDetail record.
+     *
+     * @param  \App\Models\Theme  $theme  The theme related to the KeuanganDetail record.
+     * @param  \App\Models\Keuangan  $keuangan  The Keuangan record associated with the KeuanganDetail record.
+     * @param  \App\Models\KeuanganDetail  $detail  The KeuanganDetail record for which the proof of payment is being uploaded.
+     * @return \Illuminate\View\View  The view for uploading the proof of payment.
+     */
+    public function formUploadBukti(
+        Theme $theme,
+        Keuangan $keuangan,
+        KeuanganDetail $detail
+    ) {
+        return view('theme.keuangan.upload_bukti', compact('theme', 'keuangan', 'detail'));
+    }
+
+    public function storeBukti(
+        Request $request,
+        Theme $theme,
+        Keuangan $keuangan,
+        KeuanganDetail $detail
+    ) {
+        // Validate the incoming request data
+        $request->validate([
+            'buktiTf' => 'required|mimes:jpeg,png',
+        ]);
+
+        // Get the uploaded file
+        $file = $request->file('buktiTf');
+
+        $fileName = $this->uploadImage($file, 'buktiTf');
+        if (!$fileName) {
+            return redirect()->back()->withInput()->withError('Gagal mengunggah bukti transfer');
+        }
+
+        $detail->buktiTf = $fileName;
+        $detail->save();
+
+        return redirect()->route('theme.keuangan.show', compact('theme', 'keuangan'))->withSuccess('Berhasil mengunggah bukti transfer');
     }
 }

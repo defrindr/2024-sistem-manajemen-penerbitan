@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('userId')->nullable()->references('id')->on('users');
             $table->float('percent');
             $table->string('role');
+            $table->string('buktiTf')->nullable();
             $table->decimal('profit', 20);
             $table->timestamps();
         });

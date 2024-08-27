@@ -39,7 +39,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('topik.keuangan', KeuanganController::class)
         ->names('theme.keuangan')
-        ->parameters(['topik' => 'theme'])->except(['update', 'edit']);
+        ->parameters(['topik' => 'theme'])
+        ->except(['update', 'edit']);
 
     Route::resource('topik.publication', PublicationController::class)
         ->names('theme.publication')
@@ -70,6 +71,15 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::get('{theme}/merge-documents', [ThemeController::class, 'mergeDocuments'])
             ->name('theme.merge-documents');
+    });
+
+    Route::group(['prefix' => 'keuangan'], function () use ($sa, $admin) {
+        Route::get('/{theme}/{keuangan}/{detail}/upload-bukti', [KeuanganController::class, 'formUploadBukti'])
+            ->name('theme.keuangan-detail.bukti')
+            ->middleware('rbac:' . implode(',', [$sa, $admin]));
+        Route::post('/{theme}/{keuangan}/{detail}/upload-bukti', [KeuanganController::class, 'storeBukti'])
+            ->name('theme.keuangan-detail.bukti-store')
+            ->middleware('rbac:' . implode(',', [$sa, $admin]));
     });
 
     Route::group(['prefix' => 'ebook'], function () use ($sa, $author, $reviewer, $admin) {

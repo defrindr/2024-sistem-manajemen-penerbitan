@@ -17,6 +17,7 @@ class KeuanganDetail extends Model
         'role',
         'percent',
         'profit',
+        'buktiTf'
     ];
 
     public function keuangan()

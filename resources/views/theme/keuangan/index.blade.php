@@ -63,11 +63,16 @@
                                         <td>{{ App\Helpers\StrHelper::currency(intval($keuangan->productionCost), 'Rp') }}
                                         </td>
                                         <td>
-                                            <button
+
+                                            <a href="{{ route('theme.keuangan.show', compact('theme', 'keuangan')) }}"
+                                                class="btn btn-primary">
+                                                Detail
+                                            </a>
+                                            {{-- <button
                                                 onclick="openModal('{{ route('theme.keuangan.show', compact('theme', 'keuangan')) }}')"
                                                 class="btn-detail-keuangan btn btn-primary">
                                                 Detail
-                                            </button>
+                                            </button> --}}
                                             {{-- cek kembali di routes untuk memastikan --}}
                                             <form
                                                 action="{{ route('theme.keuangan.destroy', compact('keuangan', 'theme')) }}"
