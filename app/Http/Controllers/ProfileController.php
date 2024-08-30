@@ -5,29 +5,22 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Trait\UploadTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class UserController extends Controller
+class ProfileController extends Controller
 {
+
     use UploadTrait;
-    public function index()
-    {
-        $pagination = User::orderBy('id', 'desc')->paginate(10);
 
-        return view('user.index', compact('pagination'));
+    public function me()
+    {
+        $user = Auth::user();
+        return view('profile.me', compact('user'));
     }
 
-    public function show(User $user)
+    public function updateMe(Request $request)
     {
-        return view('user.show', compact('user'));
-    }
-
-    public function edit(User $user)
-    {
-        return view('user.edit', compact('user'));
-    }
-
-    public function update(Request $request, User $user)
-    {
+        $user = User::find(Auth::id());
         $request->validate([
             'name' => 'required',
             'email' => 'required',
@@ -58,6 +51,6 @@ class UserController extends Controller
 
         $user->update($payload);
 
-        return redirect()->route('user.index')->withSuccess('Data user berhasil diubah');
+        return redirect()->route('profile.me')->withSuccess('Data user berhasil diubah');
     }
 }

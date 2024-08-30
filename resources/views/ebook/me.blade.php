@@ -66,44 +66,49 @@
                                         <td>{{ $ebook->royalty }}</td>
                                         <td>{{ $ebook->createdAtFormatted }}</td>
                                         <td>
-                                            @if ($ebook->status !== 'pending')
-                                                <a href="{{ route('ebook.progress', $ebook) }}" class="btn btn-primary">
-                                                    Progress
-                                                </a>
-                                            @endif
-                                            @if ($ebook->status === \App\Models\Ebook::STATUS_PAYMENT)
-                                                <a href="{{ route('ebook.create', [
-                                                    'theme' => $ebook->theme,
-                                                    'subTheme' => $ebook->subTheme,
-                                                ]) }}"
-                                                    class="btn btn-warning">
-                                                    Bayar
-                                                </a>
-                                            @endif
-                                            @if ($ebook->status === \App\Models\Ebook::STATUS_NOT_ACCEPT)
-                                                <a href="{{ route('ebook.edit', $ebook) }}" class="btn btn-warning">
-                                                    Edit
-                                                </a>
-                                            @endif
-                                            @if ($ebook->status === \App\Models\Ebook::STATUS_SUBMIT)
-                                                <a href="{{ route('ebook.edit', $ebook) }}" class="btn btn-warning">
-                                                    Edit
-                                                </a>
-                                                @if ($ebook->draft)
-                                                    <form action="{{ route('ebook.konfirmasi-ajukan-action', $ebook) }}"
-                                                        method="post" onsubmit="return confirm('Yakin ?')">
-                                                        @csrf
-                                                        <button class="btn btn-primary">Ajukan</button>
-                                                    </form>
+                                            <div class="btn-group">
+                                                @if ($ebook->status !== 'pending')
+                                                    <a href="{{ route('ebook.progress', $ebook) }}" class="btn btn-primary btn-sm me-1">
+                                                        Progress
+                                                    </a>
                                                 @endif
-                                            @endif
-                                            @if ($ebook->status === \App\Models\Ebook::STATUS_PUBLISH && $ebook->royalty == 0)
-                                                <a href="{{ route('ebook.atur-royalti', $ebook) }}"
-                                                    class="btn btn-warning">
-                                                    Atur Royalti
-                                                </a>
-                                            @endif
+                                                @if ($ebook->status === \App\Models\Ebook::STATUS_PAYMENT)
+                                                    <a href="{{ route('ebook.create', [
+                                                        'theme' => $ebook->theme,
+                                                        'subTheme' => $ebook->subTheme,
+                                                    ]) }}" class="btn btn-warning btn-sm">
+                                                        Bayar
+                                                    </a>
+                                                @endif
+                                                @if ($ebook->status === \App\Models\Ebook::STATUS_NOT_ACCEPT)
+                                                    <a href="{{ route('ebook.edit', $ebook) }}" class="btn btn-warning btn-sm me-1">
+                                                        Edit
+                                                    </a>
+                                                @endif
+                                                @if ($ebook->status === \App\Models\Ebook::STATUS_ACCEPT && $ebook->haki == null)
+                                                    <a href="{{ route('ebook.haki', $ebook) }}" class="btn btn-warning btn-sm me-1">
+                                                        Haki
+                                                    </a>
+                                                @endif
+                                                @if ($ebook->status === \App\Models\Ebook::STATUS_SUBMIT)
+                                                    <a href="{{ route('ebook.edit', $ebook) }}" class="btn btn-warning btn-sm me-1">
+                                                        Edit
+                                                    </a>
+                                                    @if ($ebook->draft)
+                                                        <form action="{{ route('ebook.konfirmasi-ajukan-action', $ebook) }}" method="post" onsubmit="return confirm('Yakin ?')">
+                                                            @csrf
+                                                            <button class="btn btn-primary btn-sm me-1">Ajukan</button>
+                                                        </form>
+                                                    @endif
+                                                @endif
+                                                @if ($ebook->status === \App\Models\Ebook::STATUS_PUBLISH && $ebook->royalty == 0)
+                                                    <a href="{{ route('ebook.atur-royalti', $ebook) }}" class="btn btn-warning btn-sm me-1">
+                                                        Atur Royalti
+                                                    </a>
+                                                @endif
+                                            </div>
                                         </td>
+                                        
                                     </tr>
                                 @endforeach
                             @endif

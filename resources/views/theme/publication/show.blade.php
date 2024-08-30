@@ -141,7 +141,7 @@
             </div>
         </div>
 
-        <div class="col-md-12 mt-3">
+        {{-- <div class="col-md-12 mt-3">
             <div class="card card-default">
                 <div class="card-header">
                     <h3>Sub Tema</h3>
@@ -177,6 +177,6 @@
                     </table>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
 @endsection

@@ -8,6 +8,7 @@ use App\Http\Controllers\EbookReviewController;
 use App\Http\Controllers\kategoriController;
 use App\Http\Controllers\KeuanganController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicationController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\RekapitulasiController;
@@ -98,6 +99,15 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('progress/{ebook}', [EbookController::class, 'progress'])
             ->name('ebook.progress')->middleware('rbac:' . implode(',', [$sa, $author]));
 
+
+
+        Route::get('{ebook}/haki', [EbookController::class, 'haki'])
+            ->name('ebook.haki')->middleware('rbac:' . implode(',', [$sa, $author]));
+
+        Route::put('{ebook}/haki', [EbookController::class, 'hakiStore'])
+            ->name('ebook.haki.store')->middleware('rbac:' . implode(',', [$sa, $author]));
+
+
         Route::group(['prefix' => 'siap-publish'], function () use ($sa, $admin) {
             Route::get('/', [EbookController::class, 'siapPublish'])
                 ->name('ebook.siap-publish')->middleware('rbac:' . implode(',', [$sa, $admin]));
@@ -128,6 +138,10 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/notification/{notification}', [NotificationController::class, 'read'])->name('notification.read');
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notification');
+
+
+    Route::get('profile', [ProfileController::class, 'me'])->name('profile.me');
+    Route::put('profile', [ProfileController::class, 'updateMe'])->name('profile.update-me');
 });
 
 // Authentication Route

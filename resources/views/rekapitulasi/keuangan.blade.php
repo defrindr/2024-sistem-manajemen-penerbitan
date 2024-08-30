@@ -76,11 +76,15 @@
                                         @php
                                         $theme = $keuangan->theme;
                                         @endphp
-                                        <button
+                                        <a href="{{ route('theme.keuangan.show', compact('theme', 'keuangan')) }}"
+                                            class="btn-detail-keuangan btn btn-primary mb-2 me-1">
+                                            Detail
+                                        </a>
+                                        {{-- <button
                                             onclick="openModal('{{ route('theme.keuangan.show', compact('theme', 'keuangan')) }}')"
                                             class="btn-detail-keuangan btn btn-primary">
                                             Detail
-                                        </button>
+                                        </button> --}}
                                     </td>
                                 </tr>
                             @endforeach

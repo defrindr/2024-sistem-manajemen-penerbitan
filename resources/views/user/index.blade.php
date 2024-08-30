@@ -56,10 +56,10 @@
                                 </tr>
                             @endforeach
                         </tbody>
-                        <tfoot>
-                            {{ $pagination->links() }}
-                        </tfoot>
                     </table>
+                </div>
+                <div class="card-footer">
+                    {{ $pagination->links() }}
                 </div>
             </div>
         </div>

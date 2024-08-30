@@ -72,11 +72,10 @@
                     </div>
                 </div>
 
-                <div class="col-md-12 mb-4">
+                <div class="col-md-12 mb-4" style="padding-top: 20px;">
                     <div class="card card-default">
                         <div class="card-body">
-
-                            <canvas id="myChart"></canvas>
+                            <canvas id="myChart" width="800" height="185"></canvas>
                         </div>
                     </div>
                 </div>

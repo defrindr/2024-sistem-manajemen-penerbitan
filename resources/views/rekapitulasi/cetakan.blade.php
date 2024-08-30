@@ -13,10 +13,8 @@
     <div class="row">
         <div class="col-md-12">
             <div class="card card-default">
-                <div class="card-header">
-                    <a href="{{ route('rekapitulasi.export-cetakan', request()->query()) }}" class="btn btn-primary mb-2"
-                        style="float: right">Export</a>
-                    <form action="{{ route('rekapitulasi.cetakan') }}">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <form action="{{ route('rekapitulasi.cetakan') }}" class="flex-grow-1">
                         <div class="input-group">
                             <input type="text" name="search" class="form-control" placeholder="Cari..."
                                 value="{{ request('search') }}">
@@ -30,7 +28,8 @@
                     <a href="{{ route('rekapitulasi.export-cetakan') }}" class="btn btn-primary ml-auto">
                         Export
                     </a>
-                </div>
+                </div>             
+                               
                 <div class="card-body">
                     <table class="table table-hover table-striped">
                         <thead>
@@ -61,13 +60,13 @@
                                     <td>{{ App\Helpers\StrHelper::currency($item->price, 'Rp') }}</td>
                                     <td>{{ App\Helpers\StrHelper::currency($item->price * $item->totalProduction, 'Rp') }}
                                     </td>
-                                    <td>
+                                    <td class="d-flex flex-wrap" >
                                         @php
                                             $theme = $item->theme;
                                             $publication = $item;
                                         @endphp
                                         <a href="{{ route('theme.publication.show', compact('theme', 'publication')) }}"
-                                            class="btn btn-primary mb-2">
+                                            class="btn btn-primary mb-2 me-1">
                                             Lihat
                                         </a>
                                         @admin(true)

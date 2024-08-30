@@ -82,7 +82,7 @@ class EbookController extends Controller
                     'themeId' => $ebook->theme->id,
                     'subthemeId' => $subTheme->id,
                     'userId' => $ebook->userId,
-                    'title' => $subTheme->theme->name.' - '.$subTheme->name,
+                    'title' => $subTheme->theme->name . ' - ' . $subTheme->name,
                     'draft' => null,
                     'proofOfPayment' => $ebook->proofOfPayment,
                     'royalty' => $ebook->royalty,
@@ -148,7 +148,7 @@ class EbookController extends Controller
             $ebook = $theme->ebooks()->create([
                 'subthemeId' => $subTheme->id,
                 'userId' => Auth::user()->id,
-                'title' => $subTheme->theme->name.' - '.$subTheme->name,
+                'title' => $subTheme->theme->name . ' - ' . $subTheme->name,
                 'draft' => null,
                 'proofOfPayment' => null,
                 'royalty' => 0,
@@ -262,5 +262,34 @@ class EbookController extends Controller
         }
 
         return redirect()->back()->with('danger', 'Gagal ketika mengubah status ebook ke publish.');
+    }
+
+    public function haki(Ebook $ebook)
+    {
+        $user = Auth::user();
+
+        if (!$user->ktp) {
+            return redirect()->route('ebook.me')->with('danger', 'Anda belum melakukan upload KTP.');
+        }
+
+        return view('ebook.haki', compact('ebook'));
+    }
+
+    public function hakiStore(Request $request, Ebook $ebook)
+    {
+        $user = Auth::user();
+        $request->validate([
+            'haki' => 'required',
+        ]);
+
+        $payload = $request->only('haki');
+
+        $payload['ktp'] = $user->ktp;
+
+        if ($ebook->update($payload)) {
+            return redirect()->route('ebook.me')->with('success', 'Berhasil menyetujui hak ebook.');
+        }
+
+        return redirect()->back()->with('danger', 'Gagal ketika menyetujui hak ebook')->withInputs();
     }
 }
