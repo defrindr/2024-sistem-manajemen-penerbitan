@@ -110,12 +110,12 @@
         <div class="col-md-8 mb-3">
             <div class="card card-default">
                 <div class="card-header">
-                    <h3>Sub Tema</h3>
+                    <h3>Sub Judul</h3>
 
                     @admin(true)
                         @if ($theme->status == \App\Models\Theme::STATUS_DRAFT)
                             <a href="{{ route('themes.subThemes.create', compact('theme')) }}" class="btn btn-success">
-                                Tambah Sub Tema
+                                Tambah Sub Judul
                             </a>
                         @endif
                         <a href="{{ route('themes.sub-theme.export', compact('theme')) }}" class="btn btn-primary"
@@ -128,7 +128,7 @@
                     <table class="table table-striped table-hover">
                         <thead>
                             <th>#</th>
-                            <th>Sub Tema</th>
+                            <th>Sub Judul</th>
                             <th>Deadline</th>
                             <th>Status</th>
                             <th>Author</th>
@@ -138,7 +138,7 @@
                         <tbody>
                             @if ($theme->subThemes()->count() == false)
                                 <tr>
-                                    <td colspan="7" class="text-center">Belum terdapat sub tema yang diajukan</td>
+                                    <td colspan="7" class="text-center">Belum terdapat sub judul yang diajukan</td>
                                 </tr>
                             @else
                                 @foreach ($theme->subThemes as $index => $subTheme)

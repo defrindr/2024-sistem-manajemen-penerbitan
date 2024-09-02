@@ -1,11 +1,11 @@
 @extends('layouts.admin.main')
 
-@section('title', 'Detail Profit')
+@section('title', 'Keuangan')
 
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="#">Home</a></li>
     <li class="breadcrumb-item active" aria-current="page">
-        Detail Profit
+        Detail Pembagian Royalti
     </li>
 @endsection
 
@@ -39,6 +39,7 @@
                                     <td>{{ $detail->user ? $detail->user->name : '' }}</td>
                                     <td>{{ $detail->percent }}</td>
                                     <td>{{ App\Helpers\StrHelper::currency(intval($detail->profit), 'Rp') }}</td>
+
                                     <td>
                                         <a href="{{ asset('storage/buktiTf/' . $detail->buktiTf) }}" target="_blank">
                                             <img src="{{ asset('storage/buktiTf/' . $detail->buktiTf) }}" alt=""
@@ -57,7 +58,6 @@
                             @endforeach
                         </tbody>
                     </table>
-
                 </div>
             </div>
         </div>

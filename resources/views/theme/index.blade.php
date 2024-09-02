@@ -26,7 +26,7 @@
                             <tr>
                                 <td>#</td>
                                 <td>Judul Cerita</td>
-                                {{-- <td>Deskripsi</td> --}}
+                                <td>Deskripsi</td>
                                 <td>Biaya Pendaftaran</td>
                                 <td>Status</td>
                                 <td>Aksi</td>
@@ -42,10 +42,10 @@
                                     <tr>
                                         <td>{{ $loop->index + 1 }}</td>
                                         <td>{{ $item->name }}</td>
-                                        {{-- <td>{{ $item->description }}</td> --}}
+                                        <td>{{ $item->description }}</td>
                                         <td>{{ $item->priceFormatted }}</td>
                                         <td>{{ $item->statusFormatted }}</td>
-                                        <td>
+                                        <td class="text-nowrap">
                                             <a href="{{ route('theme.show', $item) }}" class="btn btn-info">Lihat</a>
                                             @admin(true)
                                                 @if ($item->status == \App\Models\Theme::STATUS_REVIEW)

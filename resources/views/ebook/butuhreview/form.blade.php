@@ -1,11 +1,11 @@
 @extends('layouts.admin.main')
 
-@section('title', 'Tambah Ebook')
+@section('title', 'Tambah Review')
 
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="#">Home</a></li>
     <li class="breadcrumb-item active" aria-current="page">
-        Tambah Ebook
+        Tambah Review
     </li>
 @endsection
 
@@ -15,7 +15,7 @@
             <div class="card card-default">
                 <div class="card-header">
                     {{-- Tombol kembali --}}
-                    <a href="{{ url()->previous() }}" class="btn btn-danger">Kembali</a>
+                    <a href="{{ url()->previous() }}" class="btn btn-default">Kembali</a>
                 </div>
                 <form action="{{ route('ebook.butuhreview.action', $ebook) }}" method="POST" class="form"
                     onsubmit="return confirm('Apakah anda yakin ??')" enctype="multipart/form-data">
@@ -52,7 +52,7 @@
                                         class="form-control  @error('acc') is-invalid @enderror">
                                         <option value="">-- Pilih Hasil Review --</option>
                                         <option value="1">Setujui</option>
-                                        <option value="-1">Tolak</option>
+                                        <option value="-1">Revisi</option>
                                     </select>
                                     @error('acc')
                                         <div class="invalid-feedback">{{ $message }}</div>
@@ -71,7 +71,7 @@
                             </div>
                             <div class="col-md-12 mb-3">
                                 <div class="form-group">
-                                    <label for="draft">File Draft</label>
+                                    <label for="draft">File Koreksi</label>
                                     <input type="file" class="form-control @error('draft') is-invalid @enderror"
                                         name="draft" id="draft"
                                         accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/octet-stream">
