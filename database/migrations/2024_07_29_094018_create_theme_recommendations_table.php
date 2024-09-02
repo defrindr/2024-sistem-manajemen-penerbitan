@@ -24,6 +24,7 @@ return new class extends Migration
             $table->foreignId('reviewer1Id')->references('id')->on('users');
             $table->foreignId('reviewer2Id')->references('id')->on('users');
             $table->enum('status', ['draft', 'open', 'review', 'siap_publish', 'publish', 'close'])->default('draft');
+            $table->string('haki')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

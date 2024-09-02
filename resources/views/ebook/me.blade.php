@@ -85,11 +85,6 @@
                                                     Edit
                                                 </a>
                                             @endif
-                                            @if ($ebook->status === \App\Models\Ebook::STATUS_ACCEPT && $ebook->haki == null)
-                                                <a href="{{ route('ebook.haki', $ebook) }}" class="btn btn-warning">
-                                                    Haki
-                                                </a>
-                                            @endif
                                             @if ($ebook->status === \App\Models\Ebook::STATUS_SUBMIT)
                                                 <a href="{{ route('ebook.edit', $ebook) }}" class="btn btn-warning">
                                                     Edit

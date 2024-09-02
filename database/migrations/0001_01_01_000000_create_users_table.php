@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('npwp')->nullable();
             $table->string('phone')->nullable();
+            $table->text('address')->nullable();
             $table->text('bio')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();

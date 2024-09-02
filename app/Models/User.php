@@ -28,8 +28,10 @@ class User extends Authenticatable
         'npwp',
         'categoryId',
         'ktp',
+        'ttd',
         'bank',
         'noRekening',
+        'address',
     ];
 
     /**

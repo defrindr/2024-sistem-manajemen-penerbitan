@@ -69,7 +69,11 @@ class EbookReviewController extends Controller
             if ($adaBelumReview == false) {
                 $jumlaReject = $ebook->reviews()->where('acc', -1)->count();
 
-                $ebook->update(['status' => $jumlaReject == 0 ? Ebook::STATUS_ACCEPT : Ebook::STATUS_NOT_ACCEPT]);
+                if ($jumlaReject == 0) {
+                    $ebook->update(['status' => Ebook::STATUS_ACCEPT, 'accept_time' => date('Y-m-d H:i:s')]);
+                } else {
+                    $ebook->update(['status' => Ebook::STATUS_NOT_ACCEPT]);
+                }
             }
 
             if ($request->has('draft')) {

@@ -31,8 +31,10 @@ class ProfileController extends Controller
             'npwp' => 'required',
             // 'categoryId' => 'required',
             'ktp' => 'nullable|file',
+            'ttd' => 'nullable|file',
             'bank' => 'required',
             'noRekening' => 'required',
+            'address' => 'required',
         ]);
 
         if ($request->has('password') && $request->password) {
@@ -47,6 +49,12 @@ class ProfileController extends Controller
             $payload['ktp'] = $response;
         } else {
             unset($payload['ktp']);
+        }
+        if ($request->file('ttd')) {
+            $response = $this->uploadImage($request->ttd, 'ttd');
+            $payload['ttd'] = $response;
+        } else {
+            unset($payload['ttd']);
         }
 
         $user->update($payload);

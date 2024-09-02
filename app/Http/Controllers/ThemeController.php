@@ -53,6 +53,7 @@ class ThemeController extends Controller
             'description' => 'required',
             'file' => 'required|file',
             'cover' => 'required|file',
+            'haki' => 'required|file',
         ]);
 
         $request->request->add(
@@ -66,6 +67,7 @@ class ThemeController extends Controller
 
         $payload['cover'] = $this->uploadImage($fileCover, Theme::PATH);
         $payload['file'] = $this->uploadImage($fileBook, Theme::PATH);
+        $payload['haki'] = $this->uploadImage($fileBook, Theme::PATH);
 
         $success = $theme->update($payload);
 
@@ -83,7 +85,7 @@ class ThemeController extends Controller
         $ebooks = $theme->ebooks()->get();
 
         foreach ($ebooks as $ebook) {
-            $files[] = storage_path('app/public/'.Ebook::FILE_PATH.'/'.$ebook->draft);
+            $files[] = storage_path('app/public/' . Ebook::FILE_PATH . '/' . $ebook->draft);
         }
 
         $wh = new WordHelper;
@@ -271,16 +273,16 @@ class ThemeController extends Controller
     public function downloadZip(Theme $theme)
     {
         // Variable Initialize
-        $zipname = $theme->name.'.zip';
-        $zippath = storage_path($theme->name.'.zip');
+        $zipname = $theme->name . '.zip';
+        $zippath = storage_path($theme->name . '.zip');
 
         if (! file_exists($zippath)) {
             $this->generateZipFile($theme, $zippath);
         }
 
         header('Content-Type: application/zip');
-        header('Content-disposition: attachment; filename='.$zipname);
-        header('Content-Length: '.filesize($zippath));
+        header('Content-disposition: attachment; filename=' . $zipname);
+        header('Content-Length: ' . filesize($zippath));
         readfile($zippath);
     }
 
@@ -296,8 +298,8 @@ class ThemeController extends Controller
             if ($acceptEbook) {
                 $filenames = explode('.', $acceptEbook->draft);
                 $files[] = [
-                    'path' => storage_path('app/public/'.Ebook::FILE_PATH.'/'.$acceptEbook->draft),
-                    'name' => $subTopic->theme->name.'/'.($index + 1).' - '.$subTopic->name.'.'.end($filenames),
+                    'path' => storage_path('app/public/' . Ebook::FILE_PATH . '/' . $acceptEbook->draft),
+                    'name' => $subTopic->theme->name . '/' . ($index + 1) . ' - ' . $subTopic->name . '.' . end($filenames),
                 ];
             }
         }
@@ -310,6 +312,30 @@ class ThemeController extends Controller
         }
 
         $zip->close();
+    }
+
+
+    public function haki(Theme $theme)
+    {
+        $user = Auth::user();
+
+        return view('ebook.haki', compact('ebook'));
+    }
+
+    public function hakiStore(Request $request, Theme $theme)
+    {
+        $user = Auth::user();
+        $request->validate([
+            'haki' => 'required',
+        ]);
+
+        $payload = $request->only('haki');
+
+        if ($theme->update($payload)) {
+            return redirect()->route('ebook.me')->with('success', 'Berhasil menyetujui haki ebook.');
+        }
+
+        return redirect()->back()->with('danger', 'Gagal ketika menyetujui haki ebook')->withInputs();
     }
 
     public function export()

@@ -43,8 +43,21 @@
                                     </ol>
                                 </td>
                             </tr>
+                            @if ($theme->multipleAuthor)
+                                <tr>
+                                    <td>Penulis Utama</td>
+                                    <td>:</td>
+                                    <td>{{ $theme->authorUtama?->name }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Alamat Penulis Utama</td>
+                                    <td>:</td>
+                                    <td>{{ $theme->authorUtama?->address }}</td>
+                                </tr>
+                            @endif
+
                             <tr>
-                                <td>Nama Penulis</td>
+                                <td>Daftar Penulis</td>
                                 <td>:</td>
                                 <td>{{ $publication->theme->authors }}</td>
                             </tr>

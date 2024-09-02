@@ -62,9 +62,18 @@
                             </div>
                             <div class="col-md-12 mb-3">
                                 <div class="form-group">
-                                    <label for="phone">BIO</label>
+                                    <label for="bio">BIO</label>
                                     <textarea name="bio" id="bio" cols="30" rows="10" class="form-control">{{ old('bio') ?? $user->bio }}</textarea>
-                                    @error('phone')
+                                    @error('bio')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <div class="form-group">
+                                    <label for="address">Alamat</label>
+                                    <textarea name="address" id="address" rows="3" class="form-control">{{ old('address') ?? $user->address }}</textarea>
+                                    @error('address')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
@@ -80,11 +89,27 @@
                                 </div>
                             </div>
                             <div class="col-md-12 mb-3">
+                                @if ($user->ktp)
+                                    <img src="{{ asset('storage/ktp/' . $user->ktp) }}" class="img-fluid" alt="Image">
+                                @endif
                                 <div class="form-group">
                                     <label for="ktp">KTP</label>
                                     <input type="file" class="form-control @error('ktp') is-invalid @enderror"
                                         name="ktp" id="ktp">
                                     @error('ktp')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                @if ($user->ttd)
+                                    <img src="{{ asset('storage/ttd/' . $user->ttd) }}" class="img-fluid" alt="Image">
+                                @endif
+                                <div class="form-group">
+                                    <label for="ttd">TTD</label>
+                                    <input type="file" class="form-control @error('ttd') is-invalid @enderror"
+                                        name="ttd" id="ttd">
+                                    @error('ttd')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>

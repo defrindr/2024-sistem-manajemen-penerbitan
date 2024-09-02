@@ -65,6 +65,16 @@
                                     @enderror
                                 </div>
                             </div>
+                            <div class="col-md-12 mb-3">
+                                <div class="form-group">
+                                    <label for="haki">HAKI</label>
+                                    <input type="file" class="form-control @error('haki') is-invalid @enderror"
+                                        name="haki" id="haki">
+                                    @error('haki')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="card-footer">
