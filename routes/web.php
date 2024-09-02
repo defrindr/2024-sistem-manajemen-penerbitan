@@ -142,6 +142,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/rekapitulasi/cetakan', [RekapitulasiController::class, 'cetakan'])->name('rekapitulasi.cetakan');
     Route::get('/rekapitulasi/keuangan', [RekapitulasiController::class, 'keuangan'])->name('rekapitulasi.keuangan');
+    Route::get('/rekapitulasi/keuangan-tahunan', [RekapitulasiController::class, 'keuanganTahunan'])->name('rekapitulasi.keuangan-tahunan');
     Route::get('/rekapitulasi/export-keuangan', [RekapitulasiController::class, 'exportKeuangan'])->name('rekapitulasi.export-keuangan');
     Route::get('/rekapitulasi-detail/keuangan', [RekapitulasiDetailController::class, 'keuangan'])->name('rekapitulasi-detail.keuangan');
     Route::get('/rekapitulasi-detail/export-keuangan', [RekapitulasiDetailController::class, 'exportKeuangan'])->name('rekapitulasi-detail.export-keuangan');

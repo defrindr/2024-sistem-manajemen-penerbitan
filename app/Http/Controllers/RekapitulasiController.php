@@ -9,6 +9,7 @@ use App\Models\Publication;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 
 class RekapitulasiController extends Controller
@@ -81,6 +82,26 @@ class RekapitulasiController extends Controller
         $finances = $financeQuery->orderBy('created_at', 'asc')->paginate();
 
         return view('rekapitulasi.keuangan', compact('finances'));
+    }
+
+
+    public function keuanganTahunan(Request $request)
+    {
+        // Retrieve the necessary data for generating the rekapitulasi keuangan
+        $finances = Keuangan::groupBy('year')->select(
+            'year',
+            DB::raw('SUM(income - productionCost) AS income')
+        )
+            ->orderBy('year', 'desc')->paginate();
+
+        // if ($request->filled('search')) {
+        //     $searchTerm = $request->input('search');
+        //     $financeQuery->where('title', 'like', "%{$searchTerm}%");
+        // }
+
+        // $finances = $financeQuery->orderBy('created_at', 'asc')->paginate();
+
+        return view('rekapitulasi.keuangan-tahunan', compact('finances'));
     }
 
     public function exportCetakan()

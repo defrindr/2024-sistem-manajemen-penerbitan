@@ -32,7 +32,7 @@
 </li>
 <li class="nav-item">
     <a href="{{ route('rekapitulasi.cetakan') }}" class="nav-link">
-        <i class="nav-icon bi bi-bookmark"></i>
+        <i class="nav-icon bi bi-printer"></i>
         <p>
             Rekapitulasi Cetakan
         </p>
@@ -40,9 +40,17 @@
 </li>
 <li class="nav-item">
     <a href="{{ route('rekapitulasi.keuangan') }}" class="nav-link">
-        <i class="nav-icon bi bi-file"></i>
+        <i class="nav-icon bi bi-bookmark"></i>
         <p>
             Rekapitulasi Keuangan
+        </p>
+    </a>
+</li>
+<li class="nav-item">
+    <a href="{{ route('rekapitulasi.keuangan-tahunan') }}" class="nav-link">
+        <i class="nav-icon bi bi-calendar"></i>
+        <p>
+            Rekap Profit Tahunan
         </p>
     </a>
 </li>

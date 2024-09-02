@@ -22,6 +22,17 @@
         integrity="sha256-Qsx5lrStHZyR9REqhUF8iQt73X06c8LGIUPzpOhwRrI=" crossorigin="anonymous">
     <!--end::Third Party Plugin(Bootstrap Icons)--><!--begin::Required Plugin(AdminLTE)-->
     <link rel="stylesheet" href="{{ asset('dist/css/adminlte.css') }}"><!--end::Required Plugin(AdminLTE)-->
+    <style>
+        body {
+            background-image: url(https://images.unsplash.com/photo-1521587760476-6c12a4b040da);
+            background-size: cover;
+
+        }
+
+        .login-box {
+            background: rgba(255, 255, 255, .7)
+        }
+    </style>
 </head> <!--end::Head--> <!--begin::Body-->
 
 <body class="login-page bg-body-secondary">
