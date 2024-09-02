@@ -69,7 +69,7 @@
                 <!-- ./col -->
                 <div class="col-md-4 mb-2">
                     <!-- small box -->
-                    <div class="small-box bg-warning">
+                    <div class="small-box bg-warning text-white">
                         <div class="inner">
                             <h3>
                                 {{ $myEbooksPublish }}
@@ -81,10 +81,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-12 mb-4">
+                <div class="col-md-12 mb-4 mt-3">
                     <div class="card card-default">
                         <div class="card-body">
-                            <canvas id="myChart"></canvas>
+                            <canvas id="myChart" width="800" height="150"></canvas>
                         </div>
                     </div>
                 </div>

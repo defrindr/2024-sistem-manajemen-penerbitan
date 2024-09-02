@@ -27,6 +27,7 @@
                     label: 'Sub Judul Selesai Di buat Berdasarkan Bulan',
                     backgroundColor: '#f87979',
                     data: dataChart.map(item => item.total),
+                    borderWidth: 1
                 }]
             },
             options: {
@@ -45,43 +46,37 @@
     <div class="row">
         <div class="col-md-12">
             <div class="row">
-                <div class="col-md-8 mb-4">
-                    <div class="card card-default">
-                        <div class="card-body">
+                <div class="col-md-6">
+                    <!-- small box -->
+                    <div class="small-box bg-info text-white">
+                        <div class="inner">
+                            <h3>{{ $totalAuthors }}</h3>
 
-                            <canvas id="myChart"></canvas>
+                            <p>Author</p>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="row">
+                <!-- ./col -->
+                <div class="col-md-6">
+                    <!-- small box -->
+                    <div class="small-box bg-success text-white">
+                        <div class="inner">
+                            <h3>
+                                {{ $publishedThemes }}
+                            </h3>
 
-                        <div class="col-md-12">
-                            <!-- small box -->
-                            <div class="small-box bg-info text-white">
-                                <div class="inner">
-                                    <h3>{{ $totalAuthors }}</h3>
-
-                                    <p>Author</p>
-                                </div>
-                            </div>
+                            <p>
+                                Judul dipublish
+                            </p>
                         </div>
-                        <!-- ./col -->
-                        <div class="col-md-12">
-                            <!-- small box -->
-                            <div class="small-box bg-success text-white">
-                                <div class="inner">
-                                    <h3>
-                                        {{ $publishedThemes }}
-                                    </h3>
+                    </div>
+                </div>
 
-                                    <p>
-                                        Judul dipublish
-                                    </p>
-                                </div>
-                            </div>
+                <div class="col-md-12 mb-4" style="padding-top: 20px;">
+                    <div class="card card-default">
+                        <div class="card-body">
+                            <canvas id="myChart" width="800" height="185"></canvas>
                         </div>
-
                     </div>
                 </div>
                 @include('dashboard.component.publish', compact('listPublications'))

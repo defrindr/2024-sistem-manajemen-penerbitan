@@ -27,7 +27,7 @@
                             <tr>
                                 <td>#</td>
                                 <td>Cover</td>
-                                <td>Judul Cerita</td>
+                                <td>Judul Buku</td>
                                 <td>Ctk Ke</td>
                                 <td>Tahun</td>
                                 <td>Total Produksi</td>

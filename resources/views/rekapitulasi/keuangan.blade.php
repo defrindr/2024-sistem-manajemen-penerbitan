@@ -29,20 +29,21 @@
     <div class="row">
         <div class="col-md-12">
             <div class="card card-default">
-                <div class="card-header">
-                    <a href="{{ route('rekapitulasi.export-keuangan', request()->query()) }}" class="btn btn-primary mb-2"
-                        style="float: right">Export</a>
-                    <form action="{{ route('rekapitulasi.keuangan') }}">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <form action="{{ route('rekapitulasi.keuangan') }}" class="flex-grow-1">
                         <div class="input-group">
                             <input type="text" name="search" class="form-control" placeholder="Cari..."
                                 value="{{ request('search') }}">
                             <div class="input-group-append">
                                 <button class="btn btn-default" type="submit">
-                                    Cari
+                                    Search
                                 </button>
                             </div>
                         </div>
                     </form>
+                    <a href="{{ route('rekapitulasi.export-keuangan') }}" class="btn btn-primary ml-auto">
+                        Export
+                    </a>
                 </div>
                 <div class="card-body">
                     <table class="table table-hover table-striped">
@@ -73,7 +74,7 @@
                                     <td>{{ App\Helpers\StrHelper::currency(intval($keuangan->productionCost), 'Rp') }}</td>
                                     <td>
                                         @php
-                                            $theme = $keuangan->theme;
+                                        $theme = $keuangan->theme;
                                         @endphp
                                         <a href="{{ route('theme.keuangan.show', compact('theme', 'keuangan')) }}"
                                             class="btn btn-primary">
