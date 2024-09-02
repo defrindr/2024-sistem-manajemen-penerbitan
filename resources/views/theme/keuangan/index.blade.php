@@ -44,20 +44,36 @@
                             @else
                                 @php $index = 1; @endphp <!-- Inisialisasi variabel untuk penomoran -->
                                 @foreach ($pagination as $keuangan)
-                                    @foreach ($keuangan->details as $detail)
-                                        <tr>
-                                            @if ($loop->first)
-                                                <td rowspan="{{ $keuangan->details->count() }}">{{ $index++ }}</td>
-                                                <td rowspan="{{ $keuangan->details->count() }}">{{ $keuangan->title }}</td>
-                                                <td rowspan="{{ $keuangan->details->count() }}">{{ $keuangan->income }}</td>
-                                                <td rowspan="{{ $keuangan->details->count() }}">{{ App\Helpers\StrHelper::currency(intval($keuangan->productionCost), 'Rp') }}</td>
-                                            @endif
-                                            <td>{{ $detail->role }}</td>
-                                            <td>{{ $detail->user ? $detail->user->name : '' }}</td>
-                                            <td>{{ $detail->percent }}</td>
-                                            <td>{{ App\Helpers\StrHelper::currency(intval($detail->profit), 'Rp') }}</td>
-                                        </tr>
-                                    @endforeach
+                                    <tr>
+                                        <td>{{ $loop->index + 1 }}</td>
+                                        <td>{{ $keuangan->title }}</td>
+                                        <td>{{ $keuangan->income }}</td>
+                                        <td>{{ App\Helpers\StrHelper::currency(intval($keuangan->productionCost), 'Rp') }}
+                                        </td>
+                                        <td>
+
+                                            <a href="{{ route('theme.keuangan.show', compact('theme', 'keuangan')) }}"
+                                                class="btn btn-primary">
+                                                Detail
+                                            </a>
+                                            {{-- <button
+                                                onclick="openModal('{{ route('theme.keuangan.show', compact('theme', 'keuangan')) }}')"
+                                                class="btn-detail-keuangan btn btn-primary">
+                                                Detail
+                                            </button> --}}
+                                            {{-- cek kembali di routes untuk memastikan --}}
+                                            <form
+                                                action="{{ route('theme.keuangan.destroy', compact('keuangan', 'theme')) }}"
+                                                method="post" onsubmit="return confirm('Apakah anda yakin ??')"
+                                                class="d-inline-block">
+                                                {{-- Agar tidak expired ketika di submit --}}
+                                                @csrf
+                                                {{-- Tombol Delete --}}
+                                                @method('DELETE')
+                                                <button class="btn btn-danger">Hapus</button>
+                                            </form>
+                                        </td>
+                                    </tr>
                                 @endforeach
                             @endif
                         </tbody>

@@ -79,6 +79,7 @@
                         </div>
                     </div>
                 </div>
+                @include('dashboard.component.publish', compact('listPublications'))
             </div>
         </div>
     </div>

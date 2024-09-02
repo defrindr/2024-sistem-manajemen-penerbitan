@@ -77,7 +77,7 @@
                                         $theme = $keuangan->theme;
                                         @endphp
                                         <a href="{{ route('theme.keuangan.show', compact('theme', 'keuangan')) }}"
-                                            class="btn-detail-keuangan btn btn-primary mb-2 me-1">
+                                            class="btn btn-primary">
                                             Detail
                                         </a>
                                         {{-- <button

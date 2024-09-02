@@ -10,44 +10,11 @@
 @endsection
 
 @section('content')
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Detail Keuangan</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" id="detail-keuangan">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="row">
         <div class="col-md-12">
             <div class="card card-default">
-                {{-- <div class="card-header d-flex justify-content-between align-items-center">
-                    <form action="{{ route('rekapitulasi.keuangan') }}" class="flex-grow-1">
-                        <div class="input-group">
-                            <input type="text" name="search" class="form-control" placeholder="Cari..."
-                                value="{{ request('search') }}">
-                            <div class="input-group-append">
-                                <button class="btn btn-default" type="submit">
-                                    Search
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                    <a href="{{ route('rekapitulasi.export-keuangan') }}" class="btn btn-primary ml-auto">
-                        Export
-                    </a>
-                </div> --}}
                 <div class="card-header">
-                    {{-- Tombol kembali --}}
-                    <a href="{{ url()->previous() }}" class="btn btn-danger">Kembali</a>
+                    <a href="{{ route('theme.keuangan.index', compact('theme')) }}" class="btn btn-danger">Kembali</a>
                 </div>
                 <div class="card-body">
                     <table class="table table-hover table-striped">
@@ -58,6 +25,10 @@
                                 <td>Nama</td>
                                 <td>Persentase</td>
                                 <td>Profit</td>
+                                <td>Bukti TF</td>
+                                @admin(true)
+                                    <td>Aksi</td>
+                                @endadmin
                             </tr>
                         </thead>
                         <tbody>
@@ -68,33 +39,27 @@
                                     <td>{{ $detail->user ? $detail->user->name : '' }}</td>
                                     <td>{{ $detail->percent }}</td>
                                     <td>{{ App\Helpers\StrHelper::currency(intval($detail->profit), 'Rp') }}</td>
+
+                                    <td>
+                                        <a href="{{ asset('storage/buktiTf/' . $detail->buktiTf) }}" target="_blank">
+                                            <img src="{{ asset('storage/buktiTf/' . $detail->buktiTf) }}" alt=""
+                                                class="img img-fluid" style="max-height: 75px">
+                                        </a>
+                                    </td>
+                                    @admin(true)
+                                        <td>
+                                            <a href="{{ route('theme.keuangan-detail.bukti', compact('theme', 'keuangan', 'detail')) }}"
+                                                class="btn btn-primary">
+                                                Upload Bukti
+                                            </a>
+                                        </td>
+                                    @endadmin
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
-                {{-- <div class="card-footer">
-                    {{ $finances->links() }}
-                </div> --}}
             </div>
         </div>
     </div>
-@endsection
-
-@section('script')
-    <script>
-        var myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {
-            keyboard: false
-        });
-
-        const openModal = (url) => {
-            let container = document.querySelector('#detail-keuangan');
-
-            myModal.show();
-
-            fetch(url).then(res => res.text()).then(res => {
-                container.innerHTML = res;
-            })
-        }
-    </script>
 @endsection

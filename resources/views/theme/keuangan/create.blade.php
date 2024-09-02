@@ -6,7 +6,7 @@
     <li class="breadcrumb-item"><a href="#">Home</a></li>
     <li class="breadcrumb-item"><a href="{{ route('theme.index') }}">Judul</a></li>
     <li class="breadcrumb-item active" aria-current="page">
-        Tambah
+        Tambah Keuangan
     </li>
 @endsection
 

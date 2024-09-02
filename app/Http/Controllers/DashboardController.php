@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Ebook;
 use App\Models\EbookReview;
+use App\Models\Publication;
 use App\Models\Role;
 use App\Models\Theme;
 use App\Models\User;
@@ -49,7 +50,8 @@ class DashboardController extends Controller
         // chart ebook, group by per bulan
         $ebooks = Ebook::chartData();
 
-        return view('dashboard.index', compact('totalAuthors', 'publishedThemes', 'ebooks'));
+        $listPublications = Publication::list();
+        return view('dashboard.index', compact('totalAuthors', 'publishedThemes', 'ebooks', 'listPublications'));
     }
 
     /**
@@ -72,7 +74,9 @@ class DashboardController extends Controller
         // chart ebook, group by per bulan
         $ebooksChart = Ebook::chartDataPenjualanBuku();
 
-        return view('dashboard.author', compact('totalThemeOpen', 'myEbooksDraft', 'myEbooksPublish', 'ebooksChart'));
+        $listPublications = Publication::list();
+
+        return view('dashboard.author', compact('totalThemeOpen', 'myEbooksDraft', 'myEbooksPublish', 'ebooksChart', 'listPublications'));
     }
 
     public function dashboardReviewer()
@@ -81,7 +85,8 @@ class DashboardController extends Controller
 
         // ebooks need review by reviewer
         $ebooksNeedReview = EbookReview::needReviewCount($userId);
+        $listPublications = Publication::list();
 
-        return view('dashboard.reviewer', compact('ebooksNeedReview'));
+        return view('dashboard.reviewer', compact('ebooksNeedReview', 'listPublications'));
     }
 }
