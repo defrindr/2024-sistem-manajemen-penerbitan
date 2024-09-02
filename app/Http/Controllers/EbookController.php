@@ -7,6 +7,7 @@ use App\Models\EbookReview;
 use App\Models\Role;
 use App\Models\SubTheme;
 use App\Models\Theme;
+use App\Models\User;
 use App\Trait\UploadTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -142,6 +143,12 @@ class EbookController extends Controller
 
     public function create(Theme $theme, SubTheme $subTheme)
     {
+        $user = User::where('id', Auth::id())->first();
+
+        if (!$user->ktp) return redirect()->route('profile.me')->with('danger', 'KTP belum diatur');
+        if (!$user->ttd) return redirect()->route('profile.me')->with('danger', 'TTD belum diatur');
+
+
         // Create ebook when access this page, if not exist
         $ebook = $theme->ebooks()->where('subthemeId', $subTheme->id)->first();
         if (! $ebook) {
@@ -187,11 +194,18 @@ class EbookController extends Controller
             'proofOfPayment.file' => 'Bukti Pembayaran harus berupa file.',
         ]);
 
+        $user = User::where('id', Auth::id())->first();
+
+        if (!$user->ktp) return redirect()->route('profile.me')->with('danger', 'KTP belum diatur');
+        if (!$user->ttd) return redirect()->route('profile.me')->with('danger', 'TTD belum diatur');
+
         $payload = $request->only('title');
         $payload['themeId'] = $theme->id;
         $payload['subthemeId'] = $subTheme->id;
-        $payload['userId'] = auth()->id();
+        $payload['userId'] = $user->id;
         $payload['status'] = Ebook::STATUS_PENDING;
+        $payload['ttd'] = $user->ttd;
+        $payload['ktp'] = $user->ktp;
 
         $payload['proofOfPayment'] = $this->uploadImage($request->file('proofOfPayment'), Ebook::FILE_PATH);
 
@@ -262,34 +276,5 @@ class EbookController extends Controller
         }
 
         return redirect()->back()->with('danger', 'Gagal ketika mengubah status ebook ke publish.');
-    }
-
-    public function haki(Ebook $ebook)
-    {
-        $user = Auth::user();
-
-        if (!$user->ktp) {
-            return redirect()->route('ebook.me')->with('danger', 'Anda belum melakukan upload KTP.');
-        }
-
-        return view('ebook.haki', compact('ebook'));
-    }
-
-    public function hakiStore(Request $request, Ebook $ebook)
-    {
-        $user = Auth::user();
-        $request->validate([
-            'haki' => 'required',
-        ]);
-
-        $payload = $request->only('haki');
-
-        $payload['ktp'] = $user->ktp;
-
-        if ($ebook->update($payload)) {
-            return redirect()->route('ebook.me')->with('success', 'Berhasil menyetujui hak ebook.');
-        }
-
-        return redirect()->back()->with('danger', 'Gagal ketika menyetujui hak ebook')->withInputs();
     }
 }

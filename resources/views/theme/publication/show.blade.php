@@ -67,28 +67,24 @@
                                         <p>{{ $author }}</p>
                                     @endforeach
                                 </td>
-                            </tr>                            
-
-                            @if ($theme->status === \App\Models\Theme::STATUS_PUBLISH)
+                            </tr>
+                            @if ($theme->multipleAuthor)
                                 <tr>
-                                    <th>Cover</th>
-                                    <td>
-                                        <img src="{{ $theme->pathToFile('cover') }}" alt="Cover" srcset=""
-                                            class="img img-fluid" style="max-width: 250px">
-                                    </td>
+                                    <td>Penulis Utama</td>
+                                    <td>:</td>
+                                    <td>{{ $theme->authorUtama?->name }}</td>
                                 </tr>
                                 <tr>
-                                    <th>File</th>
-                                    <td>
-                                        <a href="{{ $theme->pathToFile('file') }}" target="_blank"
-                                            rel="noopener noreferrer">Unduh</a>
-                                    </td>
+                                    <td>Alamat Penulis Utama</td>
+                                    <td>:</td>
+                                    <td>{{ $theme->authorUtama?->address }}</td>
                                 </tr>
                             @endif
+
                             <tr>
-                                <td colspan="2">
-                                    <hr>
-                                </td>
+                                <td>Daftar Penulis</td>
+                                <td>:</td>
+                                <td>{{ $publication->theme->authors }}</td>
                             </tr>
                         </tbody>
                     </table>

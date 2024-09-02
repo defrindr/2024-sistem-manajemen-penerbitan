@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $blueprint) {
             $blueprint->string('ktp')->nullable();
+            $blueprint->string('ttd')->nullable();
             $blueprint->string('bank')->nullable();
             $blueprint->string('noRekening')->nullable();
         });
@@ -25,6 +26,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $blueprint) {
             $blueprint->dropColumn('ktp');
+            $blueprint->dropColumn('ttd');
             $blueprint->dropColumn('bank');
             $blueprint->dropColumn('noRekening');
         });

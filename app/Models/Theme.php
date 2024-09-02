@@ -40,6 +40,7 @@ class Theme extends Model
         'categoryId',
         'reviewer1Id',
         'reviewer2Id',
+        'haki',
     ];
 
     public function subThemes(): HasMany
@@ -109,7 +110,7 @@ class Theme extends Model
                 break;
         }
 
-        return asset('storage/'.self::PATH.'/'.$path);
+        return asset('storage/' . self::PATH . '/' . $path);
     }
 
     public static function publishedCount()
@@ -135,5 +136,19 @@ class Theme extends Model
         }
 
         return implode(' | ', $names);
+    }
+    public function getAuthorUtamaAttribute()
+    {
+        $names = [];
+
+        $userIds = Ebook::where('themeId', $this->id)
+            ->orderBy('accept_time', 'asc')
+            ->whereNotNull('accept_time')
+            ->first();
+
+        if (!$userIds) return null;
+
+
+        return User::where('id', $userIds->userId)->first();
     }
 }

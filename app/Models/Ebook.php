@@ -43,8 +43,9 @@ class Ebook extends Model
         'proofOfPayment',
         'royalty',
         'status',
-        'haki',
-        'ktp'
+        'ktp',
+        'ttd',
+        'accept_time'
     ];
 
     public function theme(): BelongsTo

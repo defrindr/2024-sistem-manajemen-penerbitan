@@ -111,11 +111,11 @@ Route::group(['middleware' => 'auth'], function () {
 
 
 
-        Route::get('{ebook}/haki', [EbookController::class, 'haki'])
-            ->name('ebook.haki')->middleware('rbac:' . implode(',', [$sa, $author]));
+        // Route::get('{ebook}/haki', [EbookController::class, 'haki'])
+        //     ->name('ebook.haki')->middleware('rbac:' . implode(',', [$sa, $author]));
 
-        Route::put('{ebook}/haki', [EbookController::class, 'hakiStore'])
-            ->name('ebook.haki.store')->middleware('rbac:' . implode(',', [$sa, $author]));
+        // Route::put('{ebook}/haki', [EbookController::class, 'hakiStore'])
+        //     ->name('ebook.haki.store')->middleware('rbac:' . implode(',', [$sa, $author]));
 
 
         Route::group(['prefix' => 'siap-publish'], function () use ($sa, $admin) {

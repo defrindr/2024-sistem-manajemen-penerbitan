@@ -36,6 +36,7 @@ class EbookSeeder extends Seeder
                     'proofOfPayment' => '007_Defri Indra Mahardika_1722708279.pdf',
                     'royalty' => null,
                     'status' => Ebook::STATUS_ACCEPT,
+                    'accept_time' => date('Y-m-d H:i:s'),
                 ]);
 
                 EbookReview::create([

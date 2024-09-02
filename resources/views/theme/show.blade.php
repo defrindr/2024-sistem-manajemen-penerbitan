@@ -65,6 +65,16 @@
                                 <th>Multi Author</th>
                                 <td>{{ $theme->multipleAuthor ? 'Ya' : 'Tidak' }}</td>
                             </tr>
+                            @if ($theme->multipleAuthor)
+                                <tr>
+                                    <th>Penulis Utama</th>
+                                    <td>{{ $theme->authorUtama?->name }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Alamat Penulis Utama</th>
+                                    <td>{{ $theme->authorUtama?->address }}</td>
+                                </tr>
+                            @endif
 
                             @if ($theme->status === \App\Models\Theme::STATUS_PUBLISH)
                                 <tr>
