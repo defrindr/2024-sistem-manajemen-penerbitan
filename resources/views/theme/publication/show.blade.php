@@ -68,14 +68,18 @@
                                     @endforeach
                                 </td>
                             </tr>
+                            <tr>
+                                <th>Penulis Utama</th>
+                                <td>{{ $theme->authorUtama?->name ?? '' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Alamat Penulis</th>
+                                <td>{{ $theme->authorUtama?->address ?? '' }}</td>
+                            </tr>
                             @if ($theme->multipleAuthor)
                                 <tr>
-                                    <td>Penulis Utama</td>
-                                    <td>{{ $theme->authorUtama?->name }}</td>
-                                </tr>
-                                <tr>
-                                    <td>Alamat Penulis Utama</td>
-                                    <td>{{ $theme->authorUtama?->address }}</td>
+                                    <th>Penulis Lain</th>
+                                    <td>{{ $theme->authors }}</td>
                                 </tr>
                             @endif
 
