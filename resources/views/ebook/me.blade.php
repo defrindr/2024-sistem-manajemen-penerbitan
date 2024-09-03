@@ -131,16 +131,14 @@
                                                         Atur Royalti
                                                     </a>
                                                 @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endif
+                        </tbody>
+                    </table>
                 </div>
-                </td>
-
-                </tr>
-                @endforeach
-                @endif
-                </tbody>
-                </table>
             </div>
         </div>
-    </div>
     </div>
 @endsection
