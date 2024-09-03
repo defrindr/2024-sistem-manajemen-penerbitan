@@ -5,7 +5,9 @@
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="#">Home</a></li>
     <li class="breadcrumb-item"><a href="{{ route('theme.index') }}">Judul</a></li>
-    <li class="breadcrumb-item"><a href="{{ route('theme.show', $theme) }}">{{ $theme->name }}</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('theme.show', $theme) }}">
+            {{ strlen($theme->name) > 50 ? substr($theme->name, 0, 50) . '...' : $theme->name }}
+        </a></li>
     <li class="breadcrumb-item active" aria-current="page">
         Edit
     </li>
