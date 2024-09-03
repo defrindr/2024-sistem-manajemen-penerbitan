@@ -131,6 +131,7 @@
                                                         Atur Royalti
                                                     </a>
                                                 @endif
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach
