@@ -86,9 +86,6 @@
                                                 </a>
                                             @endif
                                             @if ($ebook->status === \App\Models\Ebook::STATUS_SUBMIT)
-                                                <a href="{{ route('ebook.edit', $ebook) }}" class="btn btn-warning">
-                                                    Edit
-                                                </a>
                                                 @if ($ebook->draft)
                                                     <form action="{{ route('ebook.konfirmasi-ajukan-action', $ebook) }}"
                                                         method="post" onsubmit="return confirm('Yakin ?')">
