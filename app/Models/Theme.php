@@ -137,6 +137,22 @@ class Theme extends Model
 
         return implode(' | ', $names);
     }
+
+    public function getAuthorsDataAttribute()
+    {
+        $names = [];
+
+        $userIds = Ebook::where('themeId', $this->id)->groupBy('userId')->select('userId');
+
+        $items = User::whereIn('id', $userIds)->get();
+
+        foreach ($items as $item) {
+            $names[] = $item;
+        }
+
+        return $names;
+    }
+
     public function getAuthorUtamaAttribute()
     {
         $names = [];

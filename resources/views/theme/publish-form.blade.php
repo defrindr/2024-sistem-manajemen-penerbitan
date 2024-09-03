@@ -75,6 +75,34 @@
                                     @enderror
                                 </div>
                             </div>
+                            @if (count($theme->authorsData) != 0)
+                                <div class="col-md-12">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <th>Nama Penulis</th>
+                                            <th>KTP</th>
+                                            <th>TTD</th>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($theme->authorsData as $author)
+                                                <tr>
+                                                    <td>{{ $author->name }}</td>
+                                                    <td>
+                                                        <img src="{{ asset('storage/ktp/' . $author->ktp) }}"
+                                                            alt="" class="img img-fluid"
+                                                            style="max-width: 80px;max-height:80px">
+                                                    </td>
+                                                    <td>
+                                                        <img src="{{ asset('storage/ttd/' . $author->ttd) }}"
+                                                            alt="" class="img img-fluid"
+                                                            style="max-width: 80px;max-height:80px">
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            @endif
                         </div>
                     </div>
                     <div class="card-footer">
