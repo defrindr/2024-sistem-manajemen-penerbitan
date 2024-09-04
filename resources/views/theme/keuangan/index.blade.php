@@ -44,20 +44,22 @@
                             @else
                                 @php $index = 1; @endphp <!-- Inisialisasi variabel untuk penomoran -->
                                 @foreach ($pagination as $keuangan)
-                                    <tr>
-                                        @if ($loop->first)
-                                            <td rowspan="{{ $keuangan->details->count() }}">{{ $index++ }}</td>
-                                            <td rowspan="{{ $keuangan->details->count() }}">{{ $keuangan->title }}</td>
-                                            <td rowspan="{{ $keuangan->details->count() }}">{{ $keuangan->income }}</td>
-                                            <td rowspan="{{ $keuangan->details->count() }}">
-                                                {{ App\Helpers\StrHelper::currency(intval($keuangan->productionCost), 'Rp') }}
-                                            </td>
-                                        @endif
-                                        <td>{{ $detail->role }}</td>
-                                        <td>{{ $detail->user ? $detail->user->name : '' }}</td>
-                                        <td>{{ $detail->percent }}</td>
-                                        <td>{{ App\Helpers\StrHelper::currency(intval($detail->profit), 'Rp') }}</td>
-                                    </tr>
+                                    @foreach ($keuangan->details as $detail)
+                                        <tr>
+                                            @if ($loop->first)
+                                                <td rowspan="{{ $keuangan->details->count() }}">{{ $index++ }}</td>
+                                                <td rowspan="{{ $keuangan->details->count() }}">{{ $keuangan->title }}</td>
+                                                <td rowspan="{{ $keuangan->details->count() }}">{{ $keuangan->income }}</td>
+                                                <td rowspan="{{ $keuangan->details->count() }}">
+                                                    {{ App\Helpers\StrHelper::currency(intval($keuangan->productionCost), 'Rp') }}
+                                                </td>
+                                            @endif
+                                            <td>{{ $detail->role }}</td>
+                                            <td>{{ $detail->user ? $detail->user->name : '' }}</td>
+                                            <td>{{ $detail->percent }}</td>
+                                            <td>{{ App\Helpers\StrHelper::currency(intval($detail->profit), 'Rp') }}</td>
+                                        </tr>
+                                    @endforeach
                                 @endforeach
                             @endif
                         </tbody>
