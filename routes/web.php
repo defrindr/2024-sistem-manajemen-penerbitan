@@ -5,7 +5,7 @@ use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EbookController;
 use App\Http\Controllers\EbookReviewController;
-use App\Http\Controllers\kategoriController;
+use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\KeuanganController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
@@ -29,7 +29,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::resource('category', kategoriController::class)->except(['show'])->names('kategori');
+    Route::resource('category', KategoriController::class)->except(['show'])->names('kategori');
     Route::resource('user', UserController::class)->only(['index', 'show', 'edit', 'update']);
     Route::get('/topik/unduh', [ThemeController::class, 'export'])->name('theme.export');
     Route::resource('topik', ThemeController::class)
