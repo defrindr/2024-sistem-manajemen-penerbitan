@@ -56,7 +56,7 @@
                                                         {{-- Agar tidak expired ketika di submit --}}
                                                         @csrf
                                                         {{-- Tombol Delete --}}
-                                                        <button class="btn btn-danger">Tutup</button>
+                                                        <button class="mb-1 mr-1 btn btn-danger">Tutup</button>
                                                     </form>
                                                 @elseif ($item->status == \App\Models\Theme::STATUS_OPEN)
                                                     {{-- cek kembali di routes untuk memastikan --}}
@@ -66,7 +66,7 @@
                                                         {{-- Agar tidak expired ketika di submit --}}
                                                         @csrf
                                                         {{-- Tombol Delete --}}
-                                                        <button class="btn btn-danger">Tutup</button>
+                                                        <button class="mb-1 mr-1 btn btn-danger">Tutup</button>
                                                     </form>
                                                     {{-- cek kembali di routes untuk memastikan
                                                 <form action="{{ route('theme.review', $item) }}" method="post"
@@ -78,12 +78,12 @@
                                                 </form> --}}
                                                 @elseif($item->status == \App\Models\Theme::STATUS_CLOSE)
                                                     <a href="{{ route('theme.publish-form', ['theme' => $item]) }}"
-                                                        class="btn btn-primary">Publish</a>
+                                                        class="mb-1 mr-1 btn btn-primary">Publish</a>
                                                 @elseif($item->status == \App\Models\Theme::STATUS_PUBLISH)
                                                     <a href="{{ route('theme.publication.index', ['theme' => $item]) }}"
-                                                        class="btn btn-primary">Cetakan</a>
+                                                        class="mb-1 mr-1 btn btn-primary">Cetakan</a>
                                                     <a href="{{ route('theme.keuangan.index', ['theme' => $item]) }}"
-                                                        class="btn btn-warning">Keuangan</a>
+                                                        class="mb-1 mr-1 btn btn-warning">Keuangan</a>
                                                 @else
                                                     {{-- cek kembali di routes untuk memastikan --}}
                                                     <form action="{{ route('theme.open', $item) }}" method="post"
@@ -92,7 +92,8 @@
                                                         {{-- Agar tidak expired ketika di submit --}}
                                                         @csrf
                                                         {{-- Tombol Delete --}}
-                                                        <button class="btn btn-primary bg-purple">Buka Pengajuan</button>
+                                                        <button class="mb-1 mr-1 btn btn-primary bg-purple">Buka
+                                                            Pengajuan</button>
                                                     </form>
 
                                                     {{-- Tombol Edit --}}
@@ -109,7 +110,7 @@
                                                         {{-- karena secara default form cuma support GET, POST --}}
                                                         @method('DELETE')
                                                         {{-- Tombol Delete --}}
-                                                        <button class="btn btn-danger">Hapus</button>
+                                                        <button class="mb-1 mr-1 btn btn-danger">Hapus</button>
                                                     </form>
                                                 @endif
                                             @endadmin

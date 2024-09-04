@@ -185,7 +185,7 @@
                                             @admin(true)
                                                 @if ($theme->status == \App\Models\Theme::STATUS_DRAFT)
                                                     <a href="{{ route('themes.subThemes.edit', compact('subTheme', 'theme')) }}"
-                                                        class="btn btn-warning">
+                                                        class="mb-1 mr-1 btn btn-warning">
                                                         Edit
                                                     </a>
                                                     <form
@@ -195,19 +195,19 @@
                                                         @csrf
                                                         @method('DELETE')
 
-                                                        <button class="btn btn-danger">
+                                                        <button class="mb-1 mr-1 btn btn-danger">
                                                             Hapus
                                                         </button>
                                                     </form>
                                                 @elseif(!$subTheme->isNotDeadline())
                                                     @if ($theme->multipleAuthor == 0)
                                                         <a href="{{ route('theme.edit', compact('theme')) }}"
-                                                            class="btn btn-warning">
+                                                            class="mb-1 mr-1 btn btn-warning">
                                                             Deadline Perlu diatur ulang
                                                         </a>
                                                     @else
                                                         <a href="{{ route('themes.subThemes.edit', compact('subTheme', 'theme')) }}"
-                                                            class="btn btn-warning">
+                                                            class="mb-1 mr-1 btn btn-warning">
                                                             Deadline Perlu diatur ulang
                                                         </a>
                                                     @endif
@@ -219,7 +219,7 @@
                                                     @if ($theme->multipleAuthor == 0) onclick="return confirm('Melanjutkan berarti mendaftar. Ketika anda mendaftar, maka anda akan mengakuisisi seluruh sub judul di judul ini. Harap melakukan pembayaran setelahnya')" 
                                                     @else 
                                                     onclick="return confirm('Melanjutkan berarti mendaftar. Harap melakukan pembayaran setelah ini')" @endif
-                                                    class="btn btn-primary">
+                                                    class="mb-1 mr-1 btn btn-primary">
                                                     Daftar Ke Judul
                                                 </a>
                                             @endif

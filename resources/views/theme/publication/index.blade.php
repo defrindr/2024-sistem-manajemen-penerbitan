@@ -62,7 +62,7 @@
                                                     $theme = $publication->theme;
                                                 @endphp
                                                 <a href="{{ route('theme.publication.show', compact('theme', 'publication')) }}"
-                                                    class="btn btn-primary mb-2">
+                                                    class="mb-1 mr-1 btn btn-primary">
                                                     Lihat
                                                 </a>
                                                 {{-- cek kembali di routes untuk memastikan --}}
@@ -74,7 +74,7 @@
                                                     @csrf
                                                     {{-- Tombol Delete --}}
                                                     @method('DELETE')
-                                                    <button class="btn btn-danger  mb-2">Hapus</button>
+                                                    <button class="btn btn-danger mb-1 mr-1 ">Hapus</button>
                                                 </form>
                                             </td>
                                         @endadmin

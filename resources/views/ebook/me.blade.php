@@ -90,7 +90,7 @@
                                                     <form action="{{ route('ebook.konfirmasi-ajukan-action', $ebook) }}"
                                                         method="post" onsubmit="return confirm('Yakin ?')">
                                                         @csrf
-                                                        <button class="btn btn-primary">Ajukan</button>
+                                                        <button class="mb-1 mr-1 btn btn-primary">Ajukan</button>
                                                     </form>
                                                 @endif
                                                 @if ($ebook->status === \App\Models\Ebook::STATUS_PAYMENT)
@@ -98,19 +98,19 @@
                                                         'theme' => $ebook->theme,
                                                         'subTheme' => $ebook->subTheme,
                                                     ]) }}"
-                                                        class="btn btn-warning btn-sm">
+                                                        class="mb-1 mr-1 btn btn-warning btn-sm">
                                                         Bayar
                                                     </a>
                                                 @endif
                                                 @if ($ebook->status === \App\Models\Ebook::STATUS_NOT_ACCEPT)
                                                     <a href="{{ route('ebook.edit', $ebook) }}"
-                                                        class="btn btn-warning btn-sm me-1">
+                                                        class="mb-1 mr-1 btn btn-warning btn-sm">
                                                         Edit
                                                     </a>
                                                 @endif
                                                 @if ($ebook->status === \App\Models\Ebook::STATUS_SUBMIT)
                                                     <a href="{{ route('ebook.edit', $ebook) }}"
-                                                        class="btn btn-warning btn-sm me-1">
+                                                        class="mb-1 mr-1 btn btn-warning btn-sm">
                                                         Edit
                                                     </a>
                                                     @if ($ebook->draft)
@@ -118,13 +118,13 @@
                                                             action="{{ route('ebook.konfirmasi-ajukan-action', $ebook) }}"
                                                             method="post" onsubmit="return confirm('Yakin ?')">
                                                             @csrf
-                                                            <button class="btn btn-primary btn-sm me-1">Ajukan</button>
+                                                            <button class="mb-1 mr-1 btn btn-primary btn-sm">Ajukan</button>
                                                         </form>
                                                     @endif
                                                 @endif
                                                 @if ($ebook->status === \App\Models\Ebook::STATUS_PUBLISH && $ebook->royalty == 0)
                                                     <a href="{{ route('ebook.atur-royalti', $ebook) }}"
-                                                        class="btn btn-warning btn-sm me-1">
+                                                        class="mb-1 mr-1 btn btn-warning btn-sm">
                                                         Atur Royalti
                                                     </a>
                                                 @endif

@@ -36,7 +36,8 @@
                                     <td>
 
                                         {{-- Tombol Edit --}}
-                                        <a href="{{ route('kategori.edit', $item) }}" class="btn btn-warning">Edit</a>
+                                        <a href="{{ route('kategori.edit', $item) }}"
+                                            class="mb-1 mr-1 btn btn-warning">Edit</a>
 
                                         {{-- Menggunakan form, karena method untuk menghapus adalah DELETE --}}
                                         {{-- cek kembali di routes untuk memastikan --}}
@@ -48,7 +49,7 @@
                                             {{-- karena secara default form cuma support GET, POST --}}
                                             @method('DELETE')
                                             {{-- Tombol Delete --}}
-                                            <button class="btn btn-danger">Hapus</button>
+                                            <button class="mb-1 mr-1 btn btn-danger">Hapus</button>
                                         </form>
                                     </td>
                                 </tr>
