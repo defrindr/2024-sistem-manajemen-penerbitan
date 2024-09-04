@@ -25,11 +25,12 @@
                             </div>
                         </div>
                     </form>
-                    <a href="{{ route('rekapitulasi.export-cetakan') }}" class="btn btn-primary ml-auto">
+                    <a href="{{ route('rekapitulasi.export-cetakan', ['search' => request('search')]) }}"
+                        class="btn btn-primary ml-auto">
                         Export
                     </a>
-                </div>             
-                               
+                </div>
+
                 <div class="card-body">
                     <table class="table table-hover table-striped">
                         <thead>
@@ -60,7 +61,7 @@
                                     <td>{{ App\Helpers\StrHelper::currency($item->price, 'Rp') }}</td>
                                     <td>{{ App\Helpers\StrHelper::currency($item->price * $item->totalProduction, 'Rp') }}
                                     </td>
-                                    <td class="d-flex flex-wrap" >
+                                    <td class="d-flex flex-wrap">
                                         @php
                                             $theme = $item->theme;
                                             $publication = $item;

@@ -41,7 +41,8 @@
                             </div>
                         </div>
                     </form>
-                    <a href="{{ route('rekapitulasi.export-keuangan') }}" class="btn btn-primary ml-auto">
+                    <a href="{{ route('rekapitulasi.export-keuangan', ['search' => request('search')]) }}"
+                        class="btn btn-primary ml-auto">
                         Export
                     </a>
                 </div>
@@ -74,7 +75,7 @@
                                     <td>{{ App\Helpers\StrHelper::currency(intval($keuangan->productionCost), 'Rp') }}</td>
                                     <td>
                                         @php
-                                        $theme = $keuangan->theme;
+                                            $theme = $keuangan->theme;
                                         @endphp
                                         <a href="{{ route('theme.keuangan.show', compact('theme', 'keuangan')) }}"
                                             class="btn btn-primary">
