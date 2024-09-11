@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('ktp')->nullable();
             $table->string('ttd')->nullable();
             $table->enum('status', ['payment', 'pending', 'drafting', 'submit', 'review', 'accept', 'not_accept']);
-            $table->timestamp('accept_time')->nullable();;
+            $table->timestamp('accept_time')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

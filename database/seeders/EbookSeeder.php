@@ -31,7 +31,7 @@ class EbookSeeder extends Seeder
                     'themeId' => $theme->id,
                     'subthemeId' => $subTheme->id,
                     'userId' => $author->id,
-                    'title' => $subTheme->name . ' - ' . $theme->name,
+                    'title' => $subTheme->name.' - '.$theme->name,
                     'draft' => 'Revisi_1722751630.docx',
                     'proofOfPayment' => '007_Defri Indra Mahardika_1722708279.pdf',
                     'royalty' => null,

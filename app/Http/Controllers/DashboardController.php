@@ -51,6 +51,7 @@ class DashboardController extends Controller
         $ebooks = Ebook::chartData();
 
         $listPublications = Publication::list();
+
         return view('dashboard.index', compact('totalAuthors', 'publishedThemes', 'ebooks', 'listPublications'));
     }
 

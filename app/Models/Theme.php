@@ -110,7 +110,7 @@ class Theme extends Model
                 break;
         }
 
-        return asset('storage/' . self::PATH . '/' . $path);
+        return asset('storage/'.self::PATH.'/'.$path);
     }
 
     public static function publishedCount()
@@ -162,8 +162,9 @@ class Theme extends Model
             ->whereNotNull('accept_time')
             ->first();
 
-        if (!$userIds) return null;
-
+        if (! $userIds) {
+            return null;
+        }
 
         return User::where('id', $userIds->userId)->first();
     }

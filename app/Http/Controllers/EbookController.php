@@ -83,7 +83,7 @@ class EbookController extends Controller
                     'themeId' => $ebook->theme->id,
                     'subthemeId' => $subTheme->id,
                     'userId' => $ebook->userId,
-                    'title' => $subTheme->theme->name . ' - ' . $subTheme->name,
+                    'title' => $subTheme->theme->name.' - '.$subTheme->name,
                     'draft' => null,
                     'proofOfPayment' => $ebook->proofOfPayment,
                     'royalty' => $ebook->royalty,
@@ -145,9 +145,12 @@ class EbookController extends Controller
     {
         $user = User::where('id', Auth::id())->first();
 
-        if (!$user->ktp) return redirect()->route('profile.me')->with('danger', 'KTP belum diatur');
-        if (!$user->ttd) return redirect()->route('profile.me')->with('danger', 'TTD belum diatur');
-
+        if (! $user->ktp) {
+            return redirect()->route('profile.me')->with('danger', 'KTP belum diatur');
+        }
+        if (! $user->ttd) {
+            return redirect()->route('profile.me')->with('danger', 'TTD belum diatur');
+        }
 
         // Create ebook when access this page, if not exist
         $ebook = $theme->ebooks()->where('subthemeId', $subTheme->id)->first();
@@ -155,7 +158,7 @@ class EbookController extends Controller
             $ebook = $theme->ebooks()->create([
                 'subthemeId' => $subTheme->id,
                 'userId' => Auth::user()->id,
-                'title' => $subTheme->theme->name . ' - ' . $subTheme->name,
+                'title' => $subTheme->theme->name.' - '.$subTheme->name,
                 'draft' => null,
                 'proofOfPayment' => null,
                 'royalty' => 0,
@@ -196,8 +199,12 @@ class EbookController extends Controller
 
         $user = User::where('id', Auth::id())->first();
 
-        if (!$user->ktp) return redirect()->route('profile.me')->with('danger', 'KTP belum diatur');
-        if (!$user->ttd) return redirect()->route('profile.me')->with('danger', 'TTD belum diatur');
+        if (! $user->ktp) {
+            return redirect()->route('profile.me')->with('danger', 'KTP belum diatur');
+        }
+        if (! $user->ttd) {
+            return redirect()->route('profile.me')->with('danger', 'TTD belum diatur');
+        }
 
         $payload = $request->only('title');
         $payload['themeId'] = $theme->id;

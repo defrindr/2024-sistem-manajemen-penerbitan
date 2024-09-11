@@ -33,7 +33,7 @@ class Publication extends Model
 
     public function getCoverLinkAttribute()
     {
-        return asset('storage/' . Theme::PATH . '/' . $this->cover);
+        return asset('storage/'.Theme::PATH.'/'.$this->cover);
     }
 
     public static function list()

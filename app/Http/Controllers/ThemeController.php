@@ -85,7 +85,7 @@ class ThemeController extends Controller
         $ebooks = $theme->ebooks()->get();
 
         foreach ($ebooks as $ebook) {
-            $files[] = storage_path('app/public/' . Ebook::FILE_PATH . '/' . $ebook->draft);
+            $files[] = storage_path('app/public/'.Ebook::FILE_PATH.'/'.$ebook->draft);
         }
 
         $wh = new WordHelper;
@@ -273,16 +273,16 @@ class ThemeController extends Controller
     public function downloadZip(Theme $theme)
     {
         // Variable Initialize
-        $zipname = $theme->name . '.zip';
-        $zippath = storage_path($theme->name . '.zip');
+        $zipname = $theme->name.'.zip';
+        $zippath = storage_path($theme->name.'.zip');
 
         if (! file_exists($zippath)) {
             $this->generateZipFile($theme, $zippath);
         }
 
         header('Content-Type: application/zip');
-        header('Content-disposition: attachment; filename=' . $zipname);
-        header('Content-Length: ' . filesize($zippath));
+        header('Content-disposition: attachment; filename='.$zipname);
+        header('Content-Length: '.filesize($zippath));
         readfile($zippath);
     }
 
@@ -298,8 +298,8 @@ class ThemeController extends Controller
             if ($acceptEbook) {
                 $filenames = explode('.', $acceptEbook->draft);
                 $files[] = [
-                    'path' => storage_path('app/public/' . Ebook::FILE_PATH . '/' . $acceptEbook->draft),
-                    'name' => $subTopic->theme->name . '/' . ($index + 1) . ' - ' . $subTopic->name . '.' . end($filenames),
+                    'path' => storage_path('app/public/'.Ebook::FILE_PATH.'/'.$acceptEbook->draft),
+                    'name' => $subTopic->theme->name.'/'.($index + 1).' - '.$subTopic->name.'.'.end($filenames),
                 ];
             }
         }
@@ -313,7 +313,6 @@ class ThemeController extends Controller
 
         $zip->close();
     }
-
 
     public function haki(Theme $theme)
     {

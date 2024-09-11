@@ -5,8 +5,10 @@ use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EbookController;
 use App\Http\Controllers\EbookReviewController;
+use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\KeuanganController;
+use App\Http\Controllers\ManualController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicationController;
@@ -18,7 +20,6 @@ use App\Http\Controllers\ThemeController;
 use App\Http\Controllers\UserController;
 use App\Models\Role;
 use Illuminate\Support\Facades\Route;
-
 
 Route::group(['middleware' => 'auth'], function () {
     CheckDeadline::run();
@@ -75,41 +76,39 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['prefix' => 'keuangan'], function () use ($sa, $admin) {
         Route::get('/{theme}/{keuangan}/{detail}/upload-bukti', [KeuanganController::class, 'formUploadBukti'])
             ->name('theme.keuangan-detail.bukti')
-            ->middleware('rbac:' . implode(',', [$sa, $admin]));
+            ->middleware('rbac:'.implode(',', [$sa, $admin]));
         Route::post('/{theme}/{keuangan}/{detail}/upload-bukti', [KeuanganController::class, 'storeBukti'])
             ->name('theme.keuangan-detail.bukti-store')
-            ->middleware('rbac:' . implode(',', [$sa, $admin]));
+            ->middleware('rbac:'.implode(',', [$sa, $admin]));
     });
 
     Route::group(['prefix' => 'ebook'], function () use ($sa, $author, $reviewer, $admin) {
         Route::get('/butuh-konfirmasi-pembayaran/list', [EbookController::class, 'konfirmasiPembayaranList'])
-            ->name('ebook.konfirmasi-pembayaran-list')->middleware('rbac:' . implode(',', [$sa, $admin]));
+            ->name('ebook.konfirmasi-pembayaran-list')->middleware('rbac:'.implode(',', [$sa, $admin]));
 
         Route::post('/butuh-konfirmasi-pembayaran/{ebook}/confirm', [EbookController::class, 'konfirmasiPembayaranAction'])
-            ->name('ebook.konfirmasi-pembayaran-action')->middleware('rbac:' . implode(',', [$sa, $admin]));
+            ->name('ebook.konfirmasi-pembayaran-action')->middleware('rbac:'.implode(',', [$sa, $admin]));
 
         Route::post('/konfirmasi-pengajuan/{ebook}/confirm', [EbookController::class, 'konfirmasiPengajuanAction'])
-            ->name('ebook.konfirmasi-ajukan-action')->middleware('rbac:' . implode(',', [$sa, $author]));
+            ->name('ebook.konfirmasi-ajukan-action')->middleware('rbac:'.implode(',', [$sa, $author]));
 
         Route::get('/{theme}/{subTheme}/create', [EbookController::class, 'create'])
-            ->name('ebook.create')->middleware('rbac:' . implode(',', [$sa, $author]));
+            ->name('ebook.create')->middleware('rbac:'.implode(',', [$sa, $author]));
 
         Route::post('/{theme}/{subTheme}/store', [EbookController::class, 'store'])
-            ->name('ebook.store')->middleware('rbac:' . implode(',', [$sa, $author]));
+            ->name('ebook.store')->middleware('rbac:'.implode(',', [$sa, $author]));
 
         Route::get('{ebook}/atur-royalti', [EbookController::class, 'aturRoyalti'])
-            ->name('ebook.atur-royalti')->middleware('rbac:' . implode(',', [$sa, $author]));
+            ->name('ebook.atur-royalti')->middleware('rbac:'.implode(',', [$sa, $author]));
 
         Route::post('{ebook}/atur-royalti', [EbookController::class, 'aturRoyaltiStore'])
-            ->name('ebook.atur-royalti.store')->middleware('rbac:' . implode(',', [$sa, $author]));
+            ->name('ebook.atur-royalti.store')->middleware('rbac:'.implode(',', [$sa, $author]));
 
         Route::get('me', [EbookController::class, 'me'])
-            ->name('ebook.me')->middleware('rbac:' . implode(',', [$sa, $author]));
+            ->name('ebook.me')->middleware('rbac:'.implode(',', [$sa, $author]));
 
         Route::get('progress/{ebook}', [EbookController::class, 'progress'])
-            ->name('ebook.progress')->middleware('rbac:' . implode(',', [$sa, $author]));
-
-
+            ->name('ebook.progress')->middleware('rbac:'.implode(',', [$sa, $author]));
 
         // Route::get('{ebook}/haki', [EbookController::class, 'haki'])
         //     ->name('ebook.haki')->middleware('rbac:' . implode(',', [$sa, $author]));
@@ -117,24 +116,23 @@ Route::group(['middleware' => 'auth'], function () {
         // Route::put('{ebook}/haki', [EbookController::class, 'hakiStore'])
         //     ->name('ebook.haki.store')->middleware('rbac:' . implode(',', [$sa, $author]));
 
-
         Route::group(['prefix' => 'siap-publish'], function () use ($sa, $admin) {
             Route::get('/', [EbookController::class, 'siapPublish'])
-                ->name('ebook.siap-publish')->middleware('rbac:' . implode(',', [$sa, $admin]));
+                ->name('ebook.siap-publish')->middleware('rbac:'.implode(',', [$sa, $admin]));
             Route::post('/{ebook}/publish', [EbookController::class, 'publish'])
-                ->name('ebook.publish')->middleware('rbac:' . implode(',', [$sa, $admin]));
+                ->name('ebook.publish')->middleware('rbac:'.implode(',', [$sa, $admin]));
         });
 
         Route::group(['prefix' => 'butuh-review'], function () use ($sa, $reviewer) {
             Route::get('/', [EbookReviewController::class, 'butuhReview'])
-                ->name('ebook.butuhreview')->middleware('rbac:' . implode(',', [$sa, $reviewer]));
+                ->name('ebook.butuhreview')->middleware('rbac:'.implode(',', [$sa, $reviewer]));
             Route::get('/sudah', [EbookReviewController::class, 'sudahReview'])
-                ->name('ebook.sudahreview')->middleware('rbac:' . implode(',', [$sa, $reviewer]));
+                ->name('ebook.sudahreview')->middleware('rbac:'.implode(',', [$sa, $reviewer]));
 
             Route::get('/{ebook}', [EbookReviewController::class, 'statusReviewView'])
-                ->name('ebook.butuhreview.view')->middleware('rbac:' . implode(',', [$sa, $reviewer]));
+                ->name('ebook.butuhreview.view')->middleware('rbac:'.implode(',', [$sa, $reviewer]));
             Route::post('/{ebook}', [EbookReviewController::class, 'statusReviewAction'])
-                ->name('ebook.butuhreview.action')->middleware('rbac:' . implode(',', [$sa, $reviewer]));
+                ->name('ebook.butuhreview.action')->middleware('rbac:'.implode(',', [$sa, $reviewer]));
         });
     });
     Route::resource('ebook', EbookController::class)->except(['create', 'store']);
@@ -150,6 +148,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/notification/{notification}', [NotificationController::class, 'read'])->name('notification.read');
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notification');
 
+    Route::get('/feedback/list', [FeedbackController::class, 'indexAction'])->name('feedback.index');
+    Route::get('/feedback/give', [FeedbackController::class, 'formAction'])->name('feedback.form');
+    Route::post('/feedback/give', [FeedbackController::class, 'storeAction'])->name('feedback.form-store');
+
+    Route::post('/manual-book', [ManualController::class, 'index'])->name('manual-book');
 
     Route::get('profile', [ProfileController::class, 'me'])->name('profile.me');
     Route::put('profile', [ProfileController::class, 'updateMe'])->name('profile.update-me');

@@ -9,12 +9,12 @@ use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
-
     use UploadTrait;
 
     public function me()
     {
         $user = Auth::user();
+
         return view('profile.me', compact('user'));
     }
 

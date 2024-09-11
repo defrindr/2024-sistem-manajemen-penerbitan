@@ -73,7 +73,7 @@ class KeuanganController extends Controller
 
         // If the keuangan record exists, redirect back with an error message
         if ($keuangan) {
-            return redirect()->back()->withInput()->withError('Keuangan dengan tema ini sudah ada pada tahun ' . $request->year);
+            return redirect()->back()->withInput()->withError('Keuangan dengan tema ini sudah ada pada tahun '.$request->year);
         }
 
         // Begin a database transaction
@@ -190,7 +190,7 @@ class KeuanganController extends Controller
      * @param  \App\Models\Theme  $theme  The theme related to the KeuanganDetail record.
      * @param  \App\Models\Keuangan  $keuangan  The Keuangan record associated with the KeuanganDetail record.
      * @param  \App\Models\KeuanganDetail  $detail  The KeuanganDetail record for which the proof of payment is being uploaded.
-     * @return \Illuminate\View\View  The view for uploading the proof of payment.
+     * @return \Illuminate\View\View The view for uploading the proof of payment.
      */
     public function formUploadBukti(
         Theme $theme,
@@ -215,7 +215,7 @@ class KeuanganController extends Controller
         $file = $request->file('buktiTf');
 
         $fileName = $this->uploadImage($file, 'buktiTf');
-        if (!$fileName) {
+        if (! $fileName) {
             return redirect()->back()->withInput()->withError('Gagal mengunggah bukti transfer');
         }
 

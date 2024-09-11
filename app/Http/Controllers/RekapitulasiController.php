@@ -84,7 +84,6 @@ class RekapitulasiController extends Controller
         return view('rekapitulasi.keuangan', compact('finances'));
     }
 
-
     public function keuanganTahunan(Request $request)
     {
         // Retrieve the necessary data for generating the rekapitulasi keuangan

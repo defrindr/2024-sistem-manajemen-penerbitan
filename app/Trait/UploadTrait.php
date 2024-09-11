@@ -27,13 +27,13 @@ trait UploadTrait
             // Get just ext
             $extension = $file->getClientOriginalExtension();
             // Filename to store
-            $fileName = $fileName . '_' . time() . '.' . $extension;
+            $fileName = $fileName.'_'.time().'.'.$extension;
             // Upload Image
-            $file = $file->storeAs('public/' . $path, $fileName);
+            $file = $file->storeAs('public/'.$path, $fileName);
 
             // remove file is old file exist
-            if ($oldFile && Storage::fileExists('public/' . $path . $oldFile)) {
-                Storage::delete('public/' . $path . $oldFile);
+            if ($oldFile && Storage::fileExists('public/'.$path.$oldFile)) {
+                Storage::delete('public/'.$path.$oldFile);
             }
         } catch (\Throwable $th) {
             $fileName = null;

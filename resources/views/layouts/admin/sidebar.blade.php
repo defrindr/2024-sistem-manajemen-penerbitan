@@ -43,6 +43,26 @@
                         </p>
                     </a>
                 </li>
+
+                <li class="nav-item">
+                    <a href="{{ route('feedback.index') }}" class="nav-link">
+                        <i class="nav-icon bi bi-file"></i>
+                        <p>
+                            Feedback
+                        </p>
+                    </a>
+                </li>
+
+
+                <li class="nav-item">
+                    <a href="{{ route('manual-book') }}" class="nav-link">
+                        <i class="nav-icon bi bi-file"></i>
+                        <p>
+                            Manual Book
+                        </p>
+                    </a>
+                </li>
+
             </ul> <!--end::Sidebar Menu-->
         </nav>
     </div> <!--end::Sidebar Wrapper-->

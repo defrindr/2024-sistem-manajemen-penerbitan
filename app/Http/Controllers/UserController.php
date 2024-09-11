@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
     use UploadTrait;
+
     public function index()
     {
         $pagination = User::orderBy('id', 'desc')->paginate(10);
