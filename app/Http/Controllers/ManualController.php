@@ -30,6 +30,6 @@ class ManualController extends Controller
                 break;
         }
 
-        return response()->download('/manualbook/'.$path);
+        return response()->download(public_path('/manualbook/' . $path));
     }
 }
