@@ -152,9 +152,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/notification/{notification}', [NotificationController::class, 'read'])->name('notification.read');
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notification');
 
-    Route::get('/feedback/list', [FeedbackController::class, 'indexAction'])->name('feedback.index');
-    Route::get('/feedback/give', [FeedbackController::class, 'formAction'])->name('feedback.form');
-    Route::post('/feedback/give', [FeedbackController::class, 'storeAction'])->name('feedback.form-store');
+    // Route::get('/feedback/list', [FeedbackController::class, 'indexAction'])->name('feedback.index');
+    // Route::get('/feedback/give', [FeedbackController::class, 'formAction'])->name('feedback.form');
+    // Route::post('/feedback/give', [FeedbackController::class, 'storeAction'])->name('feedback.form-store');
+
+    Route::get('/feedback', function () {
+        return redirect()->to('https://bit.ly/testingsistempenerbitan');
+    })->name('feedback.index');
 
     Route::get('/manual-book', [ManualController::class, 'index'])->name('manual-book');
 
