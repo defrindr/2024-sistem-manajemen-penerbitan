@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Master;
 use App\Models\Role;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class MasterController extends Controller
@@ -34,7 +33,7 @@ class MasterController extends Controller
             return abort(404, 'No template found');
         }
 
-        return response()->download(storage_path('/app/' . $template->templateWord));
+        return response()->download(storage_path('/app/'.$template->templateWord));
     }
 
     public function store()
@@ -54,7 +53,7 @@ class MasterController extends Controller
 
                 return redirect()->route('template-penulisan.index')->with('success', 'Berhasil mengubah template.');
             } else {
-                $template = new Master();
+                $template = new Master;
                 $template->templateWord = $request->file('templateWord')->store('public/template');
                 $template->save();
 
