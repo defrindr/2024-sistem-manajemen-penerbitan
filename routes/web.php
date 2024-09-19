@@ -9,6 +9,7 @@ use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\KeuanganController;
 use App\Http\Controllers\ManualController;
+use App\Http\Controllers\MasterController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicationController;
@@ -164,6 +165,10 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('profile', [ProfileController::class, 'me'])->name('profile.me');
     Route::put('profile', [ProfileController::class, 'updateMe'])->name('profile.update-me');
+
+    Route::get('template-penulisan', [MasterController::class, 'index'])->name('template-penulisan.index');
+    Route::get('template-penulisan/download', [MasterController::class, 'download'])->name('template-penulisan.download');
+    Route::post('template-penulisan', [MasterController::class, 'store'])->name('template-penulisan.store');
 });
 
 // Authentication Route

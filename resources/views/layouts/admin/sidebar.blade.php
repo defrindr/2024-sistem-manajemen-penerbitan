@@ -45,7 +45,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="{{ route('feedback.index') }}" class="nav-link">
+                    <a href="{{ route('feedback.index') }}" class="nav-link" target="_blank">
                         <i class="nav-icon bi bi-file"></i>
                         <p>
                             Feedback
@@ -53,14 +53,29 @@
                     </a>
                 </li>
 
-
-                <li class="nav-item">
-                    <a href="{{ route('manual-book') }}" class="nav-link">
-                        <i class="nav-icon bi bi-file"></i>
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-copy"></i>
                         <p>
-                            Manual Book
+                            Dokumen
+                            <i class="nav-arrow bi bi-chevron-right"></i>
                         </p>
                     </a>
+                    <ul class="nav nav-treeview" style="display: none;">
+
+                        <li class="nav-item">
+                            <a href="{{ route('manual-book') }}" class="nav-link">
+                                <i class="nav-icon bi bi-file"></i>
+                                <p>Manual Book</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('template-penulisan.index') }}" class="nav-link ">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Template Penulisan</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
 
             </ul> <!--end::Sidebar Menu-->
