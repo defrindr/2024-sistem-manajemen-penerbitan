@@ -308,7 +308,9 @@ class ThemeController extends Controller
         $zip->open($zipname, ZipArchive::CREATE);
 
         foreach ($files as $file) {
-            $zip->addFile($file['path'], $file['name']);
+            if (file_exists($file['path'])) {
+                $zip->addFile($file['path'], $file['name']);
+            }
         }
 
         $zip->close();
